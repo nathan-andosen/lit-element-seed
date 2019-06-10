@@ -1,0 +1,22 @@
+{
+  "name": "lit-element-seed",
+  "version": "0.0.1",
+  "description": "Seed app to build lit element we components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathan-andosen/lit-element-seed.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nathan-andosen/lit-element-seed/issues"
+  },
+  "homepage": "https://github.com/nathan-andosen/lit-element-seed#readme",
+  "dependencies": {
+    "lit-element": "^2.1.0"
+  }
+}
