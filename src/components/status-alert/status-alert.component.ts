@@ -1,7 +1,7 @@
 import { LitElement, html, customElement, property } from 'lit-element';
 
 @customElement('status-alert')
-export class MyAlertComponent extends LitElement {
+export class StatusAlertComponent extends LitElement {
 
   constructor() {
     super();
@@ -12,7 +12,7 @@ export class MyAlertComponent extends LitElement {
   render() {
     return html`
       <div>
-        <h3>Alert changed!</h3>
+        <h3>Alert!</h3>
         <p>${this.message}</p>
       </div>
     `;
