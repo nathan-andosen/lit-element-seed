@@ -3910,8 +3910,28 @@
 
   var css = ":host {\n  display: block; }\n\np {\n  background-color: #ff9900;\n  display: flex;\n  align-items: center;\n  padding: 1rem; }\n";
 
+  function _templateObject3() {
+    var data = _taggedTemplateLiteral(["\n  <h6>", "</h6>\n"]);
+
+    _templateObject3 = function _templateObject3() {
+      return data;
+    };
+
+    return data;
+  }
+
+  function _templateObject2() {
+    var data = _taggedTemplateLiteral(["\n  <div>\n    ", "\n    <p>", "</p>\n  </div>\n"]);
+
+    _templateObject2 = function _templateObject2() {
+      return data;
+    };
+
+    return data;
+  }
+
   function _templateObject() {
-    var data = _taggedTemplateLiteral(["\n  <div>\n    <h3>Alert!</h3>\n    <p>", "</p>\n  </div>\n"]);
+    var data = _taggedTemplateLiteral(["\n  <h3>Alert!</h3>\n"]);
 
     _templateObject = function _templateObject() {
       return data;
@@ -3919,13 +3939,16 @@
 
     return data;
   }
-
-  var template = function template(data) {
-    return html(_templateObject(), data.message);
+  var headerTemplate = html(_templateObject());
+  var mainTemplate = function mainTemplate(data) {
+    return html(_templateObject2(), headerTemplate, data.message);
+  };
+  var footerTemplate = function footerTemplate(data) {
+    return html(_templateObject3(), data.footerMessage);
   };
 
   function _templateObject$1() {
-    var data = _taggedTemplateLiteral(["", ""]);
+    var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n    "]);
 
     _templateObject$1 = function _templateObject() {
       return data;
@@ -3944,6 +3967,7 @@
 
       _this = _LitElement.call(this) || this;
       _this.message = '';
+      _this.footerMessage = 'I\'m the footer';
       _this.height = 50;
       return _this;
     }
@@ -3951,7 +3975,7 @@
     var _proto = StatusAlertComponent.prototype;
 
     _proto.render = function render() {
-      return html(_templateObject$1(), template(this));
+      return html(_templateObject$1(), mainTemplate(this), footerTemplate(this));
     };
 
     _createClass(StatusAlertComponent, null, [{
@@ -3965,6 +3989,8 @@
   }(LitElement);
 
   __decorate([property()], exports.StatusAlertComponent.prototype, "message", void 0);
+
+  __decorate([property()], exports.StatusAlertComponent.prototype, "footerMessage", void 0);
 
   __decorate([property()], exports.StatusAlertComponent.prototype, "height", void 0);
 

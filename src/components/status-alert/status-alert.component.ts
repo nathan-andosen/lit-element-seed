@@ -7,7 +7,7 @@ import {
   unsafeCSS
 } from 'lit-element';
 import style from './status-alert.component.scss';
-import template from './status-alert.component.html';
+import { mainTemplate, footerTemplate } from './status-alert.component.template';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
@@ -17,6 +17,7 @@ export class StatusAlertComponent extends LitElement {
   }
 
   @property() message = '';
+  @property() footerMessage = 'I\'m the footer';
   @property() height = 50;
 
 
@@ -25,6 +26,9 @@ export class StatusAlertComponent extends LitElement {
   }
 
   render() {
-    return html`${template(this)}`;
+    return html`
+      ${mainTemplate(this)}
+      ${footerTemplate(this)}
+    `;
   }
 }
