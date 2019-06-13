@@ -1,4 +1,4 @@
-import { _ as __decorate } from './chunks/chunk-7f881677.js';
+import { _ as __decorate } from '../chunks/chunk-abb76639.js';
 import { html, LitElement, unsafeCSS, property, customElement } from 'lit-element';
 
 var css = ":host {\n  display: block; }\n\np {\n  background-color: #ff9900;\n  display: flex;\n  align-items: center;\n  padding: 1rem; }\n";

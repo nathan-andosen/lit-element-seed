@@ -6,6 +6,7 @@ import babel from 'rollup-plugin-babel';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
 // import { uglify } from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
+import ts from "@wessberg/rollup-plugin-ts";
 
 const componentName = 'status-alert';
 
@@ -61,7 +62,8 @@ const postCssPluginOptions = {
 
 
 const typescriptPluginOptions = {
-  typescript: require('typescript')
+  typescript: require('typescript'),
+  useTsconfigDeclarationDir: true
 };
 
 // #endregion
@@ -105,28 +107,33 @@ const prodBuildUmd = {
 
 const prodBuildEsm = {
   input: {
-    'input': 'src/index.ts',
-    'status-alert': `src/components/status-alert/status-alert.component.ts`,
-    'fancy-button': `src/components/fancy-button/fancy-button.component.ts`
+    // 'input': 'src/index.ts',
+    'status-alert': `src/components/status-alert/index.ts`,
+    'fancy-button': `src/components/fancy-button/index.ts`
   },
   output: {
-    dir: 'dist/esm',
+    dir: 'components',
     chunkFileNames: 'chunks/[name]-[hash].js',
+    entryFileNames: '[name]/index.js',
     format: 'esm'
   },
+  treeshake: false,
+  // preserveModules: true,
   external: [
     'lit-element'
   ],
   plugins: [
     // resolve / locate modules using the node resolution algorithm 
-    resolve(),
+    // resolve(),
 
     // convert CommonJs modules (var myModule = require('./my-module.js')) 
     // to ES6 modules
-    commonjs(),
+    // commonjs(),
 
     // compile typescript files to js
     typescript(typescriptPluginOptions),
+
+    // ts(),
 
     // process scss / css files
     postcss(postCssPluginOptions)

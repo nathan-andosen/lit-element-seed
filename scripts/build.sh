@@ -1,5 +1,6 @@
 #!/bin/bash
 
-rm -rf ./dist
+rm -rf ./components
+rm -rf ./component-typings
 
 rollup -c ./config/rollup.config.js

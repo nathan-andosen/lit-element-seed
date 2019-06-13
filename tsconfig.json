@@ -7,7 +7,9 @@
     "lib": ["es2017", "dom"],
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "declaration": true,
+    "declarationDir": "./component-typings"
   },
   "include": [
     "./src/**/*.ts"
