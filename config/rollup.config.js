@@ -5,6 +5,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
 // import { uglify } from 'rollup-plugin-uglify';
+import postcss from 'rollup-plugin-postcss';
 
 const componentName = 'status-alert';
 
@@ -44,7 +45,7 @@ const babelConfig = {
   ]
 };
 
-const prodBuild = {
+const prodBuildUmd = {
   input: `src/components/${componentName}/${componentName}.component.ts`,
   output: {
     file: `dist/${componentName}/${componentName}.component.umd.js`,
@@ -60,7 +61,11 @@ const prodBuild = {
     typescript({
       typescript: require('typescript'),
     }),
-    babel(babelConfig)
+    babel(babelConfig),
+    postcss({
+      extensions: ['scss'],
+      inject: false
+    })
     
     
     // uglify()
@@ -81,13 +86,17 @@ const prodBuildEsm = {
       typescript: require('typescript'),
     }),
     resolve(),
-    commonjs()
+    commonjs(),
+    postcss({
+      extensions: ['scss'],
+      inject: false
+    })
   ]
 };
 
 
 
 export default [
-  prodBuild,
-  // prodBuildEsm,
+  prodBuildUmd,
+  prodBuildEsm
 ];

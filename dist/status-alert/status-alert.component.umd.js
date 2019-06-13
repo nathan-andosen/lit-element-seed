@@ -3626,6 +3626,58 @@
   found at http://polymer.github.io/PATENTS.txt
   */
   var supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
+  var constructionToken = Symbol();
+  var CSSResult =
+  /*#__PURE__*/
+  function () {
+    function CSSResult(cssText, safeToken) {
+      if (safeToken !== constructionToken) {
+        throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
+      }
+
+      this.cssText = cssText;
+    } // Note, this is a getter so that it's lazy. In practice, this means
+    // stylesheets are not created until the first element instance is made.
+
+
+    var _proto = CSSResult.prototype;
+
+    _proto.toString = function toString() {
+      return this.cssText;
+    };
+
+    _createClass(CSSResult, [{
+      key: "styleSheet",
+      get: function get() {
+        if (this._styleSheet === undefined) {
+          // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
+          // is constructable.
+          if (supportsAdoptingStyleSheets) {
+            this._styleSheet = new CSSStyleSheet();
+
+            this._styleSheet.replaceSync(this.cssText);
+          } else {
+            this._styleSheet = null;
+          }
+        }
+
+        return this._styleSheet;
+      }
+    }]);
+
+    return CSSResult;
+  }();
+  /**
+   * Wrap a value for interpolation in a css tagged template literal.
+   *
+   * This is unsafe because untrusted CSS text can be used to phone home
+   * or exfiltrate data to an attacker controlled site. Take care to only use
+   * this with trusted input.
+   */
+
+  var unsafeCSS = function unsafeCSS(value) {
+    return new CSSResult(String(value), constructionToken);
+  };
 
   // This line will be used in regexes to search for LitElement usage.
   // TODO(justinfagnani): inject version number at build time
@@ -3856,10 +3908,26 @@
 
   LitElement.render = render$1;
 
+  var css = ":host {\n  display: block; }\n\np {\n  background-color: #ff9900;\n  display: flex;\n  align-items: center;\n  padding: 1rem; }\n";
+
   function _templateObject() {
-    var data = _taggedTemplateLiteral(["\n      <div>\n        <h3>Alert!</h3>\n        <p>", "</p>\n      </div>\n    "]);
+    var data = _taggedTemplateLiteral(["\n  <div>\n    <h3>Alert!</h3>\n    <p>", "</p>\n  </div>\n"]);
 
     _templateObject = function _templateObject() {
+      return data;
+    };
+
+    return data;
+  }
+
+  var template = function template(data) {
+    return html(_templateObject(), data.message);
+  };
+
+  function _templateObject$1() {
+    var data = _taggedTemplateLiteral(["", ""]);
+
+    _templateObject$1 = function _templateObject() {
       return data;
     };
 
@@ -3876,19 +3944,29 @@
 
       _this = _LitElement.call(this) || this;
       _this.message = '';
+      _this.height = 50;
       return _this;
     }
 
     var _proto = StatusAlertComponent.prototype;
 
     _proto.render = function render() {
-      return html(_templateObject(), this.message);
+      return html(_templateObject$1(), template(this));
     };
+
+    _createClass(StatusAlertComponent, null, [{
+      key: "styles",
+      get: function get() {
+        return unsafeCSS(css);
+      }
+    }]);
 
     return StatusAlertComponent;
   }(LitElement);
 
   __decorate([property()], exports.StatusAlertComponent.prototype, "message", void 0);
+
+  __decorate([property()], exports.StatusAlertComponent.prototype, "height", void 0);
 
   exports.StatusAlertComponent = __decorate([customElement('status-alert')], exports.StatusAlertComponent);
 

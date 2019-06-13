@@ -1,4 +1,13 @@
-import { LitElement, html, customElement, property } from 'lit-element';
+import {
+  LitElement,
+  html,
+  customElement,
+  property,
+  css,
+  unsafeCSS
+} from 'lit-element';
+import style from './status-alert.component.scss';
+import template from './status-alert.component.html';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
@@ -8,13 +17,14 @@ export class StatusAlertComponent extends LitElement {
   }
 
   @property() message = '';
+  @property() height = 50;
+
+
+  static get styles() {
+    return unsafeCSS(style);
+  }
 
   render() {
-    return html`
-      <div>
-        <h3>Alert!</h3>
-        <p>${this.message}</p>
-      </div>
-    `;
+    return html`${template(this)}`;
   }
 }
