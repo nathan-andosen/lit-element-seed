@@ -10,15 +10,20 @@ import postcss from 'rollup-plugin-postcss';
 const componentName = 'status-alert';
 
 
+// #region PLUGIN OPTIONS -------------------------------------------------
 
-
-const babelConfig = {
+const babelPluginOptions = {
+  // tell babel we are not using a bablerc file
   babelrc: false,
+
+  // by default, babel wont care about ts files
   extensions: [
     ...DEFAULT_EXTENSIONS,
     'ts',
     'tsx'
   ],
+
+
   runtimeHelpers: true,
   "plugins": [
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
@@ -45,10 +50,30 @@ const babelConfig = {
   ]
 };
 
+
+const postCssPluginOptions = {
+  // tell postCss to process scss files
+  extensions: ['scss'],
+
+  // do not inject the css style in the head element
+  inject: false
+};
+
+
+const typescriptPluginOptions = {
+  typescript: require('typescript')
+};
+
+// #endregion
+
+
+
+
 const prodBuildUmd = {
   input: `src/components/${componentName}/${componentName}.component.ts`,
   output: {
     file: `dist/${componentName}/${componentName}.component.umd.js`,
+    // dir: `dist/[name]`,
     format: 'umd',
     name: `${componentName}`,
     globals: {
@@ -56,47 +81,61 @@ const prodBuildUmd = {
     }
   },
   plugins: [
+    // resolve / locate modules using the node resolution algorithm 
     resolve(),
+
+    // convert CommonJs modules (var myModule = require('./my-module.js')) 
+    // to ES6 modules
     commonjs(),
-    typescript({
-      typescript: require('typescript'),
-    }),
-    babel(babelConfig),
-    postcss({
-      extensions: ['scss'],
-      inject: false
-    })
+
+    // compile typescript files to js
+    typescript(typescriptPluginOptions),
+
+    // compile future js (es6, es7) to es5
+    babel(babelPluginOptions),
+
+    // process scss / css files
+    postcss(postCssPluginOptions)
     
     
     // uglify()
   ]
 };
 
+
 const prodBuildEsm = {
-  input: `src/components/${componentName}/${componentName}.component.ts`,
+  input: {
+    'input': 'src/index.ts',
+    'status-alert': `src/components/status-alert/status-alert.component.ts`,
+    'fancy-button': `src/components/fancy-button/fancy-button.component.ts`
+  },
   output: {
-    file: `dist/${componentName}/${componentName}.component.esm.js`,
-    format: 'es'
+    dir: 'dist/esm',
+    chunkFileNames: 'chunks/[name]-[hash].js',
+    format: 'esm'
   },
   external: [
     'lit-element'
   ],
   plugins: [
-    typescript({
-      typescript: require('typescript'),
-    }),
+    // resolve / locate modules using the node resolution algorithm 
     resolve(),
+
+    // convert CommonJs modules (var myModule = require('./my-module.js')) 
+    // to ES6 modules
     commonjs(),
-    postcss({
-      extensions: ['scss'],
-      inject: false
-    })
+
+    // compile typescript files to js
+    typescript(typescriptPluginOptions),
+
+    // process scss / css files
+    postcss(postCssPluginOptions)
   ]
 };
 
 
 
 export default [
-  prodBuildUmd,
+  // prodBuildUmd,
   prodBuildEsm
 ];

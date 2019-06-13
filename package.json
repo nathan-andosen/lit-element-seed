@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Seed app to build lit element we components",
   "main": "index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
     "build": "bash ./scripts/build.sh"
   },
