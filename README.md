@@ -1,19 +1,23 @@
 # Lit element seed
 
-_Work in progress_
-
-Up to :
-
-* trying to get all js files and .d.ts files into the /components directory
-
 Seed app to build lit element web components.
 
-https://github.com/andreasbm/weightless
+_Work in progress_
+
+### Todo:
+
+* Create an event decorator and listen decorator
+** https://github.com/kenchris/lit-element
+** https://github.com/mzeiher/ce-decorators#readme
+* Tidy up rollup.config file
+* Create dev-server for development
+** How will we test in IE11
+* Create a umd & umd.min file
+* Intergrate unit & e2e tests
+
+
+
 https://github.com/rollup/awesome
-
-Use this instead of uglify
-
-https://github.com/terser-js/terser
 
 https://open-wc.org/
 
