@@ -1,4 +1,4 @@
-import { _ as __decorate } from '../chunks/chunk-abb76639.js';
+import { __decorate } from 'tslib';
 import { LitElement, css, html, customElement } from 'lit-element';
 
 let FancyButtonComponent = class FancyButtonComponent extends LitElement {

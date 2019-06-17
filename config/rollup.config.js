@@ -4,9 +4,10 @@ import commonjs from 'rollup-plugin-commonjs';
 // import buble from 'rollup-plugin-buble';
 import babel from 'rollup-plugin-babel';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
-// import { uglify } from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
-import ts from "@wessberg/rollup-plugin-ts";
+// import ts from "@wessberg/rollup-plugin-ts";
+import renameExtensions from '@betit/rollup-plugin-rename-extensions';
 
 const componentName = 'status-alert';
 
@@ -72,12 +73,14 @@ const typescriptPluginOptions = {
 
 
 const prodBuildUmd = {
-  input: `src/components/${componentName}/${componentName}.component.ts`,
+  // input: `src/components/${componentName}/${componentName}.component.ts`,
+  input: `src/index.ts`,
   output: {
-    file: `dist/${componentName}/${componentName}.component.umd.js`,
+    // file: `dist/${componentName}/${componentName}.component.umd.js`,
     // dir: `dist/[name]`,
+    file: 'components/lit-element-seed.umd.js',
     format: 'umd',
-    name: `${componentName}`,
+    name: 'lit-element-seed',
     globals: {
       '@babel/runtime/regenerator': '_regeneratorRuntime'
     }
@@ -97,30 +100,32 @@ const prodBuildUmd = {
     babel(babelPluginOptions),
 
     // process scss / css files
-    postcss(postCssPluginOptions)
+    postcss(postCssPluginOptions),
     
     
-    // uglify()
+    uglify()
   ]
 };
 
 
 const prodBuildEsm = {
-  input: {
-    // 'input': 'src/index.ts',
-    'status-alert': `src/components/status-alert/index.ts`,
-    'fancy-button': `src/components/fancy-button/index.ts`
-  },
+  // input: {
+  //   // 'input': 'src/index.ts',
+  //   'status-alert': `src/components/status-alert/index.ts`,
+  //   'fancy-button': `src/components/fancy-button/index.ts`
+  // },
+  input: `src/index.ts`,
   output: {
-    dir: 'components',
+    dir: './',
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name]/index.js',
     format: 'esm'
   },
   treeshake: false,
-  // preserveModules: true,
+  preserveModules: true,
   external: [
-    'lit-element'
+    'lit-element',
+    'tslib'
   ],
   plugins: [
     // resolve / locate modules using the node resolution algorithm 
@@ -132,7 +137,13 @@ const prodBuildEsm = {
 
     // compile typescript files to js
     typescript(typescriptPluginOptions),
-
+    renameExtensions({
+      include: ['**/*.ts', '**/*.scss'],
+      mappings: {
+        '.ts': '.js',
+        '.scss': '.js'
+      },
+    }),
     // ts(),
 
     // process scss / css files
@@ -143,6 +154,6 @@ const prodBuildEsm = {
 
 
 export default [
-  // prodBuildUmd,
-  prodBuildEsm
+  prodBuildEsm,
+  prodBuildUmd
 ];

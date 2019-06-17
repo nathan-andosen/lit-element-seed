@@ -1,20 +1,7 @@
-import { _ as __decorate } from '../chunks/chunk-abb76639.js';
-import { html, LitElement, unsafeCSS, property, customElement } from 'lit-element';
-
-var css = ":host {\n  display: block; }\n\np {\n  background-color: #ff9900;\n  display: flex;\n  align-items: center;\n  padding: 1rem; }\n";
-
-const headerTemplate = html `
-  <h3>Alert!</h3>
-`;
-const mainTemplate = (data) => html `
-  <div>
-    ${headerTemplate}
-    <p>${data.message}</p>
-  </div>
-`;
-const footerTemplate = (data) => html `
-  <h6>${data.footerMessage}</h6>
-`;
+import { __decorate } from 'tslib';
+import { LitElement, unsafeCSS, html, property, customElement } from 'lit-element';
+import style from './status-alert.style.js';
+import { mainTemplate, footerTemplate } from './status-alert.template.js';
 
 let StatusAlertComponent = class StatusAlertComponent extends LitElement {
     constructor() {
@@ -24,7 +11,7 @@ let StatusAlertComponent = class StatusAlertComponent extends LitElement {
         this.height = 50;
     }
     static get styles() {
-        return unsafeCSS(css);
+        return unsafeCSS(style);
     }
     render() {
         return html `

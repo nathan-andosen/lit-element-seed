@@ -6,8 +6,8 @@ import {
   css,
   unsafeCSS
 } from 'lit-element';
-import style from './status-alert.component.scss';
-import { mainTemplate, footerTemplate } from './status-alert.component.template';
+import style from './status-alert.style.scss';
+import { mainTemplate, footerTemplate } from './status-alert.template';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
