@@ -1,4 +1,4 @@
-import style from './assets/icomoon/style.js';
+import style from './font-face.js';
 
 const injectStyle = () => {
     const styleEl = document.createElement('style');

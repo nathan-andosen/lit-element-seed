@@ -2,7 +2,7 @@ import { __decorate } from 'tslib';
 import { LitElement, unsafeCSS, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';
 import { mainTemplate, footerTemplate } from './status-alert.template.js';
-import { injectStyle } from './inject-style.js';
+import { injectStyle } from './assets/icon-font/inject-style.js';
 
 let StatusAlertComponent = class StatusAlertComponent extends LitElement {
     constructor() {

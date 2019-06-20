@@ -54,7 +54,7 @@ const babelPluginOptions = {
 
 const postCssPluginOptions = {
   // tell postCss to process scss files
-  extensions: ['scss'],
+  extensions: ['.scss', '.css'],
 
   // do not inject the css style in the head element
   inject: false,
@@ -62,7 +62,6 @@ const postCssPluginOptions = {
   plugins: [
     postcssUrl({
       basePath: [
-        './assets/icomoon',
         './'
       ],
       url: 'inline',
@@ -86,11 +85,8 @@ const typescriptPluginOptions = {
 
 
 const prodBuildUmd = {
-  // input: `src/components/${componentName}/${componentName}.component.ts`,
   input: `src/index.ts`,
   output: {
-    // file: `dist/${componentName}/${componentName}.component.umd.js`,
-    // dir: `dist/[name]`,
     file: 'components/lit-element-seed.umd.js',
     format: 'umd',
     name: 'lit-element-seed',
@@ -122,11 +118,6 @@ const prodBuildUmd = {
 
 
 const prodBuildEsm = {
-  // input: {
-  //   // 'input': 'src/index.ts',
-  //   'status-alert': `src/components/status-alert/index.ts`,
-  //   'fancy-button': `src/components/fancy-button/index.ts`
-  // },
   input: `src/index.ts`,
   output: {
     dir: './',
@@ -141,23 +132,16 @@ const prodBuildEsm = {
     'tslib'
   ],
   plugins: [
-    // resolve / locate modules using the node resolution algorithm 
-    // resolve(),
-
-    // convert CommonJs modules (var myModule = require('./my-module.js')) 
-    // to ES6 modules
-    // commonjs(),
-
     // compile typescript files to js
     typescript(typescriptPluginOptions),
     renameExtensions({
-      include: ['**/*.ts', '**/*.scss'],
+      include: ['**/*.ts', '**/*.scss', '**/*.css'],
       mappings: {
         '.ts': '.js',
-        '.scss': '.js'
+        '.scss': '.js',
+        '.css': '.js'
       },
     }),
-    // ts(),
 
     // process scss / css files
     postcss(postCssPluginOptions)

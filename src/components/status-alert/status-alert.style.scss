@@ -1,8 +1,9 @@
-
+@import "./assets/icon-font/icon-classes.scss";
 
 :host {
   display: block;
 }
+
 p {
   background-color: #ff9900;
   border: 2px solid #000;
@@ -11,21 +12,3 @@ p {
   padding: 1rem;
 }
 
-[class^="ico-"], [class*=" ico-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.ico-cancel:before {
-  content: "\e5c9";
-}
