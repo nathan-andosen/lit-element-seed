@@ -1,6 +1,6 @@
-import style from './font-face.scss';
+import style from './assets/icon-font/font-face.scss';
 
-export const injectStyle = () => {
+export const injectFontFaceStyle = () => {
   const styleEl = document.createElement('style');
   styleEl.innerHTML = style;
   document.head.appendChild(styleEl);

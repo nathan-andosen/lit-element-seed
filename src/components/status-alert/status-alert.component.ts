@@ -8,14 +8,14 @@ import {
 } from 'lit-element';
 import style from './status-alert.style.scss';
 import { mainTemplate, footerTemplate } from './status-alert.template';
-import { injectStyle } from './assets/icon-font/inject-style';
+import { injectFontFaceStyle } from './inject-font-face-style';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
 
   constructor() {
     super();
-    injectStyle();
+    injectFontFaceStyle();
   }
 
   // Uncomment this if you do not want to create a shadow dom

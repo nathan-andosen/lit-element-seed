@@ -1,25 +1,47 @@
-# Lit element seed
+# Lit element seed - (WORK IN PROGRESS)
 
 Seed app to build lit element web components.
 
-_Work in progress_
+## Todo:
 
-### Todo:
-
-* Create an event decorator and listen decorator
-** https://github.com/kenchris/lit-element
-** https://github.com/mzeiher/ce-decorators#readme
-* Tidy up rollup.config file
 * Create dev-server for development
-** How will we test in IE11
+  * How will we test in IE11
+* Tidy up rollup.config file
 * Create a umd & umd.min file
 * Intergrate unit & e2e tests
+  * What frameworks to use??
+* Create an event decorator and listen decorator
+  * https://github.com/kenchris/lit-element
+  * https://github.com/mzeiher/ce-decorators#readme
 
+# Features
 
+* Typescript support
+* Scss for styling
+* Base64 encode font icons into the distributed file
+* Components distributed as es6 modules
+  * A single es5 umd bundle file is also built
+* IE11 support
+  * webcomponentsjs polyfills are required. _(refer to the ./index.html for a reference)_
+* (TODO) Unit & e2e tests
+* (TODO) Extra decorators to reduce repeated code & keep code clean
+* (TODO) Dev server for easy development
+  * Ability to use npm link while developing on your components. Useful when you want to see your changes in realtime in another application.
 
-https://github.com/rollup/awesome
+# Framework integrations
 
-https://open-wc.org/
+_Todo_
 
-* Visual studio code
-** Install the lit-html plugin
+# Development
+
+_Todo_
+
+### Visual studio code setup
+
+* Install the lit-html plugin
+
+# Important notes
+
+* ``@font-face`` can not be set in the __shadow-root__, you have to set that style in the head of the page. The status-alert component is doing this. Refer to this component for an example of how to accomplish this.
+* Slots not supported if you do not use shadow dom. This is a known limitation of lit-elements / web components.
+
