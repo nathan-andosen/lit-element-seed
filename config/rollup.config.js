@@ -1,13 +1,12 @@
 import typescript from 'rollup-plugin-typescript2';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-// import buble from 'rollup-plugin-buble';
 import babel from 'rollup-plugin-babel';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
 import { uglify } from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
-// import ts from "@wessberg/rollup-plugin-ts";
 import renameExtensions from '@betit/rollup-plugin-rename-extensions';
+import postcssUrl from 'postcss-url';
 
 const componentName = 'status-alert';
 
@@ -58,7 +57,21 @@ const postCssPluginOptions = {
   extensions: ['scss'],
 
   // do not inject the css style in the head element
-  inject: false
+  inject: false,
+
+  plugins: [
+    postcssUrl({
+      basePath: [
+        './assets/icomoon',
+        './'
+      ],
+      url: 'inline',
+      // url: (asset, dir, options, decl, warn, result) => {
+      //   console.log(asset);
+      //   console.log(dir);
+      // }
+    })
+  ]
 };
 
 
@@ -103,7 +116,7 @@ const prodBuildUmd = {
     postcss(postCssPluginOptions),
     
     
-    uglify()
+    // uglify()
   ]
 };
 

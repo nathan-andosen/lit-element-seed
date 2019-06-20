@@ -6,7 +6,9 @@ const headerTemplate = html `
 const mainTemplate = (data) => html `
   <div>
     ${headerTemplate}
+    <span class="ico-cancel"></span>
     <p>${data.message}</p>
+    <slot></slot>
   </div>
 `;
 const footerTemplate = (data) => html `

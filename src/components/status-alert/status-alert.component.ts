@@ -8,13 +8,20 @@ import {
 } from 'lit-element';
 import style from './status-alert.style.scss';
 import { mainTemplate, footerTemplate } from './status-alert.template';
+import { injectStyle } from './inject-style';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
 
   constructor() {
     super();
+    injectStyle();
   }
+
+  // Uncomment this if you do not want to create a shadow dom
+  // createRenderRoot() {
+  //   return this;
+  // }
 
   @property() message = '';
   @property() footerMessage = 'I\'m the footer';

@@ -12,7 +12,9 @@ export const mainTemplate = (data: StatusAlertComponent) =>
 html`
   <div>
     ${headerTemplate}
+    <span class="ico-cancel"></span>
     <p>${data.message}</p>
+    <slot></slot>
   </div>
 `;
 
