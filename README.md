@@ -6,10 +6,10 @@ Seed app to build lit element web components.
 
 * Create dev-server for development
   * How will we test in IE11
-* Tidy up rollup.config file
-* Create a umd & umd.min file
 * Intergrate unit & e2e tests
   * What frameworks to use??
+* Tidy up rollup.config file
+* Create a umd & umd.min file
 * Create an event decorator and listen decorator
   * https://github.com/kenchris/lit-element
   * https://github.com/mzeiher/ce-decorators#readme
