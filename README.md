@@ -45,3 +45,11 @@ _Todo_
 * ``@font-face`` can not be set in the __shadow-root__, you have to set that style in the head of the page. The status-alert component is doing this. Refer to this component for an example of how to accomplish this.
 * Slots not supported if you do not use shadow dom. This is a known limitation of lit-elements / web components.
 
+# Troubleshooting
+
+### listen EADDRINUSE: address already in use :::35729
+
+This means the node process was not terminated, follow the steps below to fix it.
+
+* First, find the PID, type the command ``lsof -i tcp:35729``
+* Then type ``kill -9 <pid>``

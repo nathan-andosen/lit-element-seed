@@ -1,3 +1,5 @@
+
+(function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -2897,9 +2899,7 @@
           return this[key];
         },
         set: function set(value) {
-          // tslint:disable-next-line:no-any no symbol in index
-          var oldValue = this[name]; // tslint:disable-next-line:no-any no symbol in index
-
+          var oldValue = this[name];
           this[key] = value;
 
           this._requestUpdate(name, oldValue);
@@ -3035,7 +3035,8 @@
     var _proto = UpdatingElement.prototype;
 
     _proto.initialize = function initialize() {
-      this._saveInstanceProperties(); // ensures first update will be caught by an early access of `updateComplete`
+      this._saveInstanceProperties(); // ensures first update will be caught by an early access of
+      // `updateComplete`
 
 
       this._requestUpdate();
@@ -3091,10 +3092,10 @@
     };
 
     _proto.connectedCallback = function connectedCallback() {
-      this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete before
-      // connection and if one is pending connection the `_hasConnectionResolver`
-      // will exist. If so, resolve it to complete the update, otherwise
-      // requestUpdate.
+      this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete
+      // before connection and if one is pending connection the
+      // `_hasConnectionResolver` will exist. If so, resolve it to complete the
+      // update, otherwise requestUpdate.
 
       if (this._hasConnectedResolver) {
         this._hasConnectedResolver();
@@ -3583,7 +3584,6 @@
         //     initializer: descriptor.initializer,
         //   }
         // ],
-        // tslint:disable-next-line:no-any decorator
         initializer: function initializer() {
           if (typeof element.initializer === 'function') {
             this[element.key] = element.initializer.call(this);
@@ -3682,6 +3682,8 @@
   var textFromCSSResult = function textFromCSSResult(value) {
     if (value instanceof CSSResult) {
       return value.cssText;
+    } else if (typeof value === 'number') {
+      return value;
     } else {
       throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
     }
@@ -3708,7 +3710,7 @@
   // This line will be used in regexes to search for LitElement usage.
   // TODO(justinfagnani): inject version number at build time
 
-  (window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.0.1');
+  (window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.0');
   /**
    * Minimal implementation of Array.prototype.flat
    * @param arr the array to flatten
