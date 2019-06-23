@@ -149,9 +149,8 @@ if (mode === 'dev') {
   prodBuildUmd.plugins.push(serve());
   prodBuildUmd.plugins.push(livereload());
   prodBuildUmd.output.sourcemap = true;
-  const watcher = rollup.watch([prodBuildEsm, prodBuildUmd]);
   console.log('Building bundles...');
-  const watchEvents = () => {
+  const watchEvents = (watcher) => {
     watcher.on('event', (event) => {
       if (event.code === 'START') {
         console.log('Detected file change. Rebuilding bundles...');
@@ -164,11 +163,14 @@ if (mode === 'dev') {
         .catch((err) => {
           console.log(err);
         });
+      } else if (event.code === 'FATAL' || event.code === 'ERROR') {
+        throw event.error;
       }
     });
   };
   preBuild().then(() => {
-    watchEvents();
+    const watcher = rollup.watch([prodBuildEsm, prodBuildUmd]);
+    watchEvents(watcher);
   }).catch((err) => { throw err; });
 }
 

@@ -4,11 +4,44 @@
   display: block;
 }
 
-p {
-  background-color: #ff9900;
-  border: 2px solid #000;
+.header {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  h3 {
+    padding-left: 1rem;
+    flex-grow: 1;
+    cursor: pointer;
+  }
+  button {
+    background-color: transparent;
+    border: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: #999;
+    span {
+      font-size: 24px;
+    }
+    &:hover {
+      color: #333;
+    }
+  }
 }
 
+.alert-wrapper {
+  border: 3px solid #ccc;
+  background-color: #ececec;
+}
+
+.content-body {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.footer {
+  text-align: center;
+  h6 {
+    margin: 4px 0;
+  }
+}

@@ -1,18 +1,26 @@
 import { html } from 'lit-element';
 
-const headerTemplate = html `
-  <h3>Alert!</h3>
-`;
-const mainTemplate = (data) => html `
-  <div>
-    ${headerTemplate}
-    <span class="ico-cancel"></span>
-    <p>${data.message}</p>
-    <slot></slot>
+const headerTemplate = (_this) => html `
+  <div class="header">
+    <h3 @click="${(e) => { _this.titleClick.emit(); }}">Alert!</h3>
+    <button @click="${_this.closeClick}">
+      <span class="ico-cancel"></span>
+    </button>
   </div>
 `;
-const footerTemplate = (data) => html `
-  <h6>${data.footerMessage}</h6>
+const mainTemplate = (_this) => html `
+  <div class="alert-wrapper">
+    ${headerTemplate(_this)}
+    <div class="content-body">
+      <slot></slot>
+    </div>
+  </div>
 `;
+const footerTemplate = (_this) => html `
+  <div class="footer">
+    <h6>${_this.footerMessage}</h6>
+  </div>
+`;
+//# sourceMappingURL=status-alert.template.js.map
 
 export { footerTemplate, mainTemplate };
