@@ -1,2 +1,2 @@
-export * from './components/fancy-button/fancy-button.component';
-export * from './components/status-alert/status-alert.component';
+export * from './components/fancy-button';
+export * from './components/status-alert';

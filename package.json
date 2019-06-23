@@ -6,8 +6,10 @@
   "module": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "bash ./scripts/build.sh",
-    "dev": "bash ./scripts/dev.sh"
+    "buildz": "bash ./scripts/build.sh",
+    "devz": "bash ./scripts/dev.sh",
+    "build": "node ./scripts/build.js",
+    "dev": "node ./scripts/build.js --mode=dev"
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,7 @@
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-typescript2": "^0.21.1",
     "rollup-plugin-uglify": "^6.0.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "yargs": "^13.2.4"
   }
 }

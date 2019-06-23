@@ -152,5 +152,5 @@ const prodBuildEsm = {
 
 export default [
   prodBuildEsm,
-  prodBuildUmd
+  // prodBuildUmd
 ];
