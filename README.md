@@ -6,8 +6,7 @@ Seed app to build lit element web components.
 
 * Create dev-server for development
   * (DONE) How will we test in IE11
-  * Needs to have source maps
-  * 
+  * (DONE) Needs to have source maps, for dev only??
 * Intergrate unit & e2e tests
   * What frameworks to use??
 * Create a umd & umd.min file

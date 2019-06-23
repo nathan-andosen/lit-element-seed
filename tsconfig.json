@@ -9,7 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "declaration": true,
-    "declarationDir": "./component-typings"
+    "declarationDir": "./component-typings",
+    "sourceMap": true
   },
   "include": [
     "./src/**/*.ts"

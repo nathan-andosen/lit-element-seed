@@ -148,6 +148,7 @@ const prodBuildEsm = {
 if (mode === 'dev') {
   prodBuildUmd.plugins.push(serve());
   prodBuildUmd.plugins.push(livereload());
+  prodBuildUmd.output.sourcemap = true;
   const watcher = rollup.watch([prodBuildEsm, prodBuildUmd]);
   console.log('Building bundles...');
   const watchEvents = () => {
