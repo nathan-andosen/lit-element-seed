@@ -151,11 +151,16 @@ if (mode === 'dev') {
   prodBuildUmd.output.sourcemap = true;
   console.log('Building bundles...');
   const watchEvents = (watcher) => {
+    let startTime;
     watcher.on('event', (event) => {
       if (event.code === 'START') {
+        startTime = new Date().getTime();
         console.log('Detected file change. Rebuilding bundles...');
       } else if (event.code === 'END') {
         // finished bundling all bundles
+        const endTime = new Date().getTime();
+        console.log('Finished building bundles, time: ' +
+          ((endTime - startTime) / 1000) + 's');
         console.log('Coping typescript definition files...');
         postBuild().then(() => {
           console.log('Waiting for changes...');
@@ -199,6 +204,7 @@ const buildBundle = (options) => {
 
 // Build all the required bundles
 if (mode === 'build') {
+  const startTime = new Date().getTime();
   prodBuildUmd.plugins.push(uglify());
   preBuild()
   .then(() => {
@@ -214,7 +220,9 @@ if (mode === 'build') {
     return postBuild();
   })
   .then(() => {
-    console.log('Bundles built successfully');
+    const endTime = new Date().getTime();
+    console.log('Bundles built successfully. Time: ' +
+      ((endTime - startTime) / 1000) + 's');
   })
   .catch((err) => {
     console.log('Build Error...');
