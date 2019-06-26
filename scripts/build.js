@@ -146,8 +146,18 @@ const prodBuildEsm = {
 
 // build the bundles, start a dev server, watch for file changes
 if (mode === 'dev') {
-  prodBuildUmd.plugins.push(serve());
-  prodBuildUmd.plugins.push(livereload());
+  prodBuildUmd.plugins.push(serve({
+    open: true,
+    port: 1350,
+    historyApiFallback: true,
+    contentBase: ['node_modules/@webcomponents', 'components', 'src'],
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }));
+  prodBuildUmd.plugins.push(livereload({
+    watch: './components'
+  }));
   prodBuildUmd.output.sourcemap = true;
   console.log('Building bundles...');
   const watchEvents = (watcher) => {
