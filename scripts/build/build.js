@@ -22,7 +22,6 @@ const buildConfigEsm = buildConfigs.esm;
 if (mode === 'dev') {
   buildConfigUmd.plugins.push(serve({
     port: 1350,
-    // historyApiFallback: true,
     contentBase: [ './', 'src' ],
     headers: { 'Access-Control-Allow-Origin': '*' }
   }));
@@ -67,9 +66,6 @@ if (mode === 'dev') {
 // Build all the required bundles
 if (mode === 'build') {
   const startTime = new Date().getTime();
-  
-  // buildConfigUmd.cache = false;
-  // buildConfigEsm.cache = false;
   preBuild()
   .then(() => {
     console.log('Building ES bundle...');

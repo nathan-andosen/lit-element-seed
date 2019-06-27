@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.1 | 2019-06-27
+// lit-element-seed v0.0.2 | 2019-06-27
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
