@@ -21,6 +21,7 @@ Seed app to build lit element web components.
 
 * Hot module reloading with the dev server
 * Component lazy loading
+* Using slots when shadow dom is disabled _(see known issues below for more detail)_
 
 # Getting started
 
