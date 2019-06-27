@@ -4,6 +4,12 @@ Seed app to build lit element web components.
 
 ## Todo:
 
+* Improve build and dev
+** Look at adding cache option to rollup
+** Add banner
+* Make the index.html be watched for changes. Also the build.js would be good.
+* Lazy load components??
+** Look at rollups code splitting, dynamic imports
 * Intergrate unit & e2e tests
   * What frameworks to use??
 * Create a umd & umd.min file

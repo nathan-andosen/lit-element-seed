@@ -66,5 +66,6 @@ const event = (options) => {
         }
     };
 };
+//# sourceMappingURL=event.js.map
 
 export { EventEmitter, event };

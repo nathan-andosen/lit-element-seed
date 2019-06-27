@@ -13,6 +13,7 @@ html`
 `;
 
 
+
 export const mainTemplate = (_this: StatusAlertComponent) =>
 html`
   <div class="alert-wrapper">

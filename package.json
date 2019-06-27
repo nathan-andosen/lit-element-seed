@@ -2,9 +2,9 @@
   "name": "lit-element-seed",
   "version": "0.0.1",
   "description": "Seed app to build lit element we components",
-  "main": "index.js",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/lit-element-seed.umd.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "buildz": "bash ./scripts/build.sh",
     "devz": "bash ./scripts/dev.sh",

@@ -14,6 +14,7 @@ const postBuild = require('./post-build');
 const preBuild = require('./pre-build');
 const argv = require('yargs').argv
 const mode = (argv.mode) ? argv.mode : 'build';
+const package = require('../package.json');
 
 
 // #region PLUGIN OPTIONS -------------------------------------------------
@@ -86,9 +87,9 @@ const typescriptPluginOptions = {
 const prodBuildUmd = {
   input: `src/index.ts`,
   output: {
-    file: 'components/lit-element-seed.umd.js',
+    file: `dist/${package.name}.umd.js`,
     format: 'umd',
-    name: 'lit-element-seed',
+    name: package.name,
     globals: {
       '@babel/runtime/regenerator': '_regeneratorRuntime'
     }
@@ -115,12 +116,16 @@ const prodBuildUmd = {
 const prodBuildEsm = {
   input: `src/index.ts`,
   output: {
-    dir: './',
+    dir: './dist',
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name]/index.js',
     format: 'esm'
+    // paths: {
+    //   'tslib': '../../node_modules/tslib/tslib.es6.js',
+    //   'lit-element': '../../node_modules/lit-element/lit-element.js'
+    // }
   },
-  treeshake: false,
+  treeshake: true,
   preserveModules: true,
   external: [
     'lit-element',
@@ -146,17 +151,22 @@ const prodBuildEsm = {
 
 // build the bundles, start a dev server, watch for file changes
 if (mode === 'dev') {
+  // treeshake = false will create bigger bundles but may speed up build times
+  prodBuildEsm.treeshake = false;
   prodBuildUmd.plugins.push(serve({
-    open: true,
+    open: false,
     port: 1350,
     historyApiFallback: true,
-    contentBase: ['node_modules/@webcomponents', 'components', 'src'],
+    contentBase: [
+      './',
+      'src'
+    ],
     headers: {
       'Access-Control-Allow-Origin': '*'
     }
   }));
   prodBuildUmd.plugins.push(livereload({
-    watch: './components'
+    watch: ['./dist']
   }));
   prodBuildUmd.output.sourcemap = true;
   console.log('Building bundles...');
@@ -233,6 +243,7 @@ if (mode === 'build') {
     const endTime = new Date().getTime();
     console.log('Bundles built successfully. Time: ' +
       ((endTime - startTime) / 1000) + 's');
+    process.exit();
   })
   .catch((err) => {
     console.log('Build Error...');

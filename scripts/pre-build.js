@@ -1,18 +1,23 @@
-const fse = require('fs-extra');
 const path = require('path');
 const rootDir = path.join(__dirname, '../');
+const removeDirectories = require('./utils/remove-directories');
 
-const componentTypingsDir = path.join(rootDir, 'component-typings');
-const componentsDir = path.join(rootDir, 'components');
 
+/**
+ * The exported pre build script function
+ *
+ * @returns
+ */
 const preBuild = () => {
   return new Promise((resolve, reject) => {
-    fse.remove(componentTypingsDir, (err) => {
+    const dirs = [
+      path.join(rootDir, 'component-typings'),
+      path.join(rootDir, 'components'),
+      path.join(rootDir, 'dist')
+    ];
+    removeDirectories(0, dirs, (err) => {
       if (err) { reject(err); return; }
-      fse.remove(componentsDir, (err) => {
-        if (err) { reject(err); return; }
-        resolve();
-      });
+      resolve();
     });
   });
 };
