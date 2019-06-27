@@ -98,11 +98,10 @@ This means the node process was not terminated, follow the steps below to fix it
 
 * Improve build and dev
   * Increase version number when building
+* Intergrate unit & e2e tests
+  * What frameworks to use?? Jest looks good.
 * Lazy load components??
   * Look at rollups code splitting, dynamic imports
-* Intergrate unit & e2e tests
-  * What frameworks to use??
-* Create a umd & umd.min file
 
 # License
 

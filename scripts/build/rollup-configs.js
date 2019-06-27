@@ -94,7 +94,8 @@ const buildConfigUmd = {
     sourcemap: true,
     globals: {
       '@babel/runtime/regenerator': '_regeneratorRuntime'
-    }
+    },
+    banner: banner
   },
   watch: watchOptions,
   

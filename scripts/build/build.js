@@ -9,6 +9,7 @@ const mode = (argv.mode) ? argv.mode : 'build';
 const buildConfigs = require('./rollup-configs.js');
 const buildRollupBundle = require('../utils/build-rollup-bundle');
 const banner = require('./banner');
+const package = require('../../package.json');
 
 // our rollup configs
 const buildConfigUmd = buildConfigs.umd;
@@ -66,13 +67,9 @@ if (mode === 'dev') {
 // Build all the required bundles
 if (mode === 'build') {
   const startTime = new Date().getTime();
-  buildConfigUmd.plugins.push(uglify({
-    output: {
-      preamble: banner
-    }
-  }));
-  buildConfigUmd.cache = false;
-  buildConfigEsm.cache = false;
+  
+  // buildConfigUmd.cache = false;
+  // buildConfigEsm.cache = false;
   preBuild()
   .then(() => {
     console.log('Building ES bundle...');
@@ -80,6 +77,16 @@ if (mode === 'build') {
   })
   .then(() => {
     console.log('Building UMD bundle...');
+    return buildRollupBundle(buildConfigUmd);
+  })
+  .then(() => {
+    console.log('Building minified UMD bundle...');
+    buildConfigUmd.output.file = `dist/${package.name}.umd.min.js`;
+    buildConfigUmd.plugins.push(uglify({
+      output: {
+        preamble: banner
+      }
+    }));
     return buildRollupBundle(buildConfigUmd);
   })
   .then(() => {
