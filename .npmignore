@@ -2,3 +2,5 @@ config/
 .gitattributes
 .gitignore
 tsconfig.json
+src/
+scripts/

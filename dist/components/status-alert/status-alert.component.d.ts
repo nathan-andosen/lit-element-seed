@@ -1,5 +1,5 @@
 import { LitElement } from 'lit-element';
-import { EventEmitter } from '../../decorators/event';
+import { EventEmitter } from '@thenja/decorators';
 export declare class StatusAlertComponent extends LitElement {
     footerMessage: string;
     height: number;

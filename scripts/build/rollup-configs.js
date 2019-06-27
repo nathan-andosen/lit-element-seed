@@ -138,9 +138,13 @@ const buildConfigEsm = {
   preserveModules: true,
   external: [
     'lit-element',
-    'tslib'
+    'tslib',
+    '@thenja/decorators'
   ],
   plugins: [
+    // resolve / locate modules using the node resolution algorithm 
+    resolve(),
+    
     // compile typescript files to js
     typescript(typescriptPluginOptions),
     renameExtensions({

@@ -3,7 +3,7 @@ import { LitElement, unsafeCSS, html, property, customElement } from 'lit-elemen
 import style from './status-alert.style.js';
 import { mainTemplate, footerTemplate } from './status-alert.template.js';
 import { injectFontFaceStyle } from './inject-font-face-style.js';
-import { event } from '../../decorators/event.js';
+import { event } from '@thenja/decorators';
 
 let StatusAlertComponent = class StatusAlertComponent extends LitElement {
     constructor() {

@@ -9,7 +9,7 @@ import {
 import style from './status-alert.style.scss';
 import { mainTemplate, footerTemplate } from './status-alert.template';
 import { injectFontFaceStyle } from './inject-font-face-style';
-import { event, EventEmitter } from '../../decorators/event';
+import { event, EventEmitter } from '@thenja/decorators';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {

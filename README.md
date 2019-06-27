@@ -81,6 +81,8 @@ export class StatusAlertComponent extends LitElement {
 
 ### index.html file not being watched for changes
 
+[Similar issue](https://github.com/rollup/rollup/issues/1828)
+
 This needs to be fixed. If a change is made to the _/src/index.html_ file, it should reload the dev server.
 
 # Troubleshooting
