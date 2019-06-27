@@ -24,8 +24,9 @@ if (mode === 'dev') {
     contentBase: [ './', 'src' ],
     headers: { 'Access-Control-Allow-Origin': '*' }
   }));
-  buildConfigUmd.plugins.push(livereload({ watch: ['./dist'] }));
-  buildConfigUmd.output.sourcemap = true;
+  buildConfigUmd.plugins.push(livereload({ 
+    watch: ['./dist', '/src/index.html'] 
+  }));
   console.log('Building bundles...');
   const watchEvents = (watcher) => {
     let startTime;
@@ -67,8 +68,6 @@ if (mode === 'build') {
   buildConfigUmd.plugins.push(uglify());
   buildConfigUmd.cache = false;
   buildConfigEsm.cache = false;
-  buildConfigUmd.output.sourcemap = 'inline';
-  buildConfigEsm.output.sourcemap = 'inline';
   preBuild()
   .then(() => {
     console.log('Building ES bundle...');

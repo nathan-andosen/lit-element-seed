@@ -4260,4 +4260,3 @@
   Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
-//# sourceMappingURL=lit-element-seed.umd.js.map

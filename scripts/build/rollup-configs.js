@@ -75,6 +75,12 @@ const typescriptPluginOptions = {
 // #endregion
 
 
+const watchOptions = {
+  chokidar: {
+    paths: 'src/**'
+  }
+};
+
 
 // #region UMD BUILD -------------------------------------------------
 
@@ -88,6 +94,8 @@ const buildConfigUmd = {
       '@babel/runtime/regenerator': '_regeneratorRuntime'
     }
   },
+  watch: watchOptions,
+  sourcemap: true,
   cache: true,
   treeshake: true,
   plugins: [
@@ -123,6 +131,8 @@ const buildConfigEsm = {
     entryFileNames: '[name]/index.js',
     format: 'esm'
   },
+  sourcemap: true,
+  watch: watchOptions,
   cache: true,
   treeshake: true,
   preserveModules: true,
