@@ -6,10 +6,8 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "buildz": "bash ./scripts/build.sh",
-    "devz": "bash ./scripts/dev.sh",
-    "build": "node ./scripts/build.js",
-    "dev": "node ./scripts/build.js --mode=dev"
+    "build": "node ./scripts/build/build.js",
+    "dev": "node ./scripts/build/build.js --mode=dev"
   },
   "repository": {
     "type": "git",

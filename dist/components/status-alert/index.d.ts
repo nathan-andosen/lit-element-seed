@@ -1,1 +1,1 @@
-export { StatusAlertComponent } from './status-alert.component';
+export * from './status-alert.component';

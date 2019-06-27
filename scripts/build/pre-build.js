@@ -1,6 +1,6 @@
 const path = require('path');
-const rootDir = path.join(__dirname, '../');
-const removeDirectories = require('./utils/remove-directories');
+const rootDir = path.join(__dirname, '../../');
+const removeDirectories = require('../utils/remove-directories');
 
 
 /**
