@@ -51,7 +51,9 @@ _More documentation required..._
 
 ## Distribution builds
 
-``npm run build`` - _(work in progress)_ Creates a distribution build.
+``npm run build -- -v <version>`` - Creates a distribution build.
+
+__-v__ - _(Optional)_ Either __patch__, __minor__ or __major__. Increases the version number in the package.json file.
 
 # Framework integrations
 
