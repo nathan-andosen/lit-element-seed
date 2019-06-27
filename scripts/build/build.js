@@ -8,6 +8,7 @@ const argv = require('yargs').argv
 const mode = (argv.mode) ? argv.mode : 'build';
 const buildConfigs = require('./rollup-configs.js');
 const buildRollupBundle = require('../utils/build-rollup-bundle');
+const banner = require('./banner');
 
 // our rollup configs
 const buildConfigUmd = buildConfigs.umd;
@@ -65,7 +66,11 @@ if (mode === 'dev') {
 // Build all the required bundles
 if (mode === 'build') {
   const startTime = new Date().getTime();
-  buildConfigUmd.plugins.push(uglify());
+  buildConfigUmd.plugins.push(uglify({
+    output: {
+      preamble: banner
+    }
+  }));
   buildConfigUmd.cache = false;
   buildConfigEsm.cache = false;
   preBuild()

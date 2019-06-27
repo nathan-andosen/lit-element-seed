@@ -97,7 +97,6 @@ This means the node process was not terminated, follow the steps below to fix it
 # Todo:
 
 * Improve build and dev
-  * Add banner
   * Increase version number when building
 * Lazy load components??
   * Look at rollups code splitting, dynamic imports

@@ -7,6 +7,7 @@ const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
 const renameExtensions = require('@betit/rollup-plugin-rename-extensions').default;
+const banner = require('./banner');
 
 // #region PLUGIN OPTIONS -------------------------------------------------
 
@@ -90,12 +91,13 @@ const buildConfigUmd = {
     file: `dist/${package.name}.umd.js`,
     format: 'umd',
     name: package.name,
+    sourcemap: true,
     globals: {
       '@babel/runtime/regenerator': '_regeneratorRuntime'
     }
   },
   watch: watchOptions,
-  sourcemap: true,
+  
   cache: true,
   treeshake: true,
   plugins: [
@@ -129,9 +131,10 @@ const buildConfigEsm = {
     dir: './dist',
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name]/index.js',
-    format: 'esm'
+    format: 'esm',
+    sourcemap: true,
+    banner: banner
   },
-  sourcemap: true,
   watch: watchOptions,
   cache: true,
   treeshake: true,

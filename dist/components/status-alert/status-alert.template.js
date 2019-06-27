@@ -1,3 +1,4 @@
+// lit-element-seed v0.0.1 | 2019-06-27
 import { html } from 'lit-element';
 
 const headerTemplate = (_this) => html `
@@ -21,6 +22,6 @@ const footerTemplate = (_this) => html `
     <h6>${_this.footerMessage}</h6>
   </div>
 `;
-//# sourceMappingURL=status-alert.template.js.map
 
 export { footerTemplate, mainTemplate };
+//# sourceMappingURL=status-alert.template.js.map

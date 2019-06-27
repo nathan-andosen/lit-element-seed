@@ -1,3 +1,4 @@
+// lit-element-seed v0.0.1 | 2019-06-27
 import { __decorate } from 'tslib';
 import { LitElement, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';
@@ -66,3 +67,4 @@ StatusAlertComponent = __decorate([
 ], StatusAlertComponent);
 
 export { StatusAlertComponent };
+//# sourceMappingURL=status-alert.component.js.map
