@@ -1804,18 +1804,6 @@
 
     return CSSResult;
   }();
-  /**
-   * Wrap a value for interpolation in a css tagged template literal.
-   *
-   * This is unsafe because untrusted CSS text can be used to phone home
-   * or exfiltrate data to an attacker controlled site. Take care to only use
-   * this with trusted input.
-   */
-
-
-  var unsafeCSS = function unsafeCSS(value) {
-    return new CSSResult(String(value), constructionToken);
-  };
 
   var textFromCSSResult = function textFromCSSResult(value) {
     if (value instanceof CSSResult) {
@@ -4018,7 +4006,22 @@
 
   LitElement.render = render$1;
 
-  var css$1 = "[class^=\"ico-\"], [class*=\" ico-\"] {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'icomoon' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.ico-cancel:before {\n  content: \"\\e5c9\"; }\n\n:host {\n  display: block; }\n\n.header {\n  display: flex;\n  align-items: center; }\n  .header h3 {\n    padding-left: 1rem;\n    flex-grow: 1;\n    cursor: pointer; }\n  .header button {\n    background-color: transparent;\n    border: 0;\n    width: 40px;\n    height: 40px;\n    cursor: pointer;\n    color: #999; }\n    .header button span {\n      font-size: 24px; }\n    .header button:hover {\n      color: #333; }\n\n.alert-wrapper {\n  border: 3px solid #ccc;\n  background-color: #ececec; }\n\n.content-body {\n  display: flex;\n  align-items: center;\n  padding: 0 1rem; }\n\n.footer {\n  text-align: center; }\n  .footer h6 {\n    margin: 4px 0; }\n";
+  var css$1 = "[class^=\"ico-\"], [class*=\" ico-\"] {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'icomoon' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.ico-cancel:before {\n  content: \"\\e5c9\"; }\n\n:host {\n  display: block; }\n\n.header {\n  display: flex;\n  align-items: center; }\n  .header h3 {\n    padding-left: 1rem;\n    flex-grow: 1;\n    cursor: pointer; }\n  .header button {\n    background-color: transparent;\n    border: 0;\n    width: 40px;\n    height: 40px;\n    cursor: pointer;\n    color: #999; }\n    .header button span {\n      font-size: 24px; }\n    .header button:hover {\n      color: #333; }\n\n.alert-wrapper {\n  border: 1px solid #ccc;\n  background-color: #ececec; }\n\n.content-body {\n  display: flex;\n  align-items: center;\n  padding: 0 1rem; }\n\n.footer {\n  text-align: center; }\n  .footer h6 {\n    margin: 4px 0; }\n";
+
+  var css$2 = "@font-face {\n  font-family: 'icomoon';\n  src: url(\"data:font/ttf;base64,AAEAAAALAIAAAwAwT1MvMghi+/8AAAC8AAAAYGNtYXAajcwZAAABHAAAAFRnYXNwAAAAEAAAAXAAAAAIZ2x5ZgQdQuUAAAF4AAAAwGhlYWQTVFalAAACOAAAADZoaGVhA7cB5gAAAnAAAAAkaG10eAUAACsAAAKUAAAAFGxvY2EAKAB0AAACqAAAAAxtYXhwAAgAKgAAArQAAAAgbmFtZZlKCfsAAALUAAABhnBvc3QAAwAAAAAEXAAAACAAAwGAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADlyQHg/+AAIAHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAOAAAAAoACAACAAIAAQAg5cn//f//AAAAAAAg5cn//f//AAH/4xo7AAMAAQAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAACACsAAAHVAaoACwAnAAAlJzcnBycHFwcXNxcDMhceARcWFRQHDgEHBiMiJy4BJyY1NDc+ATc2AWtNTR5NTR5NTR5NTU0sJyc6EBEREDonJywsJyc6EBEREDonJ4hNTR5NTR5NTR5NTQFAEBE6JyYtLCcnORERERE5JycsLSYnOhEQAAABAAAAAQAAhQlAr18PPPUACwIAAAAAANkwiv8AAAAA2TCK/wAAAAAB1QGqAAAACAACAAAAAAAAAAEAAAHg/+AAAAIAAAAAAAHVAAEAAAAAAAAAAAAAAAAAAAAFAgAAAAAAAAAAAAAAAQAAAAIAACsAAAAAAAoAFAAeAGAAAQAAAAUAKAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAcAAAABAAAAAAACAAcAYAABAAAAAAADAAcANgABAAAAAAAEAAcAdQABAAAAAAAFAAsAFQABAAAAAAAGAAcASwABAAAAAAAKABoAigADAAEECQABAA4ABwADAAEECQACAA4AZwADAAEECQADAA4APQADAAEECQAEAA4AfAADAAEECQAFABYAIAADAAEECQAGAA4AUgADAAEECQAKADQApGljb21vb24AaQBjAG8AbQBvAG8AblZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMGljb21vb24AaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AblJlZ3VsYXIAUgBlAGcAdQBsAGEAcmljb21vb24AaQBjAG8AbQBvAG8AbkZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\");\n  font-weight: normal;\n  font-style: normal; }\n";
+
+  /**
+   * Inject a string of css styles into a style tag in the head element. This is
+   * useful for style like font-face, which do not work in shadow dom's, they
+   * must be in the global scope of the page.
+   *
+   * @param {string} style
+   */
+  var injectStyleIntoHead = function injectStyleIntoHead(style) {
+    var styleEl = document.createElement('style');
+    styleEl.innerHTML = style;
+    document.head.appendChild(styleEl);
+  };
 
   function _templateObject3() {
     var data = _taggedTemplateLiteral(["\n  <div class=\"footer\">\n    <h6>", "</h6>\n  </div>\n"]);
@@ -4061,14 +4064,6 @@
   };
   var footerTemplate = function footerTemplate(_this) {
     return html(_templateObject3(), _this.footerMessage);
-  };
-
-  var css$2 = "@font-face {\n  font-family: 'icomoon';\n  src: url(\"data:font/ttf;base64,AAEAAAALAIAAAwAwT1MvMghi+/8AAAC8AAAAYGNtYXAajcwZAAABHAAAAFRnYXNwAAAAEAAAAXAAAAAIZ2x5ZgQdQuUAAAF4AAAAwGhlYWQTVFalAAACOAAAADZoaGVhA7cB5gAAAnAAAAAkaG10eAUAACsAAAKUAAAAFGxvY2EAKAB0AAACqAAAAAxtYXhwAAgAKgAAArQAAAAgbmFtZZlKCfsAAALUAAABhnBvc3QAAwAAAAAEXAAAACAAAwGAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADlyQHg/+AAIAHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAOAAAAAoACAACAAIAAQAg5cn//f//AAAAAAAg5cn//f//AAH/4xo7AAMAAQAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAACACsAAAHVAaoACwAnAAAlJzcnBycHFwcXNxcDMhceARcWFRQHDgEHBiMiJy4BJyY1NDc+ATc2AWtNTR5NTR5NTR5NTU0sJyc6EBEREDonJywsJyc6EBEREDonJ4hNTR5NTR5NTR5NTQFAEBE6JyYtLCcnORERERE5JycsLSYnOhEQAAABAAAAAQAAhQlAr18PPPUACwIAAAAAANkwiv8AAAAA2TCK/wAAAAAB1QGqAAAACAACAAAAAAAAAAEAAAHg/+AAAAIAAAAAAAHVAAEAAAAAAAAAAAAAAAAAAAAFAgAAAAAAAAAAAAAAAQAAAAIAACsAAAAAAAoAFAAeAGAAAQAAAAUAKAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAcAAAABAAAAAAACAAcAYAABAAAAAAADAAcANgABAAAAAAAEAAcAdQABAAAAAAAFAAsAFQABAAAAAAAGAAcASwABAAAAAAAKABoAigADAAEECQABAA4ABwADAAEECQACAA4AZwADAAEECQADAA4APQADAAEECQAEAA4AfAADAAEECQAFABYAIAADAAEECQAGAA4AUgADAAEECQAKADQApGljb21vb24AaQBjAG8AbQBvAG8AblZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMGljb21vb24AaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AblJlZ3VsYXIAUgBlAGcAdQBsAGEAcmljb21vb24AaQBjAG8AbQBvAG8AbkZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\");\n  font-weight: normal;\n  font-style: normal; }\n";
-
-  var injectFontFaceStyle = function injectFontFaceStyle() {
-    var styleEl = document.createElement('style');
-    styleEl.innerHTML = css$2;
-    document.head.appendChild(styleEl);
   };
 
   /**
@@ -4156,7 +4151,7 @@
   };
 
   function _templateObject$1() {
-    var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n    "]);
+    var data = _taggedTemplateLiteral(["\n      <style>\n        ", "\n      </style>\n      ", "\n      ", "\n    "]);
 
     _templateObject$1 = function _templateObject() {
       return data;
@@ -4170,32 +4165,50 @@
   function (_LitElement) {
     _inheritsLoose(StatusAlertComponent, _LitElement);
 
+    /**
+     * Creates an instance of StatusAlertComponent.
+     *
+     * @memberof StatusAlertComponent
+     */
     function StatusAlertComponent() {
       var _this;
 
       _this = _LitElement.call(this) || this;
       _this.footerMessage = 'I\'m the footer';
       _this.height = 50;
-      injectFontFaceStyle();
+      injectStyleIntoHead(css$2);
       return _this;
     }
+    /**
+     * Use styles this way in your component if you want to take advantage
+     * of lit-element using Constructable Stylesheets. This means the browser
+     * will parse the style sheet only once and re-use it for other instances
+     * of your component, great for performance.
+     * However, if you inject your styles this way, it makes it harder to debug
+     * in the browser.
+     */
+    // static get styles() {
+    //   return unsafeCSS(style);
+    // }
+
+    /**
+     * Render your html templates.
+     *
+     * Style - You can either inject your styles in here, or use the
+     * static get styles() getter above. If you inject them here, the browser
+     * will parse the css for each instance of all the components on your page.
+     */
+
 
     var _proto = StatusAlertComponent.prototype;
 
     _proto.render = function render() {
-      return html(_templateObject$1(), mainTemplate(this), footerTemplate(this));
+      return html(_templateObject$1(), css$1, mainTemplate(this), footerTemplate(this));
     };
 
     _proto.closeClick = function closeClick(e) {
       this.close.emit();
     };
-
-    _createClass(StatusAlertComponent, null, [{
-      key: "styles",
-      get: function get() {
-        return unsafeCSS(css$1);
-      }
-    }]);
 
     return StatusAlertComponent;
   }(LitElement);

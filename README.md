@@ -38,10 +38,6 @@ cd my-component-name
 git remote rm origin
 ```
 
-# Framework integrations
-
-_Todo_
-
 # Development
 
 _More documentation required..._
@@ -56,6 +52,10 @@ _More documentation required..._
 ## Distribution builds
 
 ``npm run build`` - _(work in progress)_ Creates a distribution build.
+
+# Framework integrations
+
+_Todo_
 
 # Known issues & Important notes
 
