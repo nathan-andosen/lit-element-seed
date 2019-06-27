@@ -11,7 +11,7 @@ const fse = require('fs-extra');
 const removeDirectories = (index, dirs, cb) => {
   if (index >= dirs.length) { cb(); return; }
   fse.remove(dirs[index], (err) => {
-    if (err) { cb(err); return; }
+    // if (err) { cb(err); return; }
     removeDirectories(++index, dirs, cb);
   });
 };

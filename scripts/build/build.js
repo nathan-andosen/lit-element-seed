@@ -22,7 +22,7 @@ const buildConfigEsm = buildConfigs.esm;
 if (mode === 'dev') {
   buildConfigUmd.plugins.push(serve({
     port: 1350,
-    contentBase: [ './', 'src' ],
+    contentBase: [ 'node_modules/@webcomponents', 'dist', 'src' ],
     headers: { 'Access-Control-Allow-Origin': '*' }
   }));
   buildConfigUmd.plugins.push(livereload({ 
@@ -52,10 +52,13 @@ if (mode === 'dev') {
       }
     });
   };
-  preBuild().then(() => {
+  preBuild()
+  .then(() => {
     const watcher = rollup.watch([buildConfigEsm, buildConfigUmd]);
     watchEvents(watcher);
-  }).catch((err) => { throw err; });
+  }).catch((err) => {
+    throw err;
+  });
 }
 
 // #endregion
