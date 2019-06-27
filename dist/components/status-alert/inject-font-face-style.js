@@ -5,6 +5,5 @@ const injectFontFaceStyle = () => {
     styleEl.innerHTML = style;
     document.head.appendChild(styleEl);
 };
-//# sourceMappingURL=inject-font-face-style.js.map
 
 export { injectFontFaceStyle };
