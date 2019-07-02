@@ -12,11 +12,11 @@ const preBuild = () => {
   return new Promise((resolve, reject) => {
     const dirs = [
       path.join(rootDir, 'component-typings'),
-      path.join(rootDir, 'components'),
       path.join(rootDir, 'dist')
     ];
     removeDirectories(0, dirs, (err) => {
       if (err) { reject(err); return; }
+      console.log('Done deleteing folders...');
       resolve();
     });
   });
