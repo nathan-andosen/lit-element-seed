@@ -21,7 +21,7 @@
   "homepage": "https://github.com/nathan-andosen/lit-element-seed#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.5",
-    "@thenja/decorators": "^1.0.0",
+    "@thenja/decorators": "^2.0.0",
     "lit-element": "^2.2.0",
     "lit-html": "^1.1.0",
     "tslib": "^1.10.0"

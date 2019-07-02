@@ -10,14 +10,14 @@ import style from './status-alert.style.scss';
 import fontFaceStyle from './assets/icon-font/font-face.scss';
 import { injectStyleIntoHead } from '../../utils';
 import { mainTemplate, footerTemplate } from './status-alert.template';
-import { event, EventEmitter } from '@thenja/decorators';
+import { event, CustomEventEmitter } from '@thenja/decorators';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
   @property() footerMessage = 'I\'m the footer';
   @property() height = 50;
-  @event() close: EventEmitter;
-  @event() titleClick: EventEmitter;
+  @event() close: CustomEventEmitter;
+  @event() titleClick: CustomEventEmitter;
 
 
   /**

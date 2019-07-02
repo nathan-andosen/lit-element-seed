@@ -1,4 +1,5 @@
-// lit-element-seed v0.0.2 | 2019-06-27
+// lit-element-seed v0.0.2 | 2019-07-02
+(function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -4069,17 +4070,17 @@
    * Event emitter class to dispatch custom events
    *
    * @export
-   * @class EventEmitter
+   * @class CustomEventEmitter
    */
-  var EventEmitter =
+  var CustomEventEmitter =
   /*#__PURE__*/
   function () {
-    function EventEmitter(target, options) {
+    function CustomEventEmitter(target, options) {
       this.target = target;
       this.options = options;
     }
 
-    var _proto = EventEmitter.prototype;
+    var _proto = CustomEventEmitter.prototype;
 
     _proto.emit = function emit(data) {
       var eventDetails = Object.assign({
@@ -4089,7 +4090,7 @@
       this.target.dispatchEvent(event);
     };
 
-    return EventEmitter;
+    return CustomEventEmitter;
   }();
   /**
    * Event property decorator to easily emit events
@@ -4130,7 +4131,7 @@
           eventOptions.eventName = camelToKebab(propertyName);
         }
 
-        return new EventEmitter(this, eventOptions);
+        return new CustomEventEmitter(this, eventOptions);
       }; // do not use arrow function for setter, as this is the instance of the
       // class
 
