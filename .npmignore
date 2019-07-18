@@ -4,3 +4,4 @@ config/
 tsconfig.json
 src/
 scripts/
+compiled/
