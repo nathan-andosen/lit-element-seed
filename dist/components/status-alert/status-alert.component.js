@@ -65,7 +65,6 @@ __decorate([
 StatusAlertComponent = __decorate([
     customElement('status-alert')
 ], StatusAlertComponent);
-//# sourceMappingURL=status-alert.component.js.map
 
 export { StatusAlertComponent };
 //# sourceMappingURL=status-alert.component.js.map

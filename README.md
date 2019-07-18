@@ -19,7 +19,7 @@ __Useful links:__
 * __Useful decorators:__ Extra decorators to reduce repeated code & keep code clean
 * __Dev server:__ for easy development
   * Ability to use npm link while developing your components. Useful when you want to see your changes in realtime in another application.
-* (TODO) Unit & e2e tests
+* (IN PROGRESS) Unit & e2e tests
 
 ## Not supported
 

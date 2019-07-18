@@ -6,3 +6,4 @@
  * @param {string} style
  */
 export declare const injectStyleIntoHead: (style: string) => void;
+export declare const testFunc: () => number;

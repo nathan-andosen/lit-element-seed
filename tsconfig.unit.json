@@ -2,14 +2,13 @@
   "compilerOptions": {
     "outDir": "./compiled",
     "target": "es2015",
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["es2017", "dom"],
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
-    "declaration": true,
-    "declarationDir": "./component-typings",
+    "declaration": false,
     "sourceMap": true
   },
   "include": [

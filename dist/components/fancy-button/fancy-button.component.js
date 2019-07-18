@@ -25,7 +25,6 @@ let FancyButtonComponent = class FancyButtonComponent extends LitElement {
 FancyButtonComponent = __decorate([
     customElement('fancy-button')
 ], FancyButtonComponent);
-//# sourceMappingURL=fancy-button.component.js.map
 
 export { FancyButtonComponent };
 //# sourceMappingURL=fancy-button.component.js.map
