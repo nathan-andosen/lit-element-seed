@@ -8,21 +8,15 @@
   </head>
 
   <body>
-    <status-alert id="elAlert" footerMessage="Im an alert footer">
-      <p>Something cool has just happened...</p>
-    </status-alert>
-    
-    <fancy-button>Fancy button</fancy-button>
-
-    <script>
-      var elAlert = document.getElementById('elAlert');
-      elAlert.addEventListener('close', function(e) {
-        console.log('close event fired...', e.detail);
-      });
-      elAlert.addEventListener('title-click', function(e) {
-        console.log('title-click event fired...', e.detail);
-      });
-    </script>
+    <h1>Welcome to lit-element-seed!</h1>
+    <p>Available components:</p>
+    <ul>
+      <li>
+        <a href="pages/alert.html">Alerts</a>
+      </li>
+      <li>
+        <a href="pages/button.html">Buttons</a>
+      </li>
+    </ul>
   </body>
-
 </html>
