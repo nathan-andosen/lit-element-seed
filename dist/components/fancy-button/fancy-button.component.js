@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-02
+// lit-element-seed v0.0.2 | 2019-07-18
 import { __decorate } from 'tslib';
 import { LitElement, css, html, customElement } from 'lit-element';
 
@@ -25,6 +25,7 @@ let FancyButtonComponent = class FancyButtonComponent extends LitElement {
 FancyButtonComponent = __decorate([
     customElement('fancy-button')
 ], FancyButtonComponent);
+//# sourceMappingURL=fancy-button.component.js.map
 
 export { FancyButtonComponent };
 //# sourceMappingURL=fancy-button.component.js.map

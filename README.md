@@ -4,6 +4,10 @@ _Work in progress_
 
 Seed app to build lit element web components.
 
+__Useful links:__
+
+* https://developers.google.com/web/fundamentals/web-components/
+
 # Key Features
 
 * __Typescript & Scss__
@@ -21,6 +25,7 @@ Seed app to build lit element web components.
 
 * Hot module reloading with the dev server
 * Component lazy loading
+  * Maybe an option: https://github.com/PolymerLabs/split-element
 * Using slots when shadow dom is disabled _(see known issues below for more detail)_
 
 # Getting started

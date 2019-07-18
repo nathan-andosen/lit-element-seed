@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-02
+// lit-element-seed v0.0.2 | 2019-07-18
 import { html } from 'lit-element';
 
 const headerTemplate = (_this) => html `
