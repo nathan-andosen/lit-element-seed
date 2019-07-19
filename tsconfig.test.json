@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "outDir": "./compiled",
     "target": "es2015",
     "module": "commonjs",

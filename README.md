@@ -1,6 +1,6 @@
 # Lit element seed
 
-_Work in progress_
+_Work in progress - Not ready for use_
 
 Seed app to build lit element web components.
 
@@ -97,12 +97,10 @@ This means the node process was not terminated, follow the steps below to fix it
 
 # Todo:
 
+* Intergrate unit & e2e tests
+  * Improve unit test script
 * Improve build and dev
   * Increase version number when building
-* Intergrate unit & e2e tests
-  * What frameworks to use?? Jest looks good.
-* Lazy load components??
-  * Look at rollups code splitting, dynamic imports
 
 # License
 

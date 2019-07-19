@@ -10,7 +10,9 @@
     "dev": "node ./scripts/build/build.js --mode=dev",
     "test": "node ./scripts/unit-tests.js",
     "e2e": "bash ./scripts/e2e-tests.sh",
-    "unit-test": "bash ./scripts/unit-tests.sh"
+    "unit-test": "bash ./scripts/unit-tests.sh",
+    "tsc": "tsc",
+    "jest": "jest"
   },
   "repository": {
     "type": "git",

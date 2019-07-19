@@ -4,5 +4,5 @@ const {defaults} = require('jest-config');
 module.exports = {
   
   roots: ["<rootDir>/../compiled/spec/unit"],
-  preset: "jest-puppeteer"
+  // preset: "jest-puppeteer"
 };
