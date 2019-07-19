@@ -8,8 +8,9 @@
   "scripts": {
     "build": "bash ./scripts/build/build.sh",
     "dev": "node ./scripts/build/build.js --mode=dev",
-    "test": "bash ./scripts/unit-tests.sh",
-    "e2e": "bash ./scripts/e2e-tests.sh"
+    "test": "node ./scripts/unit-tests.js",
+    "e2e": "bash ./scripts/e2e-tests.sh",
+    "unit-test": "bash ./scripts/unit-tests.sh"
   },
   "repository": {
     "type": "git",

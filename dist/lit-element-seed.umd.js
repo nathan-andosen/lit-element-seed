@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-18
+// lit-element-seed v0.0.2 | 2019-07-19
 (function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -217,6 +217,24 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
+  var directives = new WeakMap();
+  var isDirective = function isDirective(o) {
+    return typeof o === 'function' && directives.has(o);
+  };
+
+  /**
+   * @license
+   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+   * This code may only be used under the BSD style license found at
+   * http://polymer.github.io/LICENSE.txt
+   * The complete set of authors may be found at
+   * http://polymer.github.io/AUTHORS.txt
+   * The complete set of contributors may be found at
+   * http://polymer.github.io/CONTRIBUTORS.txt
+   * Code distributed by Google as part of the polymer project is also
+   * subject to an additional IP rights grant found at
+   * http://polymer.github.io/PATENTS.txt
+   */
 
   /**
    * True if the custom elements polyfill is in use.
@@ -227,7 +245,6 @@
    * `container`.
    */
 
-
   var removeNodes = function removeNodes(container, start) {
     var end = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -237,6 +254,31 @@
       start = n;
     }
   };
+
+  /**
+   * @license
+   * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+   * This code may only be used under the BSD style license found at
+   * http://polymer.github.io/LICENSE.txt
+   * The complete set of authors may be found at
+   * http://polymer.github.io/AUTHORS.txt
+   * The complete set of contributors may be found at
+   * http://polymer.github.io/CONTRIBUTORS.txt
+   * Code distributed by Google as part of the polymer project is also
+   * subject to an additional IP rights grant found at
+   * http://polymer.github.io/PATENTS.txt
+   */
+
+  /**
+   * A sentinel value that signals that a value was handled by a directive and
+   * should not be written to the DOM.
+   */
+  var noChange = {};
+  /**
+   * A sentinel value that signals a NodePart to fully clear its content.
+   */
+
+  var nothing = {};
 
   /**
    * @license
@@ -466,7 +508,6 @@
   }; // Allows `document.createComment('')` to be renamed for a
   // small manual size-savings.
 
-
   var createMarker = function createMarker() {
     return document.createComment('');
   };
@@ -497,163 +538,7 @@
    *    * (') then any non-(')
    */
 
-
   var lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
-  /**
-   * The return type of `html`, which holds a Template and the values from
-   * interpolated expressions.
-   */
-
-  var TemplateResult =
-  /*#__PURE__*/
-  function () {
-    function TemplateResult(strings, values, type, processor) {
-      this.strings = strings;
-      this.values = values;
-      this.type = type;
-      this.processor = processor;
-    }
-    /**
-     * Returns a string of HTML used to create a `<template>` element.
-     */
-
-
-    var _proto = TemplateResult.prototype;
-
-    _proto.getHTML = function getHTML() {
-      var l = this.strings.length - 1;
-      var html = '';
-      var isCommentBinding = false;
-
-      for (var i = 0; i < l; i++) {
-        var s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
-        // into the template source before it's parsed by the browser's HTML
-        // parser. The marker type is based on whether the expression is in an
-        // attribute, text, or comment poisition.
-        //   * For node-position bindings we insert a comment with the marker
-        //     sentinel as its text content, like <!--{{lit-guid}}-->.
-        //   * For attribute bindings we insert just the marker sentinel for the
-        //     first binding, so that we support unquoted attribute bindings.
-        //     Subsequent bindings can use a comment marker because multi-binding
-        //     attributes must be quoted.
-        //   * For comment bindings we insert just the marker sentinel so we don't
-        //     close the comment.
-        //
-        // The following code scans the template source, but is *not* an HTML
-        // parser. We don't need to track the tree structure of the HTML, only
-        // whether a binding is inside a comment, and if not, if it appears to be
-        // the first binding in an attribute.
-
-        var commentOpen = s.lastIndexOf('<!--'); // We're in comment position if we have a comment open with no following
-        // comment close. Because <-- can appear in an attribute value there can
-        // be false positives.
-
-        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
-        // expression. This can match "name=value" like structures in text,
-        // comments, and attribute values, so there can be false-positives.
-
-        var attributeMatch = lastAttributeNameRegex.exec(s);
-
-        if (attributeMatch === null) {
-          // We're only in this branch if we don't have a attribute-like
-          // preceeding sequence. For comments, this guards against unusual
-          // attribute values like <div foo="<!--${'bar'}">. Cases like
-          // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
-          // below.
-          html += s + (isCommentBinding ? marker : nodeMarker);
-        } else {
-          // For attributes we use just a marker sentinel, and also append a
-          // $lit$ suffix to the name to opt-out of attribute-specific parsing
-          // that IE and Edge do for style and certain SVG attributes.
-          html += s.substr(0, attributeMatch.index) + attributeMatch[1] + attributeMatch[2] + boundAttributeSuffix + attributeMatch[3] + marker;
-        }
-      }
-
-      html += this.strings[l];
-      return html;
-    };
-
-    _proto.getTemplateElement = function getTemplateElement() {
-      var template = document.createElement('template');
-      template.innerHTML = this.getHTML();
-      return template;
-    };
-
-    return TemplateResult;
-  }();
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-  var directives = new WeakMap();
-
-  var isDirective = function isDirective(o) {
-    return typeof o === 'function' && directives.has(o);
-  };
-
-  /**
-   * @license
-   * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
-  /**
-   * A sentinel value that signals that a value was handled by a directive and
-   * should not be written to the DOM.
-   */
-  var noChange = {};
-  /**
-   * A sentinel value that signals a NodePart to fully clear its content.
-   */
-
-  var nothing = {};
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
 
   /**
    * An instance of a `Template` that can be attached to the DOM and updated
@@ -840,23 +725,91 @@
   }();
 
   /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
+   * The return type of `html`, which holds a Template and the values from
+   * interpolated expressions.
    */
+
+  var TemplateResult =
+  /*#__PURE__*/
+  function () {
+    function TemplateResult(strings, values, type, processor) {
+      this.strings = strings;
+      this.values = values;
+      this.type = type;
+      this.processor = processor;
+    }
+    /**
+     * Returns a string of HTML used to create a `<template>` element.
+     */
+
+
+    var _proto = TemplateResult.prototype;
+
+    _proto.getHTML = function getHTML() {
+      var l = this.strings.length - 1;
+      var html = '';
+      var isCommentBinding = false;
+
+      for (var i = 0; i < l; i++) {
+        var s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
+        // into the template source before it's parsed by the browser's HTML
+        // parser. The marker type is based on whether the expression is in an
+        // attribute, text, or comment poisition.
+        //   * For node-position bindings we insert a comment with the marker
+        //     sentinel as its text content, like <!--{{lit-guid}}-->.
+        //   * For attribute bindings we insert just the marker sentinel for the
+        //     first binding, so that we support unquoted attribute bindings.
+        //     Subsequent bindings can use a comment marker because multi-binding
+        //     attributes must be quoted.
+        //   * For comment bindings we insert just the marker sentinel so we don't
+        //     close the comment.
+        //
+        // The following code scans the template source, but is *not* an HTML
+        // parser. We don't need to track the tree structure of the HTML, only
+        // whether a binding is inside a comment, and if not, if it appears to be
+        // the first binding in an attribute.
+
+        var commentOpen = s.lastIndexOf('<!--'); // We're in comment position if we have a comment open with no following
+        // comment close. Because <-- can appear in an attribute value there can
+        // be false positives.
+
+        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
+        // expression. This can match "name=value" like structures in text,
+        // comments, and attribute values, so there can be false-positives.
+
+        var attributeMatch = lastAttributeNameRegex.exec(s);
+
+        if (attributeMatch === null) {
+          // We're only in this branch if we don't have a attribute-like
+          // preceeding sequence. For comments, this guards against unusual
+          // attribute values like <div foo="<!--${'bar'}">. Cases like
+          // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
+          // below.
+          html += s + (isCommentBinding ? marker : nodeMarker);
+        } else {
+          // For attributes we use just a marker sentinel, and also append a
+          // $lit$ suffix to the name to opt-out of attribute-specific parsing
+          // that IE and Edge do for style and certain SVG attributes.
+          html += s.substr(0, attributeMatch.index) + attributeMatch[1] + attributeMatch[2] + boundAttributeSuffix + attributeMatch[3] + marker;
+        }
+      }
+
+      html += this.strings[l];
+      return html;
+    };
+
+    _proto.getTemplateElement = function getTemplateElement() {
+      var template = document.createElement('template');
+      template.innerHTML = this.getHTML();
+      return template;
+    };
+
+    return TemplateResult;
+  }();
 
   var isPrimitive = function isPrimitive(value) {
     return value === null || !(_typeof(value) === 'object' || typeof value === 'function');
   };
-
   var isIterable = function isIterable(value) {
     return Array.isArray(value) || // tslint:disable-next-line:no-any
     !!(value && value[Symbol.iterator]);
@@ -866,7 +819,6 @@
    * single attibute. The value is only set once even if there are multiple parts
    * for an attribute.
    */
-
 
   var AttributeCommitter =
   /*#__PURE__*/
@@ -952,7 +904,6 @@
    * A Part that controls all or part of an attribute value.
    */
 
-
   var AttributePart =
   /*#__PURE__*/
   function () {
@@ -999,7 +950,6 @@
    * NodeParts support several value types: primitives, Nodes, TemplateResults,
    * as well as arrays and iterables of those types.
    */
-
 
   var NodePart =
   /*#__PURE__*/
@@ -1235,7 +1185,6 @@
    * ''. If the value is falsey, the attribute is removed.
    */
 
-
   var BooleanAttributePart =
   /*#__PURE__*/
   function () {
@@ -1296,7 +1245,6 @@
    * a string first.
    */
 
-
   var PropertyCommitter =
   /*#__PURE__*/
   function (_AttributeCommitter) {
@@ -1334,7 +1282,6 @@
 
     return PropertyCommitter;
   }(AttributeCommitter);
-
   var PropertyPart =
   /*#__PURE__*/
   function (_AttributePart) {
@@ -1349,7 +1296,6 @@
   // from the options object, then options are supported. If not, then the thrid
   // argument to add/removeEventListener is interpreted as the boolean capture
   // value so we should only pass the `capture` property.
-
 
   var eventOptionsSupported = false;
 
@@ -1432,7 +1378,6 @@
   // the third argument of add/removeEventListener. IE11 doesn't support options
   // at all. Chrome 41 only reads `capture` if the argument is an object.
 
-
   var getOptions = function getOptions(o) {
     return o && (eventOptionsSupported ? {
       capture: o.capture,
@@ -1454,7 +1399,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   /**
    * Creates Parts when a template is instantiated.
    */
@@ -1507,7 +1451,6 @@
 
     return DefaultTemplateProcessor;
   }();
-
   var defaultTemplateProcessor = new DefaultTemplateProcessor();
 
   /**
@@ -1523,7 +1466,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   /**
    * The default TemplateFactory which caches Templates keyed on
    * result.type and result.strings.
@@ -1563,7 +1505,6 @@
     templateCache.stringsArray.set(result.strings, template);
     return template;
   }
-
   var templateCaches = new Map();
 
   /**
@@ -1579,7 +1520,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   var parts = new WeakMap();
   /**
    * Renders a template to a container.
@@ -1625,7 +1565,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  // IMPORTANT: do not change the property name or the assignment expression.
   // This line will be used in regexes to search for lit-html usage.
   // TODO(justinfagnani): inject version number at build time
 
@@ -1656,197 +1595,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  var legacyCustomElement = function legacyCustomElement(tagName, clazz) {
-    window.customElements.define(tagName, clazz); // Cast as any because TS doesn't recognize the return type as being a
-    // subtype of the decorated class when clazz is typed as
-    // `Constructor<HTMLElement>` for some reason.
-    // `Constructor<HTMLElement>` is helpful to make sure the decorator is
-    // applied to elements however.
-    // tslint:disable-next-line:no-any
-
-    return clazz;
-  };
-
-  var standardCustomElement = function standardCustomElement(tagName, descriptor) {
-    var kind = descriptor.kind,
-        elements = descriptor.elements;
-    return {
-      kind: kind,
-      elements: elements,
-      // This callback is called once the class is otherwise fully defined
-      finisher: function finisher(clazz) {
-        window.customElements.define(tagName, clazz);
-      }
-    };
-  };
-  /**
-   * Class decorator factory that defines the decorated class as a custom element.
-   *
-   * @param tagName the name of the custom element to define
-   */
-
-
-  var customElement = function customElement(tagName) {
-    return function (classOrDescriptor) {
-      return typeof classOrDescriptor === 'function' ? legacyCustomElement(tagName, classOrDescriptor) : standardCustomElement(tagName, classOrDescriptor);
-    };
-  };
-
-  var standardProperty = function standardProperty(options, element) {
-    // When decorating an accessor, pass it through and add property metadata.
-    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
-    // stomp over the user's accessor.
-    if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
-      return Object.assign({}, element, {
-        finisher: function finisher(clazz) {
-          clazz.createProperty(element.key, options);
-        }
-      });
-    } else {
-      // createProperty() takes care of defining the property, but we still
-      // must return some kind of descriptor, so return a descriptor for an
-      // unused prototype field. The finisher calls createProperty().
-      return {
-        kind: 'field',
-        key: Symbol(),
-        placement: 'own',
-        descriptor: {},
-        // When @babel/plugin-proposal-decorators implements initializers,
-        // do this instead of the initializer below. See:
-        // https://github.com/babel/babel/issues/9260 extras: [
-        //   {
-        //     kind: 'initializer',
-        //     placement: 'own',
-        //     initializer: descriptor.initializer,
-        //   }
-        // ],
-        initializer: function initializer() {
-          if (typeof element.initializer === 'function') {
-            this[element.key] = element.initializer.call(this);
-          }
-        },
-        finisher: function finisher(clazz) {
-          clazz.createProperty(element.key, options);
-        }
-      };
-    }
-  };
-
-  var legacyProperty = function legacyProperty(options, proto, name) {
-    proto.constructor.createProperty(name, options);
-  };
-  /**
-   * A property decorator which creates a LitElement property which reflects a
-   * corresponding attribute value. A `PropertyDeclaration` may optionally be
-   * supplied to configure property features.
-   *
-   * @ExportDecoratedItems
-   */
-
-
-  function property(options) {
-    // tslint:disable-next-line:no-any decorator
-    return function (protoOrDescriptor, name) {
-      return name !== undefined ? legacyProperty(options, protoOrDescriptor, name) : standardProperty(options, protoOrDescriptor);
-    };
-  }
-
-  /**
-  @license
-  Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at
-  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
-  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
-  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
-  part of the polymer project is also subject to an additional IP rights grant
-  found at http://polymer.github.io/PATENTS.txt
-  */
-  var supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
-  var constructionToken = Symbol();
-
-  var CSSResult =
-  /*#__PURE__*/
-  function () {
-    function CSSResult(cssText, safeToken) {
-      if (safeToken !== constructionToken) {
-        throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
-      }
-
-      this.cssText = cssText;
-    } // Note, this is a getter so that it's lazy. In practice, this means
-    // stylesheets are not created until the first element instance is made.
-
-
-    var _proto = CSSResult.prototype;
-
-    _proto.toString = function toString() {
-      return this.cssText;
-    };
-
-    _createClass(CSSResult, [{
-      key: "styleSheet",
-      get: function get() {
-        if (this._styleSheet === undefined) {
-          // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
-          // is constructable.
-          if (supportsAdoptingStyleSheets) {
-            this._styleSheet = new CSSStyleSheet();
-
-            this._styleSheet.replaceSync(this.cssText);
-          } else {
-            this._styleSheet = null;
-          }
-        }
-
-        return this._styleSheet;
-      }
-    }]);
-
-    return CSSResult;
-  }();
-
-  var textFromCSSResult = function textFromCSSResult(value) {
-    if (value instanceof CSSResult) {
-      return value.cssText;
-    } else if (typeof value === 'number') {
-      return value;
-    } else {
-      throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
-    }
-  };
-  /**
-   * Template tag which which can be used with LitElement's `style` property to
-   * set element styles. For security reasons, only literal string values may be
-   * used. To incorporate non-literal values `unsafeCSS` may be used inside a
-   * template string part.
-   */
-
-
-  var css = function css(strings) {
-    for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      values[_key - 1] = arguments[_key];
-    }
-
-    var cssText = values.reduce(function (acc, v, idx) {
-      return acc + textFromCSSResult(v) + strings[idx + 1];
-    }, strings[0]);
-    return new CSSResult(cssText, constructionToken);
-  };
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
   var walkerNodeFilter = 133
   /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */
   ;
@@ -2002,7 +1750,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  // Get a key to lookup in `templateCaches`.
 
   var getTemplateCacheKey = function getTemplateCacheKey(type, scopeName) {
     return "".concat(type, "--").concat(scopeName);
@@ -3040,7 +2787,6 @@
     // This ensures (old==NaN, value==NaN) always returns false
     return old !== value && (old === old || value === value);
   };
-
   var defaultPropertyDeclaration = {
     attribute: true,
     type: String,
@@ -3759,7 +3505,6 @@
    * Marks class as having finished creating properties.
    */
 
-
   UpdatingElement.finalized = true;
 
   /**
@@ -3775,7 +3520,182 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  // IMPORTANT: do not change the property name or the assignment expression.
+  var legacyCustomElement = function legacyCustomElement(tagName, clazz) {
+    window.customElements.define(tagName, clazz); // Cast as any because TS doesn't recognize the return type as being a
+    // subtype of the decorated class when clazz is typed as
+    // `Constructor<HTMLElement>` for some reason.
+    // `Constructor<HTMLElement>` is helpful to make sure the decorator is
+    // applied to elements however.
+    // tslint:disable-next-line:no-any
+
+    return clazz;
+  };
+
+  var standardCustomElement = function standardCustomElement(tagName, descriptor) {
+    var kind = descriptor.kind,
+        elements = descriptor.elements;
+    return {
+      kind: kind,
+      elements: elements,
+      // This callback is called once the class is otherwise fully defined
+      finisher: function finisher(clazz) {
+        window.customElements.define(tagName, clazz);
+      }
+    };
+  };
+  /**
+   * Class decorator factory that defines the decorated class as a custom element.
+   *
+   * @param tagName the name of the custom element to define
+   */
+
+
+  var customElement = function customElement(tagName) {
+    return function (classOrDescriptor) {
+      return typeof classOrDescriptor === 'function' ? legacyCustomElement(tagName, classOrDescriptor) : standardCustomElement(tagName, classOrDescriptor);
+    };
+  };
+
+  var standardProperty = function standardProperty(options, element) {
+    // When decorating an accessor, pass it through and add property metadata.
+    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
+    // stomp over the user's accessor.
+    if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
+      return Object.assign({}, element, {
+        finisher: function finisher(clazz) {
+          clazz.createProperty(element.key, options);
+        }
+      });
+    } else {
+      // createProperty() takes care of defining the property, but we still
+      // must return some kind of descriptor, so return a descriptor for an
+      // unused prototype field. The finisher calls createProperty().
+      return {
+        kind: 'field',
+        key: Symbol(),
+        placement: 'own',
+        descriptor: {},
+        // When @babel/plugin-proposal-decorators implements initializers,
+        // do this instead of the initializer below. See:
+        // https://github.com/babel/babel/issues/9260 extras: [
+        //   {
+        //     kind: 'initializer',
+        //     placement: 'own',
+        //     initializer: descriptor.initializer,
+        //   }
+        // ],
+        initializer: function initializer() {
+          if (typeof element.initializer === 'function') {
+            this[element.key] = element.initializer.call(this);
+          }
+        },
+        finisher: function finisher(clazz) {
+          clazz.createProperty(element.key, options);
+        }
+      };
+    }
+  };
+
+  var legacyProperty = function legacyProperty(options, proto, name) {
+    proto.constructor.createProperty(name, options);
+  };
+  /**
+   * A property decorator which creates a LitElement property which reflects a
+   * corresponding attribute value. A `PropertyDeclaration` may optionally be
+   * supplied to configure property features.
+   *
+   * @ExportDecoratedItems
+   */
+
+
+  function property(options) {
+    // tslint:disable-next-line:no-any decorator
+    return function (protoOrDescriptor, name) {
+      return name !== undefined ? legacyProperty(options, protoOrDescriptor, name) : standardProperty(options, protoOrDescriptor);
+    };
+  }
+
+  /**
+  @license
+  Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+  part of the polymer project is also subject to an additional IP rights grant
+  found at http://polymer.github.io/PATENTS.txt
+  */
+  var supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
+  var constructionToken = Symbol();
+  var CSSResult =
+  /*#__PURE__*/
+  function () {
+    function CSSResult(cssText, safeToken) {
+      if (safeToken !== constructionToken) {
+        throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
+      }
+
+      this.cssText = cssText;
+    } // Note, this is a getter so that it's lazy. In practice, this means
+    // stylesheets are not created until the first element instance is made.
+
+
+    var _proto = CSSResult.prototype;
+
+    _proto.toString = function toString() {
+      return this.cssText;
+    };
+
+    _createClass(CSSResult, [{
+      key: "styleSheet",
+      get: function get() {
+        if (this._styleSheet === undefined) {
+          // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
+          // is constructable.
+          if (supportsAdoptingStyleSheets) {
+            this._styleSheet = new CSSStyleSheet();
+
+            this._styleSheet.replaceSync(this.cssText);
+          } else {
+            this._styleSheet = null;
+          }
+        }
+
+        return this._styleSheet;
+      }
+    }]);
+
+    return CSSResult;
+  }();
+
+  var textFromCSSResult = function textFromCSSResult(value) {
+    if (value instanceof CSSResult) {
+      return value.cssText;
+    } else if (typeof value === 'number') {
+      return value;
+    } else {
+      throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
+    }
+  };
+  /**
+   * Template tag which which can be used with LitElement's `style` property to
+   * set element styles. For security reasons, only literal string values may be
+   * used. To incorporate non-literal values `unsafeCSS` may be used inside a
+   * template string part.
+   */
+
+
+  var css = function css(strings) {
+    for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      values[_key - 1] = arguments[_key];
+    }
+
+    var cssText = values.reduce(function (acc, v, idx) {
+      return acc + textFromCSSResult(v) + strings[idx + 1];
+    }, strings[0]);
+    return new CSSResult(cssText, constructionToken);
+  };
+
   // This line will be used in regexes to search for LitElement usage.
   // TODO(justinfagnani): inject version number at build time
 
@@ -3993,7 +3913,6 @@
    * it will not needlessly try to `finalize`.
    */
 
-
   LitElement.finalized = true;
   /**
    * Render method used to render the lit-html TemplateResult to the element's
@@ -4044,7 +3963,7 @@
   }
 
   function _templateObject() {
-    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">Alert!</h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
+    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">Alert!!!</h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
 
     _templateObject = function _templateObject() {
       return data;

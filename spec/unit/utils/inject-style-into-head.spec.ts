@@ -5,6 +5,7 @@ test('test the testFunc', () => {
   expect(testFunc()).toEqual(10);
 });
 
+
 // declare global {
 //   const page: Page;
 //   const browser: Browser;

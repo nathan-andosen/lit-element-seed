@@ -10,54 +10,53 @@ const buildConfigs = require('./rollup-configs.js');
 const buildRollupBundle = require('../utils/build-rollup-bundle');
 const banner = require('./banner');
 const package = require('../../package.json');
+const path = require('path');
+const rootDir = path.join(__dirname, '..', '..');
 
 // our rollup configs
 const buildConfigUmd = buildConfigs.umd;
 const buildConfigEsm = buildConfigs.esm;
+
+const printOutput = (msg) => { console.log(msg); };
 
 
 // #region DEV SERVER & BUILD --------------------------------------------
 
 // build the bundles, start a dev server, watch for file changes
 if (mode === 'dev') {
+  preBuild();
+
   buildConfigUmd.plugins.push(serve({
+    open: false,
     port: 1350,
     contentBase: [ 'node_modules/@webcomponents', 'dist', 'src' ],
     headers: { 'Access-Control-Allow-Origin': '*' }
   }));
   buildConfigUmd.plugins.push(livereload({ 
-    watch: ['./dist', '/src/index.html'] 
+    delay: 300,
+    // usePolling: true,
+    watch: [
+      path.join(rootDir, 'src', 'index.html'),
+      path.join(rootDir, 'src', 'pages'),
+      path.join(rootDir, 'dist')
+    ]
   }));
-  console.log('Building bundles...');
-  const watchEvents = (watcher) => {
-    let startTime;
-    watcher.on('event', (event) => {
-      if (event.code === 'START') {
-        startTime = new Date().getTime();
-        console.log('Detected file change. Rebuilding bundles...');
-      } else if (event.code === 'END') {
-        // finished bundling all bundles
-        const endTime = new Date().getTime();
-        console.log('Finished building bundles, time: ' +
-          ((endTime - startTime) / 1000) + 's');
-        console.log('Coping typescript definition files...');
-        postBuild().then(() => {
-          console.log('Waiting for changes...');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      } else if (event.code === 'FATAL' || event.code === 'ERROR') {
-        throw event.error;
-      }
-    });
-  };
-  preBuild()
-  .then(() => {
-    const watcher = rollup.watch([buildConfigEsm, buildConfigUmd]);
-    watchEvents(watcher);
-  }).catch((err) => {
-    throw err;
+  
+  const watcher = rollup.watch([buildConfigEsm, buildConfigUmd]);
+  let startTime;
+  watcher.on('event', (event) => {
+    if (event.code === 'START') {
+      startTime = new Date().getTime();
+      printOutput('Building bundles...');
+    } else if (event.code === 'END') {
+      // finished bundling all bundles
+      const endTime = new Date().getTime();
+      printOutput('Finished building bundles (' + ((endTime - startTime) / 1000) + 's)');
+      postBuild();
+      printOutput('Waiting for changes...');
+    } else if (event.code === 'FATAL' || event.code === 'ERROR') {
+      throw event.error;
+    }
   });
 }
 

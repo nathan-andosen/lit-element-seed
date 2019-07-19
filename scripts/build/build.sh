@@ -22,4 +22,7 @@ if [ -n "$version" ]; then
   npm --no-git-tag-version version $version
 fi
 
+# rm -rf dist
+# rm -rf component-typings
+
 node ./scripts/build/build.js

@@ -9,7 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "declaration": false,
-    "sourceMap": true
+    "sourceMap": false
   },
   "include": [
     "./src/**/*.ts",

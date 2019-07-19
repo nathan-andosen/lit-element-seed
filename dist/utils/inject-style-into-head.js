@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-18
+// lit-element-seed v0.0.2 | 2019-07-19
 /**
  * Inject a string of css styles into a style tag in the head element. This is
  * useful for style like font-face, which do not work in shadow dom's, they

@@ -8,14 +8,23 @@ const copySrc = componentTypingsDir;
 const copyDest = path.join(rootDir, 'dist');
 
 const postBuild = () => {
-  return new Promise((resolve, reject) => {
-    fse.copy(copySrc, copyDest, (err) => {
-      removeDirectories(0, [componentTypingsDir], (err) => {
-        if (err) { reject(err); return; }
-        resolve();
-      });
-    });
-  });
+  try{
+    fse.copySync(copySrc, copyDest);
+    fse.removeSync(componentTypingsDir);
+  } catch(err) {
+    console.log('Post build error');
+    console.log(err);
+  }
+  
+
+  // return new Promise((resolve, reject) => {
+  //   fse.copy(copySrc, copyDest, (err) => {
+  //     removeDirectories(0, [componentTypingsDir], (err) => {
+  //       if (err) { reject(err); return; }
+  //       resolve();
+  //     });
+  //   });
+  // });
 };
 
 module.exports = postBuild;

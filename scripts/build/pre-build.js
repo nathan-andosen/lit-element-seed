@@ -1,7 +1,6 @@
 const path = require('path');
 const rootDir = path.join(__dirname, '../../');
-const removeDirectories = require('../utils/remove-directories');
-
+const fse = require('fs-extra');
 
 /**
  * The exported pre build script function
@@ -9,17 +8,8 @@ const removeDirectories = require('../utils/remove-directories');
  * @returns
  */
 const preBuild = () => {
-  return new Promise((resolve, reject) => {
-    const dirs = [
-      path.join(rootDir, 'component-typings'),
-      path.join(rootDir, 'dist')
-    ];
-    removeDirectories(0, dirs, (err) => {
-      if (err) { reject(err); return; }
-      console.log('Done deleteing folders...');
-      resolve();
-    });
-  });
+  fse.removeSync(path.join(rootDir, 'component-typings'));
+  fse.removeSync(path.join(rootDir, 'dist'));
 };
 
 module.exports = preBuild;
