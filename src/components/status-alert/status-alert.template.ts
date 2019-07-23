@@ -5,7 +5,7 @@ import { html } from 'lit-element';
 const headerTemplate = (_this: StatusAlertComponent) =>
 html`
   <div class="header">
-    <h3 @click="${(e) => { _this.titleClick.emit(); }}">Alert!!!</h3>
+    <h3 @click="${(e) => { _this.titleClick.emit(); }}">Alert!</h3>
     <button @click="${_this.closeClick}">
       <span class="ico-cancel"></span>
     </button>

@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-19
+// lit-element-seed v0.0.2 | 2019-07-24
 (function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -3963,7 +3963,7 @@
   }
 
   function _templateObject() {
-    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">Alert!!!</h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
+    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">Alert!</h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
 
     _templateObject = function _templateObject() {
       return data;

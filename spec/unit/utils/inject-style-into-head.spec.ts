@@ -5,6 +5,10 @@ test('test the testFunc', () => {
   expect(testFunc()).toEqual(10);
 });
 
+test('test the testFunc2', () => {
+  expect(testFunc2()).toEqual(10);
+});
+
 
 
 // declare global {

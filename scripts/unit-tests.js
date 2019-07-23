@@ -3,6 +3,7 @@ const path = require('path');
 const rootDir = path.join(__dirname, '..');
 const argv = require('yargs').argv
 const debounce = require('./utils/debounce');
+const generateShieldBadge = require('./code-coverage-shield-badge');
 const watch = (argv.watch) ? true : false;
 const spawn = require('child_process').spawn;
 const npm = (process.platform === "win32" ? "npm.cmd" : "npm");
@@ -10,20 +11,26 @@ const watchDirs = [
   path.join(rootDir, 'src'),
   path.join(rootDir, 'spec', 'unit')
 ];
+let isRunningTests = false;
+let executeTestFunctionQueue = [];
 
 
+/**
+ * Compile typescript to js
+ *
+ * @returns
+ */
 const compileTs = () => {
   return new Promise((resolve, reject) => {
     const startTime = new Date().getTime();
     console.log('Compiling ts...');
     const tscSubProcess = spawn(npm, [
-      'run', 'tsc', '--', '-p', 'tsconfig.test.json'
+      'run', 'tsc', '--silent', '--', '-p', 'tsconfig.test.json'
     ], {
       stdio: 'inherit',
       cwd: rootDir
     });
     tscSubProcess.on('exit', function (code) {
-      // console.log('child process exited with code ' + code.toString());
       const endTime = new Date().getTime();
       console.log('Finished compiling ts...(' + (endTime - startTime) / 1000 + 's)');
       resolve();
@@ -35,12 +42,18 @@ const compileTs = () => {
   });
 };
 
+
+/**
+ * Run unit tests via jest
+ *
+ * @returns
+ */
 const runUnitTests = () => {
   return new Promise((resolve, reject) => {
     const startTime = new Date().getTime();
     console.log('Running unit tests...');
     const subProcess = spawn(npm, [
-      'run', 'jest', '--', '--config=spec/jest.unit.config.js'
+      'run', 'jest', '--silent', '--', '--config=spec/jest.unit.config.js'
     ], {
       stdio: 'inherit',
       cwd: rootDir
@@ -48,7 +61,6 @@ const runUnitTests = () => {
     subProcess.on('exit', function (code) {
       const endTime = new Date().getTime();
       console.log('Finished running tests...(' + (endTime - startTime) / 1000 + 's)');
-      if (watch) console.log('Watching for file changes...');
       resolve();
     });
     subProcess.on('error', function (code) {
@@ -59,30 +71,42 @@ const runUnitTests = () => {
 };
 
 
-let running = false;
-let queue = [];
-
+/**
+ * Compile typescript and run unit tests. Only do this if we are not in the 
+ * middle of performing a unit test already.
+ *
+ * @returns
+ */
 const compileTsAndExecuteTests = () => {
-  running = true;
+  isRunningTests = true;
   return compileTs()
   .then(() => {
     return runUnitTests();
   })
   .then(() => {
-    running = false;
-    if (queue.length > 0) {
-      queue[0]();
-      queue = [];
+    generateShieldBadge();
+    isRunningTests = false;
+    if (executeTestFunctionQueue.length > 0) {
+      executeTestFunctionQueue[0]();
+      executeTestFunctionQueue = [];
     }
+    if (watch) console.log('Watching for file changes...');
+    return Promise.resolve();
   })
   .catch((err) => {
     throw err;
   });
 };
 
+
+/**
+ * Start the execution of the unit tests with a debounce time.
+ * If the unit tests are already being run, we add the execution function
+ * to the queue to be ran at a later when the current running tests finish
+ */
 const startScript = debounce(() => {
-  if (running && queue.length === 0) {
-    queue.push(compileTsAndExecuteTests);
+  if (isRunningTests && executeTestFunctionQueue.length === 0) {
+    executeTestFunctionQueue.push(compileTsAndExecuteTests);
     return;
   }
   compileTsAndExecuteTests();
@@ -100,7 +124,7 @@ if (watch) {
 } else {
   compileTsAndExecuteTests()
   .then(() => {
-    console.log('Done...');
+    console.log('Done.');
   })
   .catch((err) => {
     throw err;

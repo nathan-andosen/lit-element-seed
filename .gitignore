@@ -4,6 +4,8 @@
 /tmp
 /compiled
 /out-tsc
+/spec/coverage
+coverage.shield.badge.md
 # Only exists if Bazel was run
 /bazel-out
 /_virtual

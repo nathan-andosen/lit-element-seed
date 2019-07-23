@@ -1,9 +1,9 @@
-// lit-element-seed v0.0.2 | 2019-07-19
+// lit-element-seed v0.0.2 | 2019-07-24
 import { html } from 'lit-element';
 
 const headerTemplate = (_this) => html `
   <div class="header">
-    <h3 @click="${(e) => { _this.titleClick.emit(); }}">Alert!!!</h3>
+    <h3 @click="${(e) => { _this.titleClick.emit(); }}">Alert!</h3>
     <button @click="${_this.closeClick}">
       <span class="ico-cancel"></span>
     </button>

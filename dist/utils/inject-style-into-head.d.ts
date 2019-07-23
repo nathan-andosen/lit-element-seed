@@ -7,3 +7,4 @@
  */
 export declare const injectStyleIntoHead: (style: string) => void;
 export declare const testFunc: () => number;
+export declare const testFunc2: () => number;

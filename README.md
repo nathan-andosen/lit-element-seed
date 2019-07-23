@@ -1,3 +1,5 @@
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-13.64%25-red.svg)
+
 # Lit element seed
 
 _Work in progress - Not ready for use_
@@ -98,7 +100,9 @@ This means the node process was not terminated, follow the steps below to fix it
 # Todo:
 
 * Intergrate unit & e2e tests
-  * Improve unit test script
+  * Improve generate shield badge, need to add a callback so we know when 
+  generating the badge is finished.
+  * Add in e2e tests
 * Improve build and dev
   * Increase version number when building
 

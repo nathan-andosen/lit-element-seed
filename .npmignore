@@ -5,3 +5,4 @@ tsconfig.json
 src/
 scripts/
 compiled/
+spec/
