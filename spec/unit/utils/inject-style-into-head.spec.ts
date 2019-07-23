@@ -1,4 +1,4 @@
-import { testFunc } from '../../../src/utils';
+import { testFunc, testFunc2 } from '../../../src/utils';
 // import { Page, Browser } from 'puppeteer';
 
 test('test the testFunc', () => {

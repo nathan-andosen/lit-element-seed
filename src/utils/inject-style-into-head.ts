@@ -16,3 +16,7 @@ export const injectStyleIntoHead = (style: string) => {
 export const testFunc = () => {
   return 10;
 };
+
+export const testFunc2 = () => {
+  return 10;
+};

@@ -13,15 +13,15 @@ module.exports = {
   },
   "collectCoverageFrom": [
     "**/*.js",
-    "<rootDir>/../compiled/src/**/*.js",
-    "<rootDir>/../compiled/spec/unit/**/*.js",
+    "<rootDir>/compiled/src/**/*.js",
+    "<rootDir>/compiled/spec/unit/**/*.js",
     "!**/node_modules/**",
     "!**/vendor/**"
   ],
   "collectCoverage": true,
   roots: [
-    "<rootDir>/../compiled/spec/unit",
-    "<rootDir>/../compiled/src"
+    "<rootDir>/compiled/spec/unit",
+    "<rootDir>/compiled/src"
   ],
   // roots: ["<rootDir>/../"],
   // preset: "jest-puppeteer"
