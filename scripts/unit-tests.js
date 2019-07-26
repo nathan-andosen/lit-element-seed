@@ -84,7 +84,9 @@ const compileTsAndExecuteTests = () => {
     return runUnitTests();
   })
   .then(() => {
-    generateShieldBadge();
+    return generateShieldBadge();
+  })
+  .then(() => {
     isRunningTests = false;
     if (executeTestFunctionQueue.length > 0) {
       executeTestFunctionQueue[0]();

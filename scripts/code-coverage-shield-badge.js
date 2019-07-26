@@ -9,33 +9,43 @@ var istanbul = require('istanbul');
 var shieldBadgeReporter = require('istanbul-reporter-shield-badge');
 
 const generateShieldBadge = () => {
-  console.log('Generating code coverage shield badge...');
-  var collector = new istanbul.Collector();
-  var Report = istanbul.Report;
-  istanbul.Report.register(shieldBadgeReporter);
-  var report = Report.create('shield-badge', {
-    readmeFilename: 'README.md',
-    readmeDir: path.resolve(__dirname, '..'),
-    subject: 'Test Coverage',
-    range: [60, 90]
-  });
+  return new Promise((resolve, reject) => {
+    console.log('Generating code coverage shield badge...');
+    var collector = new istanbul.Collector();
+    var Report = istanbul.Report;
+    istanbul.Report.register(shieldBadgeReporter);
+    var report = Report.create('shield-badge', {
+      readmeFilename: 'README.md',
+      readmeDir: path.resolve(__dirname, '..'),
+      subject: 'Test Coverage',
+      range: [60, 90]
+    });
 
-  try {
-    var coverageDir = path.resolve(__dirname, '..', 'spec', 'coverage');
-    fs.readdirSync(coverageDir).forEach(function (file) {
-      if (file.indexOf('cov') === 0 && file.indexOf('.json') > 0) {
-        collector.add(JSON.parse(fs.readFileSync(
-          path.resolve(coverageDir, file), 'utf8')));
-      }
-    });
-    report.on('done', function () { 
-      // console.log('Code coverage shield badge generated.')
-    });
-    report.writeReport(collector, true);
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
+    try {
+      var coverageDir = path.resolve(__dirname, '..', 'spec', 'coverage');
+      fs.readdirSync(coverageDir).forEach(function (file) {
+        if (file.indexOf('cov') === 0 && file.indexOf('.json') > 0) {
+          collector.add(JSON.parse(fs.readFileSync(
+            path.resolve(coverageDir, file), 'utf8')));
+        }
+      });
+      report.on('done', function () { 
+        // console.log('Code coverage shield badge generated.')
+      });
+
+      // TODO: add this back in when the complete event is available
+      // report.on('complete', function() {
+      //   resolve();
+      // });
+      report.writeReport(collector, true);
+
+      // TODO: remove this once we have the complete event available
+      resolve();
+    } catch (err) {
+      console.error(err.message);
+      reject(err);
+    }
+  });
 };
 
 
