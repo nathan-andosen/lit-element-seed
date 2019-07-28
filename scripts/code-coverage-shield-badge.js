@@ -33,14 +33,10 @@ const generateShieldBadge = () => {
         // console.log('Code coverage shield badge generated.')
       });
 
-      // TODO: add this back in when the complete event is available
-      // report.on('complete', function() {
-      //   resolve();
-      // });
+      report.on('complete', function() {
+        resolve();
+      });
       report.writeReport(collector, true);
-
-      // TODO: remove this once we have the complete event available
-      resolve();
     } catch (err) {
       console.error(err.message);
       reject(err);
