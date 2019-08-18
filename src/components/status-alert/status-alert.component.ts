@@ -14,6 +14,7 @@ import { event, CustomEventEmitter } from '@thenja/decorators';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
+  title: string;
   @property() footerMessage = 'I\'m the footer';
   @property() height = 50;
   @event() close: CustomEventEmitter;
@@ -28,6 +29,12 @@ export class StatusAlertComponent extends LitElement {
   constructor() {
     super();
     injectStyleIntoHead(fontFaceStyle);
+  }
+
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.title = 'Alert!';
   }
 
 
@@ -64,5 +71,7 @@ export class StatusAlertComponent extends LitElement {
 
   closeClick(e) {
     this.close.emit();
+    this.title = "Close clicked";
+    this.requestUpdate();
   }
 }

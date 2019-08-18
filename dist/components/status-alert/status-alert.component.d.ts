@@ -1,6 +1,7 @@
 import { LitElement } from 'lit-element';
 import { CustomEventEmitter } from '@thenja/decorators';
 export declare class StatusAlertComponent extends LitElement {
+    title: string;
     footerMessage: string;
     height: number;
     close: CustomEventEmitter;
@@ -11,6 +12,7 @@ export declare class StatusAlertComponent extends LitElement {
      * @memberof StatusAlertComponent
      */
     constructor();
+    connectedCallback(): void;
     /**
      * Use styles this way in your component if you want to take advantage
      * of lit-element using Constructable Stylesheets. This means the browser

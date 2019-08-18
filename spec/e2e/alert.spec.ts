@@ -1,14 +1,20 @@
+import { getElementHandle } from '../support/e2e-utilities';
 
-describe('Alert', () => {
+describe('Status Alert', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:1350/pages/alert.html');
   });
 
-  // it('should be titled "Google"', async () => {
-  //   await expect(page.title()).resolves.toMatch('Google');
-  // });
-
-  it('should put test in debug mode', async () => {
-    await jestPuppeteer.debug()
-  })
+  it('should click close button and change title', async () => {
+    try {
+      const btnElement = await getElementHandle('status-alert', 'shadowRoot',
+        'button');
+      await btnElement.click();
+      const h3Element = await getElementHandle('status-alert', 'shadowRoot',
+        'h3');
+      await expect(h3Element).toMatch('Close clicked');
+    } catch(ex) {
+      console.log(ex);
+    }
+  });
 });

@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-24
+// lit-element-seed v0.0.2 | 2019-08-18
 import { __decorate } from 'tslib';
 import { LitElement, css, html, customElement } from 'lit-element';
 

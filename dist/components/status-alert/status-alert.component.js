@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-07-24
+// lit-element-seed v0.0.2 | 2019-08-18
 import { __decorate } from 'tslib';
 import { LitElement, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';
@@ -18,6 +18,10 @@ let StatusAlertComponent = class StatusAlertComponent extends LitElement {
         this.footerMessage = 'I\'m the footer';
         this.height = 50;
         injectStyleIntoHead(fontFaceStyle);
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this.title = 'Alert!';
     }
     /**
      * Use styles this way in your component if you want to take advantage
@@ -48,6 +52,8 @@ let StatusAlertComponent = class StatusAlertComponent extends LitElement {
     }
     closeClick(e) {
         this.close.emit();
+        this.title = "Close clicked";
+        this.requestUpdate();
     }
 };
 __decorate([
@@ -65,7 +71,6 @@ __decorate([
 StatusAlertComponent = __decorate([
     customElement('status-alert')
 ], StatusAlertComponent);
-//# sourceMappingURL=status-alert.component.js.map
 
 export { StatusAlertComponent };
 //# sourceMappingURL=status-alert.component.js.map

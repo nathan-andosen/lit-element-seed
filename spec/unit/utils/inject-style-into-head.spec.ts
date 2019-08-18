@@ -10,7 +10,6 @@ test('test the testFunc2', () => {
 });
 
 
-
 // declare global {
 //   const page: Page;
 //   const browser: Browser;

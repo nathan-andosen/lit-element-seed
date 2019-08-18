@@ -6,4 +6,5 @@ module.exports = {
     ]
   },
   browserContext: 'default',
+  setupFilesAfterEnv: ["expect-puppeteer"]
 };
