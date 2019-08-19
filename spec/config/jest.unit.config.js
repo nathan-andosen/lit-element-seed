@@ -2,7 +2,7 @@
 const {defaults} = require('jest-config');
 
 module.exports = {
-  "rootDir": '../',
+  "rootDir": '../../',
   "collectCoverage": true,
   "coverageReporters": ["html", "text-summary", "json"],
   "coverageDirectory": "spec/coverage",

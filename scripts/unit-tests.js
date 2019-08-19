@@ -53,7 +53,7 @@ const runUnitTests = () => {
     const startTime = new Date().getTime();
     console.log('Running unit tests...');
     const subProcess = spawn(npm, [
-      'run', 'jest', '--silent', '--', '--config=spec/jest.unit.config.js'
+      'run', 'jest', '--silent', '--', '--config=spec/config/jest.unit.config.js'
     ], {
       stdio: 'inherit',
       cwd: rootDir

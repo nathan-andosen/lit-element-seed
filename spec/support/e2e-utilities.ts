@@ -14,7 +14,7 @@ import { JSHandle, ElementHandle } from "puppeteer";
  * @param {...string[]} args
  * @returns {Promise<JSHandle>}
  */
-export async function getElementHandle(...args: string[])
+export async function getDomElementHandle(...args: string[])
 : Promise<ElementHandle> {
   let query = '';
   for(let i = 0; i < args.length; i++) {

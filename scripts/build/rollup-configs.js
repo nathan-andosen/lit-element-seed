@@ -133,7 +133,8 @@ const buildConfigEsm = {
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name]/index.js',
     format: 'esm',
-    sourcemap: true,
+    // has to be false for now, see README file for more info
+    sourcemap: false,
     banner: banner
   },
   watch: watchOptions,
@@ -158,6 +159,7 @@ const buildConfigEsm = {
         '.scss': '.js',
         '.css': '.js'
       },
+      sourceMap: false // does not seem to be working
     }),
 
     // process scss / css files

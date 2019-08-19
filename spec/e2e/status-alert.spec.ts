@@ -1,4 +1,4 @@
-import { getElementHandle } from '../support/e2e-utilities';
+import { getDomElementHandle } from '../support/e2e-utilities';
 
 describe('Status Alert', () => {
   beforeAll(async () => {
@@ -7,10 +7,10 @@ describe('Status Alert', () => {
 
   it('should click close button and change title', async () => {
     try {
-      const btnElement = await getElementHandle('status-alert', 'shadowRoot',
+      const btnElement = await getDomElementHandle('status-alert', 'shadowRoot',
         'button');
       await btnElement.click();
-      const h3Element = await getElementHandle('status-alert', 'shadowRoot',
+      const h3Element = await getDomElementHandle('status-alert', 'shadowRoot',
         'h3');
       await expect(h3Element).toMatch('Close clicked');
     } catch(ex) {

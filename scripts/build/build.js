@@ -68,11 +68,9 @@ if (mode === 'dev') {
 // Build all the required bundles
 if (mode === 'build') {
   const startTime = new Date().getTime();
-  preBuild()
-  .then(() => {
-    console.log('Building ES bundle...');
-    return buildRollupBundle(buildConfigEsm);
-  })
+  preBuild();
+  console.log('Building ES bundle...');
+  return buildRollupBundle(buildConfigEsm)
   .then(() => {
     console.log('Building UMD bundle...');
     return buildRollupBundle(buildConfigUmd);

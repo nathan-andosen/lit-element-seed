@@ -1,4 +1,4 @@
-![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-13.64%25-red.svg)
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-12.86%25-red.svg)
 
 # Lit element seed
 
@@ -57,9 +57,12 @@ _More documentation required..._
 
 ### Tests & e2e
 
+> Checkout this __[helpful guide](spec/README.md)__ on writing unit & e2e tests.
+
 Unit testing is done via [Jest](https://jestjs.io/).
 
 E2e testing is done via [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md#toMatch)
+
 
 ### Visual studio code setup
 
@@ -104,6 +107,12 @@ export class StatusAlertComponent extends LitElement {
 ### IE11, global styles leak in to your custom elememt
 
 In IE11, if you have a global style set, for example: ``p { font-style: italic; }`` it will leak into your custom element and style any p tags inside. I dont think there is any current solution for this, issue reported: [stackoverflow](https://stackoverflow.com/questions/57505188/lit-element-in-ie11-css-style-outside-custom-element-affects-style-inside), [github](https://github.com/Polymer/lit-element/issues/777).
+
+### Source maps not generating for ES6 module build
+
+Should be available once this [issue](https://github.com/rollup/rollup/issues/2847) is fixed.
+
+For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-plugin-rename-extensions) to rename ts to js as we are using the _preserveModules_ config option in rollup, and this does not currently allow use to change file extensions.
 
 # Troubleshooting
 
