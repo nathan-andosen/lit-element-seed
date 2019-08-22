@@ -1,4 +1,4 @@
-![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-12.86%25-red.svg)
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-12.12%25-red.svg)
 
 # Lit element seed
 
@@ -125,12 +125,12 @@ This means the node process was not terminated, follow the steps below to fix it
 
 # Todo:
 
-* Intergrate unit & e2e tests
-  * Add unit tests (setup is done, need to write some tests)
-  * Add in e2e tests (setup is done, need to write some tests)
-* Improve build and dev
-  * Increase version number when building
-  * Add build process to readme docs
+* [x] Add in e2e tests
+* [ ] Add in unit tests
+  * [ ] Need to use rollup to compile the ts into js, as we are importing custom files like scss
+* [ ] Improve build and dev process
+  * [ ] Increase version number when building
+  * [ ] Add build process to readme docs
 
 # License
 

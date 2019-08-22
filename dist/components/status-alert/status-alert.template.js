@@ -22,5 +22,6 @@ const footerTemplate = (_this) => html `
     <h6>${_this.footerMessage}</h6>
   </div>
 `;
+//# sourceMappingURL=status-alert.template.js.map
 
 export { footerTemplate, mainTemplate };

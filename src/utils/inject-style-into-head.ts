@@ -11,12 +11,3 @@ export const injectStyleIntoHead = (style: string) => {
   styleEl.innerHTML = style;
   document.head.appendChild(styleEl);
 };
-
-
-export const testFunc = () => {
-  return 10;
-};
-
-export const testFunc2 = () => {
-  return 10;
-};

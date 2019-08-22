@@ -1,17 +1,7 @@
-import { testFunc, testFunc2 } from '../../../src/utils';
-// import { Page, Browser } from 'puppeteer';
+import { injectStyleIntoHead } from '../../../src/utils';
 
-test('test the testFunc', () => {
-  expect(testFunc()).toEqual(10);
+test('should inject style into document head', () => {
+  const style  = 'p { color: #000; }';
+  injectStyleIntoHead(style);
+  expect(document.head.innerHTML).toEqual('<style>p { color: #000; }</style>');
 });
-
-test('test the testFunc2', () => {
-  expect(testFunc2()).toEqual(10);
-});
-
-
-// declare global {
-//   const page: Page;
-//   const browser: Browser;
-//   const jestPuppeteer: any;
-// }
