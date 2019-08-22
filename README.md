@@ -61,7 +61,7 @@ _More documentation required..._
 
 Unit testing is done via [Jest](https://jestjs.io/).
 
-E2e testing is done via [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md#toMatch)
+E2e testing is done via [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
 
 
 ### Visual studio code setup

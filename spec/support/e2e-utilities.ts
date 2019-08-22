@@ -1,4 +1,4 @@
-import { JSHandle, ElementHandle } from "puppeteer";
+import { ElementHandle } from "puppeteer";
 
 /**
  * Get an element handle. Pass in query selectors, if you need to access
@@ -28,6 +28,45 @@ export async function getDomElementHandle(...args: string[])
   return jsHandle.asElement();
 }
 
-export function evaluateHandle(query: string): Promise<JSHandle> {
-  return page.evaluateHandle(<any>query);
+
+/**
+ * Args for the listenForEventOnElement() function
+ * 
+ * selector - The selector to select the element from the page object, this is
+ *    the element that will listen to the event
+ * eventName - The name of the event you want to listen for
+ * executeEventFn - The function to execute / fire the event
+ * resolveData - The data to pass to the promise resolve
+ *
+ * @export
+ * @interface IListenForEventOnElementArgs
+ */
+export interface IListenForEventOnElementArgs {
+  selector: string;
+  eventName: string;
+  executeEventFn: () => void;
+  resolveData?: any;
+}
+
+
+/**
+ * Listen for an event on an element and fire that event, the listener will
+ * resolve the promise.
+ *
+ * @export
+ * @param {IListenForEventOnElementArgs} args
+ * @returns
+ */
+export function listenForEventOnElement(args: IListenForEventOnElementArgs) {
+  return new Promise((resolve, reject) => {
+    page.$eval(args.selector, (node, eventName, resolveData) => {
+      return new Promise((resolve, reject) => {
+        node.addEventListener(eventName, () => {
+          resolve(resolveData);
+        });
+      });
+    }, args.eventName, args.resolveData)
+    .then((result) => { resolve(result); }).catch((err) => { reject(err); });
+    args.executeEventFn();
+  });
 }
