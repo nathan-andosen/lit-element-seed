@@ -1,7 +1,10 @@
 import { injectStyleIntoHead } from '../../../src/utils';
 
-test('should inject style into document head', () => {
-  const style  = 'p { color: #000; }';
-  injectStyleIntoHead(style);
-  expect(document.head.innerHTML).toEqual('<style>p { color: #000; }</style>');
+describe('injectStyleIntoHead', () => {
+  it('should inject style into document head', () => {
+    const style  = 'p { color: #000; }';
+    injectStyleIntoHead(style);
+    expect(document.head.innerHTML)
+      .toContain('<style>p { color: #000; }</style>');
+  });
 });

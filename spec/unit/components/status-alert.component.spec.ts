@@ -1,9 +1,11 @@
-import { StatusAlertComponent } from '../../../src/components/status-alert';
+// // import { StatusAlertComponent } from '../../../src';
+// import { StatusAlertComponent } from '../../../src';
 
-describe('Status Alert Component', () => {
+// describe('Status Alert Component', () => {
 
-  test('should test something', () => {
-    const comp = new StatusAlertComponent();
-    console.log(document.head.innerHTML);
-  });
-});
+//   it('should test something', () => {
+//     const comp = new StatusAlertComponent();
+//     expect(comp).toBeDefined();
+//   });
+// });
+

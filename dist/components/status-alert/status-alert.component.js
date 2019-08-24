@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-08-19
+// lit-element-seed v0.0.2 | 2019-08-24
 import { __decorate } from 'tslib';
 import { LitElement, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';
@@ -71,6 +71,5 @@ __decorate([
 StatusAlertComponent = __decorate([
     customElement('status-alert')
 ], StatusAlertComponent);
-//# sourceMappingURL=status-alert.component.js.map
 
 export { StatusAlertComponent };

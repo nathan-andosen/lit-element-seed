@@ -4,6 +4,9 @@ const rootDir = path.join(__dirname, '..');
 const argv = require('yargs').argv
 const debounce = require('./utils/debounce');
 const generateShieldBadge = require('./code-coverage-shield-badge');
+const buildRollupBundle = require('./utils/build-rollup-bundle');
+const fse = require('fs-extra');
+const buildConfigs = require('./build/rollup-configs.js');
 const watch = (argv.watch) ? true : false;
 const spawn = require('child_process').spawn;
 const npm = (process.platform === "win32" ? "npm.cmd" : "npm");
@@ -13,19 +16,27 @@ const watchDirs = [
 ];
 let isRunningTests = false;
 let executeTestFunctionQueue = [];
+let karmaStarted = false;
+const buildConfigEsm = buildConfigs.esm;
+
+const compileSrcTs = () => {
+  buildConfigEsm.output.dir = './compiled/src';
+  return buildRollupBundle(buildConfigEsm)
+  .then(() => {
+    return Promise.resolve();
+  })
+  .catch((err) => {
+    return Promise.reject(err);
+  });
+};
 
 
-/**
- * Compile typescript to js
- *
- * @returns
- */
-const compileTs = () => {
+const compileSpecTs = () => {
   return new Promise((resolve, reject) => {
     const startTime = new Date().getTime();
     console.log('Compiling ts...');
     const tscSubProcess = spawn(npm, [
-      'run', 'tsc', '--silent', '--', '-p', 'tsconfig.test.json'
+      'run', 'tsc', '--silent', '--', '-p', 'tsconfig.unit.json'
     ], {
       stdio: 'inherit',
       cwd: rootDir
@@ -44,17 +55,54 @@ const compileTs = () => {
 
 
 /**
+ * Compile typescript to js
+ *
+ * @returns
+ */
+const compileTs = () => {
+  return compileSpecTs()
+  .then(() => {
+    return compileSrcTs();
+  })
+  .catch((err) => {
+    return Promise.reject(err);
+  });
+};
+
+
+/**
  * Run unit tests via jest
  *
  * @returns
  */
 const runUnitTests = () => {
+  // return new Promise((resolve, reject) => {
+  //   const startTime = new Date().getTime();
+  //   console.log('Running unit tests...');
+  //   const subProcess = spawn(npm, [
+  //     'run', 'jest', '--silent', '--', '--config=spec/config/jest.unit.config.js'
+  //   ], {
+  //     stdio: 'inherit',
+  //     cwd: rootDir
+  //   });
+  //   subProcess.on('exit', function (code) {
+  //     const endTime = new Date().getTime();
+  //     console.log('Finished running tests...(' + (endTime - startTime) / 1000 + 's)');
+  //     resolve();
+  //   });
+  //   subProcess.on('error', function (code) {
+  //     console.log('Error running tests: ' + code.toString());
+  //     reject();
+  //   });
+  // });
+
   return new Promise((resolve, reject) => {
+    if (karmaStarted) { resolve(); return; }
+    karmaStarted = true;
     const startTime = new Date().getTime();
     console.log('Running unit tests...');
-    const subProcess = spawn(npm, [
-      'run', 'jest', '--silent', '--', '--config=spec/config/jest.unit.config.js'
-    ], {
+    let cmd = (watch) ? ['run', 'karma'] : ['run', 'karma:single'];
+    const subProcess = spawn(npm, cmd, {
       stdio: 'inherit',
       cwd: rootDir
     });
@@ -63,10 +111,16 @@ const runUnitTests = () => {
       console.log('Finished running tests...(' + (endTime - startTime) / 1000 + 's)');
       resolve();
     });
+    subProcess.on('close', function (code) {
+      console.log('close... ' + code.toString());
+      
+    });
     subProcess.on('error', function (code) {
       console.log('Error running tests: ' + code.toString());
       reject();
     });
+    // if watching, the subProcess will never exit as karma is also watching
+    if (watch) resolve();
   });
 };
 
@@ -81,6 +135,7 @@ const compileTsAndExecuteTests = () => {
   isRunningTests = true;
   return compileTs()
   .then(() => {
+    // return Promise.resolve();
     return runUnitTests();
   })
   .then(() => {
@@ -124,6 +179,7 @@ if (watch) {
     startScript();
   });
 } else {
+  fse.removeSync(path.join(rootDir, 'compiled'));
   compileTsAndExecuteTests()
   .then(() => {
     console.log('Done.');

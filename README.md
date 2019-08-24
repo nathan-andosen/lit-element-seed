@@ -1,4 +1,4 @@
-![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-12.12%25-red.svg)
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-100%25-brightgreen.svg)
 
 # Lit element seed
 
@@ -20,7 +20,7 @@ Seed app to build lit element web components.
   * Ability to use npm link while developing your components. Useful when you want to see your changes in realtime in another application.
 * __Unit & e2e tests__
 
-## Not supported
+### Not supported
 
 * Hot module reloading with the dev server
 * Component lazy loading
@@ -42,6 +42,10 @@ cd my-component-name
 git remote rm origin
 ```
 
+# Framework integrations
+
+_Todo_
+
 # Development
 
 _More documentation required..._
@@ -53,24 +57,20 @@ _More documentation required..._
 
 ``npm run test -- --watch`` - Run unit tests and watch for file changes
 
-``npm run e2e`` - Run the end 2 end tests. __IMPORTANT:__ You must have the dev server running, via the command: _npm run dev_
+``npm run e2e`` - Run the end 2 end tests. __IMPORTANT:__ You must have the dev server running, via the command: ``npm run dev``
 
-### Tests & e2e
+## Unit tests / e2e
 
 > Checkout this __[helpful guide](spec/README.md)__ on writing unit & e2e tests.
 
-Unit testing is done via [Jest](https://jestjs.io/).
+__Unit testing__ is done via [Karma](https://karma-runner.github.io/latest/index.html) & [Jasmine](https://jasmine.github.io/). We cant use Jest for unit tests as Jest runs in Node using jsdom, this setup does not support web components. To unit test web components, we have to do it in a real browser, that is why Karma & Jasmine was choosen.
 
-E2e testing is done via [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
+__E2e testing__ is done via [Jest](https://jestjs.io/) & [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
 
 
 ### Visual studio code setup
 
 * Install the lit-html plugin
-
-### Useful links:
-
-* https://developers.google.com/web/fundamentals/web-components/
 
 ## Distribution builds
 
@@ -78,9 +78,7 @@ E2e testing is done via [jest-puppeteer](https://github.com/smooth-code/jest-pup
 
 __-v__ - _(Optional)_ Either __patch__, __minor__ or __major__. Increases the version number in the package.json file.
 
-# Framework integrations
 
-_Todo_
 
 # Known issues & Important notes
 
@@ -114,20 +112,16 @@ Should be available once this [issue](https://github.com/rollup/rollup/issues/28
 
 For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-plugin-rename-extensions) to rename ts to js as we are using the _preserveModules_ config option in rollup, and this does not currently allow use to change file extensions.
 
-# Troubleshooting
+# Links:
 
-### listen EADDRINUSE: address already in use :::35729
-
-This means the node process was not terminated, follow the steps below to fix it.
-
-* First, find the PID, type the command ``lsof -i tcp:35729``
-* Then type ``kill -9 <pid>``
+* [Web component fundamentals](https://developers.google.com/web/fundamentals/web-components/)
 
 # Todo:
 
 * [x] Add in e2e tests
 * [ ] Add in unit tests
-  * [ ] Need to use rollup to compile the ts into js, as we are importing custom files like scss
+  * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
+  * [ ] Setup watch for unit tests
 * [ ] Improve build and dev process
   * [ ] Increase version number when building
   * [ ] Add build process to readme docs
