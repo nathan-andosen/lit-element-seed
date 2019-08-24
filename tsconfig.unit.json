@@ -13,7 +13,6 @@
     "sourceMap": false
   },
   "include": [
-    "./src/**/*.ts",
     "./spec/**/*.ts"
   ]
 }

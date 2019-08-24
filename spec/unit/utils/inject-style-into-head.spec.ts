@@ -8,5 +8,3 @@ describe('injectStyleIntoHead', () => {
       .toContain('<style>p { color: #000; }</style>');
   });
 });
-
-
