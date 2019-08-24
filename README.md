@@ -2,7 +2,7 @@
 
 # Lit element seed
 
-_Work in progress - Not ready for use_
+:heavy_exclamation_mark: _Work in progress - Not ready for use_
 
 Seed app to build lit element web components.
 
@@ -13,6 +13,7 @@ Seed app to build lit element web components.
 * __Inline font icons:__ Base64 encode font icons into the distributed file
 * __ES6 distribution:__ Components distributed as es6 modules
   * A single es5 umd bundle is also built
+  * Builds & bundles are done using [rollupjs](https://rollupjs.org/guide/en/)
 * __IE11 support__
   * requires webcomponentsjs polyfills. _(refer to the ./src/index.html for a reference)_
 * __Useful decorators:__ Extra decorators to reduce repeated code & keep code clean
