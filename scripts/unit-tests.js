@@ -4,6 +4,9 @@ const rootDir = path.join(__dirname, '..');
 const argv = require('yargs').argv
 const debounce = require('./utils/debounce');
 const generateShieldBadge = require('./code-coverage-shield-badge');
+const buildRollupBundle = require('./utils/build-rollup-bundle');
+const fse = require('fs-extra');
+const buildConfigs = require('./build/rollup-configs.js');
 const watch = (argv.watch) ? true : false;
 const spawn = require('child_process').spawn;
 const npm = (process.platform === "win32" ? "npm.cmd" : "npm");
@@ -14,13 +17,21 @@ const watchDirs = [
 let isRunningTests = false;
 let executeTestFunctionQueue = [];
 
+const buildConfigEsm = buildConfigs.esm;
 
-/**
- * Compile typescript to js
- *
- * @returns
- */
-const compileTs = () => {
+const compileSrcTs = () => {
+  buildConfigEsm.output.dir = './compiled/src';
+  return buildRollupBundle(buildConfigEsm)
+  .then(() => {
+    return Promise.resolve();
+  })
+  .catch((err) => {
+    return Promise.reject(err);
+  });
+};
+
+
+const compileSpecTs = () => {
   return new Promise((resolve, reject) => {
     const startTime = new Date().getTime();
     console.log('Compiling ts...');
@@ -39,6 +50,22 @@ const compileTs = () => {
       console.log('Error compiling typescript: ' + code.toString());
       reject();
     });
+  });
+};
+
+
+/**
+ * Compile typescript to js
+ *
+ * @returns
+ */
+const compileTs = () => {
+  return compileSpecTs()
+  .then(() => {
+    return compileSrcTs();
+  })
+  .catch((err) => {
+    return Promise.reject(err);
   });
 };
 
@@ -81,7 +108,8 @@ const compileTsAndExecuteTests = () => {
   isRunningTests = true;
   return compileTs()
   .then(() => {
-    return runUnitTests();
+    return Promise.resolve();
+    // return runUnitTests();
   })
   .then(() => {
     return generateShieldBadge();
@@ -124,6 +152,7 @@ if (watch) {
     startScript();
   });
 } else {
+  fse.removeSync(path.join(rootDir, 'compiled'));
   compileTsAndExecuteTests()
   .then(() => {
     console.log('Done.');

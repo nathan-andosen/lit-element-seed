@@ -1,4 +1,4 @@
-![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-12.12%25-red.svg)
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-70.97%25-yellow.svg)
 
 # Lit element seed
 
