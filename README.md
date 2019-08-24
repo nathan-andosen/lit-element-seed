@@ -120,7 +120,8 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 
 * [x] Add in e2e tests
 * [ ] Add in unit tests
-  * [ ] Need to use rollup to compile the ts into js, as we are importing custom files like scss
+  * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
+  * [ ] Setup watch for unit tests
 * [ ] Improve build and dev process
   * [ ] Increase version number when building
   * [ ] Add build process to readme docs
