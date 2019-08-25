@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-08-24
+// lit-element-seed v0.0.2 | 2019-08-25
 (function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -4056,7 +4056,7 @@
   var headerTemplate = function headerTemplate(_this) {
     return html(_templateObject(), function (e) {
       _this.titleClick.emit();
-    }, _this.title, _this.closeClick);
+    }, _this.titleLbl, _this.closeClick);
   };
 
   var mainTemplate = function mainTemplate(_this) {
@@ -4174,6 +4174,7 @@
       var _this;
 
       _this = _LitElement.call(this) || this;
+      _this.titleLbl = 'Alert!';
       _this.footerMessage = 'I\'m the footer';
       _this.height = 50;
       injectStyleIntoHead(css$2);
@@ -4183,9 +4184,9 @@
     var _proto = StatusAlertComponent.prototype;
 
     _proto.connectedCallback = function connectedCallback() {
+      // if you use custom element functions / hooks, you must use super to call
+      // the parents hook as well
       _LitElement.prototype.connectedCallback.call(this);
-
-      this.title = 'Alert!';
     }
     /**
      * Use styles this way in your component if you want to take advantage
@@ -4257,7 +4258,7 @@
     _inheritsLoose(FancyButtonComponent, _LitElement);
 
     function FancyButtonComponent() {
-      return _LitElement.call(this) || this;
+      return _LitElement.apply(this, arguments) || this;
     }
 
     var _proto = FancyButtonComponent.prototype;

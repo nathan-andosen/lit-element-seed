@@ -1,7 +1,14 @@
 // Karma configuration
 // Generated on Sat Aug 24 2019 15:20:59 GMT+1000 (Australian Eastern Standard Time)
 
+console.log('KARMA CONFIG : ' + process.env.MODE);
+
+const inBrowser = (process.env.MODE && process.env.MODE === 'browser');
+
 module.exports = function(config) {
+
+  const browsers = (inBrowser) ? [ 'Chrome' ] : [ 'ChromeHeadless' ];
+
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -56,7 +63,7 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: [
-      'progress',
+      'dots',
       // 'coverage'
       'coverage-istanbul'
     ],
@@ -82,20 +89,20 @@ module.exports = function(config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, 'spec', 'coverage'),
       reports: ['html', 'text-summary', 'json'],
-      combineBrowserReports: true,
-      skipFilesWithNoCoverage: false,
+      // combineBrowserReports: true,
+      // skipFilesWithNoCoverage: false,
       thresholds: {
         statements: 80,
         lines: 80,
         branches: 80,
         functions: 80
       },
-      instrumentation: {
-        all: true,
-        include: [
-          require('path').join(__dirname, 'compiled', 'src', '**', '*.js')
-        ],
-      }
+      // instrumentation: {
+      //   all: true,
+      //   include: [
+      //     require('path').join(__dirname, 'compiled', 'src', '**', '*.js')
+      //   ],
+      // }
     },
 
 
@@ -118,8 +125,14 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: browsers,
 
+    customLaunchers: {
+      MyChromeHeadless: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -128,5 +141,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  });
 }

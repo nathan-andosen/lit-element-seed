@@ -1,4 +1,4 @@
-![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-100%25-brightgreen.svg)
+![Test Coverage-shield-badge-1](https://img.shields.io/badge/Test%20Coverage-96.67%25-brightgreen.svg)
 
 # Lit element seed
 
@@ -54,19 +54,22 @@ _More documentation required..._
 
 ``npm run dev`` - Run this command when developing your components. It will start a dev server at http://localhost:1350/ and watch for file changes.
 
-``npm run test`` - Run unit tests
-
-``npm run test -- --watch`` - Run unit tests and watch for file changes
-
-``npm run e2e`` - Run the end 2 end tests. __IMPORTANT:__ You must have the dev server running, via the command: ``npm run dev``
 
 ## Unit tests / e2e
 
 > Checkout this __[helpful guide](spec/README.md)__ on writing unit & e2e tests.
 
-__Unit testing__ is done via [Karma](https://karma-runner.github.io/latest/index.html) & [Jasmine](https://jasmine.github.io/). We cant use Jest for unit tests as Jest runs in Node using jsdom, this setup does not support web components. To unit test web components, we have to do it in a real browser, that is why Karma & Jasmine was choosen.
+__``npm run test``__ - Run unit tests.
 
-__E2e testing__ is done via [Jest](https://jestjs.io/) & [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
+* __Parameters__
+  * __-w__ _(optional)_ - Watch for file changes
+  * __-b__ _(optional)_ - Run in a browser, default is headless chrome.
+
+__``npm run e2e``__ - Run the end 2 end tests. (__IMPORTANT:__ You must have the dev server running, via the command: __``npm run dev``__)
+
+__Unit tests__ are done via [Karma](https://karma-runner.github.io/latest/index.html) & [Jasmine](https://jasmine.github.io/). We cant use Jest for unit tests as Jest runs in Node using jsdom, this setup does not support web components. To unit test web components, we have to do it in a real browser, that is why Karma & Jasmine was choosen.
+
+__E2e tests__ are done via [Jest](https://jestjs.io/) & [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
 
 
 ### Visual studio code setup
@@ -119,13 +122,16 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 
 # Todo:
 
-* [x] Add in e2e tests
-* [ ] Add in unit tests
+* [ ] Add in e2e tests
+  * [ ] Add ability to use headless chrome
+* [x] Add in unit tests
   * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
-  * [ ] Setup watch for unit tests
+  * [x] Setup watch for unit tests
+  * [x] Add ability to use headless chrome
 * [ ] Improve build and dev process
   * [ ] Increase version number when building
   * [ ] Add build process to readme docs
+* [ ] Add tslint
 
 # License
 

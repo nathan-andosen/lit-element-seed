@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-08-24
+// lit-element-seed v0.0.2 | 2019-08-25
 /**
  * Inject a string of css styles into a style tag in the head element. This is
  * useful for style like font-face, which do not work in shadow dom's, they
@@ -11,5 +11,6 @@ const injectStyleIntoHead = (style) => {
     styleEl.innerHTML = style;
     document.head.appendChild(styleEl);
 };
+//# sourceMappingURL=inject-style-into-head.js.map
 
 export { injectStyleIntoHead };

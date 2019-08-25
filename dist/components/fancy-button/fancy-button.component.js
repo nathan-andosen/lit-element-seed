@@ -1,11 +1,8 @@
-// lit-element-seed v0.0.2 | 2019-08-24
+// lit-element-seed v0.0.2 | 2019-08-25
 import { __decorate } from 'tslib';
 import { LitElement, css, html, customElement } from 'lit-element';
 
 let FancyButtonComponent = class FancyButtonComponent extends LitElement {
-    constructor() {
-        super();
-    }
     static get styles() {
         return css `
       button {

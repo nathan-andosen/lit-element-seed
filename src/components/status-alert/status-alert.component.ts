@@ -14,7 +14,8 @@ import { event, CustomEventEmitter } from '@thenja/decorators';
 
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
-  title: string;
+  titleLbl: string = 'Alert!';
+
   @property() footerMessage = 'I\'m the footer';
   @property() height = 50;
   @event() close: CustomEventEmitter;
@@ -33,8 +34,9 @@ export class StatusAlertComponent extends LitElement {
 
 
   connectedCallback() {
+    // if you use custom element functions / hooks, you must use super to call
+    // the parents hook as well
     super.connectedCallback();
-    this.title = 'Alert!';
   }
 
 

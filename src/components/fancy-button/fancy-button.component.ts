@@ -8,11 +8,6 @@ import {
 @customElement('fancy-button')
 export class FancyButtonComponent extends LitElement {
 
-  constructor() {
-    super();
-  }
-
-
   static get styles() {
     return css`
       button {

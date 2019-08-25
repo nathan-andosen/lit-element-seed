@@ -7,7 +7,8 @@ const generateShieldBadge = require('./code-coverage-shield-badge');
 const buildRollupBundle = require('./utils/build-rollup-bundle');
 const fse = require('fs-extra');
 const buildConfigs = require('./build/rollup-configs.js');
-const watch = (argv.watch) ? true : false;
+const watch = (argv.w) ? true : false;
+const inBrowser = (argv.b) ? true : false;
 const spawn = require('child_process').spawn;
 const npm = (process.platform === "win32" ? "npm.cmd" : "npm");
 const watchDirs = [
@@ -19,6 +20,13 @@ let executeTestFunctionQueue = [];
 let karmaStarted = false;
 const buildConfigEsm = buildConfigs.esm;
 
+
+/**
+ * We have to use rollupjs to compile the src directory, as the components
+ * have scss style imports which require postcss to import
+ *
+ * @returns
+ */
 const compileSrcTs = () => {
   buildConfigEsm.output.dir = './compiled/src';
   return buildRollupBundle(buildConfigEsm)
@@ -31,10 +39,13 @@ const compileSrcTs = () => {
 };
 
 
+/**
+ * To compile the spec directory, we use the typescript compiler
+ *
+ * @returns
+ */
 const compileSpecTs = () => {
   return new Promise((resolve, reject) => {
-    const startTime = new Date().getTime();
-    console.log('Compiling ts...');
     const tscSubProcess = spawn(npm, [
       'run', 'tsc', '--silent', '--', '-p', 'tsconfig.unit.json'
     ], {
@@ -42,8 +53,6 @@ const compileSpecTs = () => {
       cwd: rootDir
     });
     tscSubProcess.on('exit', function (code) {
-      const endTime = new Date().getTime();
-      console.log('Finished compiling ts...(' + (endTime - startTime) / 1000 + 's)');
       resolve();
     });
     tscSubProcess.on('error', function (code) {
@@ -60,48 +69,34 @@ const compileSpecTs = () => {
  * @returns
  */
 const compileTs = () => {
+  const startTime = new Date().getTime();
+  console.log('Compiling components & specs...');
   return compileSpecTs()
   .then(() => {
     return compileSrcTs();
   })
-  .catch((err) => {
-    return Promise.reject(err);
-  });
+  .then(() => {
+    const endTime = new Date().getTime();
+    console.log('Finished...(' + (endTime - startTime) / 1000 + 's)');
+    return Promise.resolve();
+  })
+  .catch((err) => { return Promise.reject(err); });
 };
 
 
 /**
- * Run unit tests via jest
+ * Run unit tests via karma
  *
  * @returns
  */
 const runUnitTests = () => {
-  // return new Promise((resolve, reject) => {
-  //   const startTime = new Date().getTime();
-  //   console.log('Running unit tests...');
-  //   const subProcess = spawn(npm, [
-  //     'run', 'jest', '--silent', '--', '--config=spec/config/jest.unit.config.js'
-  //   ], {
-  //     stdio: 'inherit',
-  //     cwd: rootDir
-  //   });
-  //   subProcess.on('exit', function (code) {
-  //     const endTime = new Date().getTime();
-  //     console.log('Finished running tests...(' + (endTime - startTime) / 1000 + 's)');
-  //     resolve();
-  //   });
-  //   subProcess.on('error', function (code) {
-  //     console.log('Error running tests: ' + code.toString());
-  //     reject();
-  //   });
-  // });
-
   return new Promise((resolve, reject) => {
     if (karmaStarted) { resolve(); return; }
     karmaStarted = true;
     const startTime = new Date().getTime();
-    console.log('Running unit tests...');
-    let cmd = (watch) ? ['run', 'karma'] : ['run', 'karma:single'];
+    console.log('Running karam unit tests...');
+    let cmd = (watch) ? ['run', 'karma:watch'] : ['run', 'karma:single'];
+    if (inBrowser) process.env.MODE = 'browser';
     const subProcess = spawn(npm, cmd, {
       stdio: 'inherit',
       cwd: rootDir
@@ -110,10 +105,6 @@ const runUnitTests = () => {
       const endTime = new Date().getTime();
       console.log('Finished running tests...(' + (endTime - startTime) / 1000 + 's)');
       resolve();
-    });
-    subProcess.on('close', function (code) {
-      console.log('close... ' + code.toString());
-      
     });
     subProcess.on('error', function (code) {
       console.log('Error running tests: ' + code.toString());
@@ -135,11 +126,11 @@ const compileTsAndExecuteTests = () => {
   isRunningTests = true;
   return compileTs()
   .then(() => {
-    // return Promise.resolve();
     return runUnitTests();
   })
   .then(() => {
-    return generateShieldBadge();
+    if (!watch) return generateShieldBadge();
+    return Promise.resolve();
   })
   .then(() => {
     isRunningTests = false;
@@ -147,7 +138,6 @@ const compileTsAndExecuteTests = () => {
       executeTestFunctionQueue[0]();
       executeTestFunctionQueue = [];
     }
-    if (watch) console.log('Watching for file changes...');
     return Promise.resolve();
   })
   .catch((err) => {
@@ -171,6 +161,7 @@ const startScript = debounce(() => {
 
 
 if (watch) {
+  fse.removeSync(path.join(rootDir, 'compiled'));
   const watcher = chokidar.watch(watchDirs);
   watcher.on('ready', () => {
     compileTsAndExecuteTests();

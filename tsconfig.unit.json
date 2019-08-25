@@ -10,9 +10,16 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "declaration": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "types": [
+      "jasmine",
+      "node",
+      "puppeteer",
+      "jest-environment-puppeteer"
+    ]
   },
   "include": [
-    "./spec/**/*.ts"
+    "./spec/**/*.ts",
+    "./src/**/*.ts"
   ]
 }

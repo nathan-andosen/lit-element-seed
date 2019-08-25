@@ -11,7 +11,7 @@
     "test": "node ./scripts/unit-tests.js",
     "e2e": "bash ./scripts/e2e-tests.sh",
     "karma:single": "karma start karma.conf.js --single-run",
-    "karma": "karma start karma.conf.js",
+    "karma:watch": "karma start karma.conf.js",
     "tsc": "tsc",
     "jest": "jest"
   },
@@ -41,6 +41,7 @@
     "@betit/rollup-plugin-rename-extensions": "0.0.4",
     "@open-wc/karma-esm": "^2.4.3",
     "@types/expect-puppeteer": "^3.3.1",
+    "@types/jasmine": "^3.4.0",
     "@types/jest": "^24.0.15",
     "@types/jest-environment-puppeteer": "^4.3.0",
     "@types/puppeteer": "^1.19.1",
