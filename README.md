@@ -132,7 +132,9 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 # Todo:
 
 * [ ] Add in e2e tests
-  * [ ] Add ability to use headless chrome
+  * [ ] Move the e2e-tests shell script to nodejs script
+  * [ ] Add ability to use headless chrome as parameter (npm run e2e -- -headless)
+  * [ ] Add ability to set slowmo as a parameter (npm run e2e -- -slowmo 300)
 * [x] Add in unit tests
   * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
   * [x] Setup watch for unit tests

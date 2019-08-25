@@ -73,7 +73,7 @@ export class StatusAlertComponent extends LitElement {
 
   closeClick(e) {
     this.close.emit();
-    this.title = "Close clicked";
+    this.titleLbl = "Close clicked";
     this.requestUpdate();
   }
 }

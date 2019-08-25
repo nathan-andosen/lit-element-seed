@@ -8,6 +8,10 @@ describe('Status Alert', () => {
     await page.goto('http://localhost:1350/pages/alert.html');
   });
 
+  // it('should wait', async () => {
+  //   await jestPuppeteer.debug();
+  // });
+
 
   it('should click close button and change title', async () => {
     const btnElement = await getDomElementHandle('status-alert', 'shadowRoot',
@@ -15,7 +19,9 @@ describe('Status Alert', () => {
     await btnElement.click();
     const h3Element = await getDomElementHandle('status-alert', 'shadowRoot',
       'h3');
+    
     await expect(h3Element).toMatch('Close clicked');
+    await jestPuppeteer.debug();
   });
 
 
