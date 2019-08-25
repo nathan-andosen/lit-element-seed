@@ -11,6 +11,5 @@ const injectStyleIntoHead = (style) => {
     styleEl.innerHTML = style;
     document.head.appendChild(styleEl);
 };
-//# sourceMappingURL=inject-style-into-head.js.map
 
 export { injectStyleIntoHead };
