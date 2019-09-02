@@ -99,6 +99,8 @@ __``npm run build -- -v <version>``__ - Creates a distribution build.
 
 ``@font-face`` can not be set in the __shadow-root__, you have to set that style in the head of the page. The status-alert component is doing this. Refer to this component for an example of how to accomplish this.
 
+Check: https://robdodson.me/at-font-face-doesnt-work-in-shadow-dom/
+
 ### slots not supported if you do not use shadow dom
 
 Slots not supported if you do not use shadow dom. The official specs state that light dom does not support slots, either does lit-element (https://github.com/Polymer/lit-element/issues/553)
