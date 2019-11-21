@@ -136,7 +136,7 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 # Todo:
 
 * [ ] Add in e2e tests
-  * [ ] Move the e2e-tests shell script to nodejs script
+  * [x] Add some e2e tests and helpful tips on writing tests
   * [ ] Add ability to use headless chrome as parameter (npm run e2e -- -headless)
   * [ ] Add ability to set slowmo as a parameter (npm run e2e -- -slowmo 300)
 * [x] Add in unit tests
@@ -147,7 +147,10 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
   * [ ] Increase version number when building
   * [ ] Add build process to readme docs
   * [ ] Possibly improve the way the components get consumed by other apps
+  * [ ] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
+  * [ ] Add umd min build that does not include third party deps like lit-element
 * [ ] Add tslint
+* [ ] Add example of how to override shadow dom styles, lie this: https://github.com/Polymer/lit-element/issues/845
 
 # License
 
