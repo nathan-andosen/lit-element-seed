@@ -1,4 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-08-25
+// lit-element-seed v0.0.2 | 2019-11-21
 import { __decorate } from 'tslib';
 import { LitElement, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';

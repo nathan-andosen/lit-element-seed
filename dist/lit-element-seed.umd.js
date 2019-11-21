@@ -1,10 +1,9 @@
-// lit-element-seed v0.0.2 | 2019-08-25
-(function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
+// lit-element-seed v0.0.2 | 2019-11-21
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global['lit-element-seed'] = {}));
-}(this, function (exports) { 'use strict';
+}(this, (function (exports) { 'use strict';
 
   function _typeof(obj) {
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -18,42 +17,6 @@
     }
 
     return _typeof(obj);
-  }
-
-  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-      var info = gen[key](arg);
-      var value = info.value;
-    } catch (error) {
-      reject(error);
-      return;
-    }
-
-    if (info.done) {
-      resolve(value);
-    } else {
-      Promise.resolve(value).then(_next, _throw);
-    }
-  }
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var self = this,
-          args = arguments;
-      return new Promise(function (resolve, reject) {
-        var gen = fn.apply(self, args);
-
-        function _next(value) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-        }
-
-        function _throw(err) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-        }
-
-        _next(undefined);
-      });
-    };
   }
 
   function _defineProperties(target, props) {
@@ -217,6 +180,24 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
+  var directives = new WeakMap();
+  var isDirective = function isDirective(o) {
+    return typeof o === 'function' && directives.has(o);
+  };
+
+  /**
+   * @license
+   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+   * This code may only be used under the BSD style license found at
+   * http://polymer.github.io/LICENSE.txt
+   * The complete set of authors may be found at
+   * http://polymer.github.io/AUTHORS.txt
+   * The complete set of contributors may be found at
+   * http://polymer.github.io/CONTRIBUTORS.txt
+   * Code distributed by Google as part of the polymer project is also
+   * subject to an additional IP rights grant found at
+   * http://polymer.github.io/PATENTS.txt
+   */
 
   /**
    * True if the custom elements polyfill is in use.
@@ -227,7 +208,6 @@
    * `container`.
    */
 
-
   var removeNodes = function removeNodes(container, start) {
     var end = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -237,6 +217,31 @@
       start = n;
     }
   };
+
+  /**
+   * @license
+   * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+   * This code may only be used under the BSD style license found at
+   * http://polymer.github.io/LICENSE.txt
+   * The complete set of authors may be found at
+   * http://polymer.github.io/AUTHORS.txt
+   * The complete set of contributors may be found at
+   * http://polymer.github.io/CONTRIBUTORS.txt
+   * Code distributed by Google as part of the polymer project is also
+   * subject to an additional IP rights grant found at
+   * http://polymer.github.io/PATENTS.txt
+   */
+
+  /**
+   * A sentinel value that signals that a value was handled by a directive and
+   * should not be written to the DOM.
+   */
+  var noChange = {};
+  /**
+   * A sentinel value that signals a NodePart to fully clear its content.
+   */
+
+  var nothing = {};
 
   /**
    * @license
@@ -466,7 +471,6 @@
   }; // Allows `document.createComment('')` to be renamed for a
   // small manual size-savings.
 
-
   var createMarker = function createMarker() {
     return document.createComment('');
   };
@@ -497,163 +501,7 @@
    *    * (') then any non-(')
    */
 
-
   var lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
-  /**
-   * The return type of `html`, which holds a Template and the values from
-   * interpolated expressions.
-   */
-
-  var TemplateResult =
-  /*#__PURE__*/
-  function () {
-    function TemplateResult(strings, values, type, processor) {
-      this.strings = strings;
-      this.values = values;
-      this.type = type;
-      this.processor = processor;
-    }
-    /**
-     * Returns a string of HTML used to create a `<template>` element.
-     */
-
-
-    var _proto = TemplateResult.prototype;
-
-    _proto.getHTML = function getHTML() {
-      var l = this.strings.length - 1;
-      var html = '';
-      var isCommentBinding = false;
-
-      for (var i = 0; i < l; i++) {
-        var s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
-        // into the template source before it's parsed by the browser's HTML
-        // parser. The marker type is based on whether the expression is in an
-        // attribute, text, or comment poisition.
-        //   * For node-position bindings we insert a comment with the marker
-        //     sentinel as its text content, like <!--{{lit-guid}}-->.
-        //   * For attribute bindings we insert just the marker sentinel for the
-        //     first binding, so that we support unquoted attribute bindings.
-        //     Subsequent bindings can use a comment marker because multi-binding
-        //     attributes must be quoted.
-        //   * For comment bindings we insert just the marker sentinel so we don't
-        //     close the comment.
-        //
-        // The following code scans the template source, but is *not* an HTML
-        // parser. We don't need to track the tree structure of the HTML, only
-        // whether a binding is inside a comment, and if not, if it appears to be
-        // the first binding in an attribute.
-
-        var commentOpen = s.lastIndexOf('<!--'); // We're in comment position if we have a comment open with no following
-        // comment close. Because <-- can appear in an attribute value there can
-        // be false positives.
-
-        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
-        // expression. This can match "name=value" like structures in text,
-        // comments, and attribute values, so there can be false-positives.
-
-        var attributeMatch = lastAttributeNameRegex.exec(s);
-
-        if (attributeMatch === null) {
-          // We're only in this branch if we don't have a attribute-like
-          // preceeding sequence. For comments, this guards against unusual
-          // attribute values like <div foo="<!--${'bar'}">. Cases like
-          // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
-          // below.
-          html += s + (isCommentBinding ? marker : nodeMarker);
-        } else {
-          // For attributes we use just a marker sentinel, and also append a
-          // $lit$ suffix to the name to opt-out of attribute-specific parsing
-          // that IE and Edge do for style and certain SVG attributes.
-          html += s.substr(0, attributeMatch.index) + attributeMatch[1] + attributeMatch[2] + boundAttributeSuffix + attributeMatch[3] + marker;
-        }
-      }
-
-      html += this.strings[l];
-      return html;
-    };
-
-    _proto.getTemplateElement = function getTemplateElement() {
-      var template = document.createElement('template');
-      template.innerHTML = this.getHTML();
-      return template;
-    };
-
-    return TemplateResult;
-  }();
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-  var directives = new WeakMap();
-
-  var isDirective = function isDirective(o) {
-    return typeof o === 'function' && directives.has(o);
-  };
-
-  /**
-   * @license
-   * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
-  /**
-   * A sentinel value that signals that a value was handled by a directive and
-   * should not be written to the DOM.
-   */
-  var noChange = {};
-  /**
-   * A sentinel value that signals a NodePart to fully clear its content.
-   */
-
-  var nothing = {};
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
 
   /**
    * An instance of a `Template` that can be attached to the DOM and updated
@@ -839,24 +687,93 @@
     return TemplateInstance;
   }();
 
+  var commentMarker = " ".concat(marker, " ");
   /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
+   * The return type of `html`, which holds a Template and the values from
+   * interpolated expressions.
    */
+
+  var TemplateResult =
+  /*#__PURE__*/
+  function () {
+    function TemplateResult(strings, values, type, processor) {
+      this.strings = strings;
+      this.values = values;
+      this.type = type;
+      this.processor = processor;
+    }
+    /**
+     * Returns a string of HTML used to create a `<template>` element.
+     */
+
+
+    var _proto = TemplateResult.prototype;
+
+    _proto.getHTML = function getHTML() {
+      var l = this.strings.length - 1;
+      var html = '';
+      var isCommentBinding = false;
+
+      for (var i = 0; i < l; i++) {
+        var s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
+        // into the template source before it's parsed by the browser's HTML
+        // parser. The marker type is based on whether the expression is in an
+        // attribute, text, or comment poisition.
+        //   * For node-position bindings we insert a comment with the marker
+        //     sentinel as its text content, like <!--{{lit-guid}}-->.
+        //   * For attribute bindings we insert just the marker sentinel for the
+        //     first binding, so that we support unquoted attribute bindings.
+        //     Subsequent bindings can use a comment marker because multi-binding
+        //     attributes must be quoted.
+        //   * For comment bindings we insert just the marker sentinel so we don't
+        //     close the comment.
+        //
+        // The following code scans the template source, but is *not* an HTML
+        // parser. We don't need to track the tree structure of the HTML, only
+        // whether a binding is inside a comment, and if not, if it appears to be
+        // the first binding in an attribute.
+
+        var commentOpen = s.lastIndexOf('<!--'); // We're in comment position if we have a comment open with no following
+        // comment close. Because <-- can appear in an attribute value there can
+        // be false positives.
+
+        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
+        // expression. This can match "name=value" like structures in text,
+        // comments, and attribute values, so there can be false-positives.
+
+        var attributeMatch = lastAttributeNameRegex.exec(s);
+
+        if (attributeMatch === null) {
+          // We're only in this branch if we don't have a attribute-like
+          // preceeding sequence. For comments, this guards against unusual
+          // attribute values like <div foo="<!--${'bar'}">. Cases like
+          // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
+          // below.
+          html += s + (isCommentBinding ? commentMarker : nodeMarker);
+        } else {
+          // For attributes we use just a marker sentinel, and also append a
+          // $lit$ suffix to the name to opt-out of attribute-specific parsing
+          // that IE and Edge do for style and certain SVG attributes.
+          html += s.substr(0, attributeMatch.index) + attributeMatch[1] + attributeMatch[2] + boundAttributeSuffix + attributeMatch[3] + marker;
+        }
+      }
+
+      html += this.strings[l];
+      return html;
+    };
+
+    _proto.getTemplateElement = function getTemplateElement() {
+      var template = document.createElement('template');
+      template.innerHTML = this.getHTML();
+      return template;
+    };
+
+    return TemplateResult;
+  }();
 
   var isPrimitive = function isPrimitive(value) {
     return value === null || !(_typeof(value) === 'object' || typeof value === 'function');
   };
-
   var isIterable = function isIterable(value) {
     return Array.isArray(value) || // tslint:disable-next-line:no-any
     !!(value && value[Symbol.iterator]);
@@ -866,7 +783,6 @@
    * single attibute. The value is only set once even if there are multiple parts
    * for an attribute.
    */
-
 
   var AttributeCommitter =
   /*#__PURE__*/
@@ -952,7 +868,6 @@
    * A Part that controls all or part of an attribute value.
    */
 
-
   var AttributePart =
   /*#__PURE__*/
   function () {
@@ -999,7 +914,6 @@
    * NodeParts support several value types: primitives, Nodes, TemplateResults,
    * as well as arrays and iterables of those types.
    */
-
 
   var NodePart =
   /*#__PURE__*/
@@ -1115,7 +1029,10 @@
 
     _proto3.__commitText = function __commitText(value) {
       var node = this.startNode.nextSibling;
-      value = value == null ? '' : value;
+      value = value == null ? '' : value; // If `value` isn't already a string, we explicitly convert it here in case
+      // it can't be implicitly converted - i.e. it's a symbol.
+
+      var valueAsString = typeof value === 'string' ? value : String(value);
 
       if (node === this.endNode.previousSibling && node.nodeType === 3
       /* Node.TEXT_NODE */
@@ -1123,9 +1040,9 @@
           // If we only have a single text node between the markers, we can just
           // set its value, rather than replacing it.
           // TODO(justinfagnani): Can we just check if this.value is primitive?
-          node.data = value;
+          node.data = valueAsString;
         } else {
-        this.__commitNode(document.createTextNode(typeof value === 'string' ? value : String(value)));
+        this.__commitNode(document.createTextNode(valueAsString));
       }
 
       this.value = value;
@@ -1235,7 +1152,6 @@
    * ''. If the value is falsey, the attribute is removed.
    */
 
-
   var BooleanAttributePart =
   /*#__PURE__*/
   function () {
@@ -1296,7 +1212,6 @@
    * a string first.
    */
 
-
   var PropertyCommitter =
   /*#__PURE__*/
   function (_AttributeCommitter) {
@@ -1334,7 +1249,6 @@
 
     return PropertyCommitter;
   }(AttributeCommitter);
-
   var PropertyPart =
   /*#__PURE__*/
   function (_AttributePart) {
@@ -1349,7 +1263,6 @@
   // from the options object, then options are supported. If not, then the thrid
   // argument to add/removeEventListener is interpreted as the boolean capture
   // value so we should only pass the `capture` property.
-
 
   var eventOptionsSupported = false;
 
@@ -1432,7 +1345,6 @@
   // the third argument of add/removeEventListener. IE11 doesn't support options
   // at all. Chrome 41 only reads `capture` if the argument is an object.
 
-
   var getOptions = function getOptions(o) {
     return o && (eventOptionsSupported ? {
       capture: o.capture,
@@ -1454,7 +1366,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   /**
    * Creates Parts when a template is instantiated.
    */
@@ -1507,7 +1418,6 @@
 
     return DefaultTemplateProcessor;
   }();
-
   var defaultTemplateProcessor = new DefaultTemplateProcessor();
 
   /**
@@ -1523,7 +1433,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   /**
    * The default TemplateFactory which caches Templates keyed on
    * result.type and result.strings.
@@ -1563,7 +1472,6 @@
     templateCache.stringsArray.set(result.strings, template);
     return template;
   }
-
   var templateCaches = new Map();
 
   /**
@@ -1579,16 +1487,15 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
   var parts = new WeakMap();
   /**
-   * Renders a template to a container.
+   * Renders a template result or other value to a container.
    *
    * To update a container with new values, reevaluate the template literal and
    * call `render` with the new result.
    *
-   * @param result a TemplateResult created by evaluating a template tag like
-   *     `html` or `svg`.
+   * @param result Any value renderable by NodePart - typically a TemplateResult
+   *     created by evaluating a template tag like `html` or `svg`.
    * @param container A DOM parent to render to. The entire contents are either
    *     replaced, or efficiently updated if the same result type was previous
    *     rendered there.
@@ -1625,11 +1532,10 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  // IMPORTANT: do not change the property name or the assignment expression.
   // This line will be used in regexes to search for lit-html usage.
   // TODO(justinfagnani): inject version number at build time
 
-  (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.0.0');
+  (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
   /**
    * Interprets a template literal as an HTML template that can efficiently
    * render to and update a container.
@@ -1656,197 +1562,6 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  var legacyCustomElement = function legacyCustomElement(tagName, clazz) {
-    window.customElements.define(tagName, clazz); // Cast as any because TS doesn't recognize the return type as being a
-    // subtype of the decorated class when clazz is typed as
-    // `Constructor<HTMLElement>` for some reason.
-    // `Constructor<HTMLElement>` is helpful to make sure the decorator is
-    // applied to elements however.
-    // tslint:disable-next-line:no-any
-
-    return clazz;
-  };
-
-  var standardCustomElement = function standardCustomElement(tagName, descriptor) {
-    var kind = descriptor.kind,
-        elements = descriptor.elements;
-    return {
-      kind: kind,
-      elements: elements,
-      // This callback is called once the class is otherwise fully defined
-      finisher: function finisher(clazz) {
-        window.customElements.define(tagName, clazz);
-      }
-    };
-  };
-  /**
-   * Class decorator factory that defines the decorated class as a custom element.
-   *
-   * @param tagName the name of the custom element to define
-   */
-
-
-  var customElement = function customElement(tagName) {
-    return function (classOrDescriptor) {
-      return typeof classOrDescriptor === 'function' ? legacyCustomElement(tagName, classOrDescriptor) : standardCustomElement(tagName, classOrDescriptor);
-    };
-  };
-
-  var standardProperty = function standardProperty(options, element) {
-    // When decorating an accessor, pass it through and add property metadata.
-    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
-    // stomp over the user's accessor.
-    if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
-      return Object.assign({}, element, {
-        finisher: function finisher(clazz) {
-          clazz.createProperty(element.key, options);
-        }
-      });
-    } else {
-      // createProperty() takes care of defining the property, but we still
-      // must return some kind of descriptor, so return a descriptor for an
-      // unused prototype field. The finisher calls createProperty().
-      return {
-        kind: 'field',
-        key: Symbol(),
-        placement: 'own',
-        descriptor: {},
-        // When @babel/plugin-proposal-decorators implements initializers,
-        // do this instead of the initializer below. See:
-        // https://github.com/babel/babel/issues/9260 extras: [
-        //   {
-        //     kind: 'initializer',
-        //     placement: 'own',
-        //     initializer: descriptor.initializer,
-        //   }
-        // ],
-        initializer: function initializer() {
-          if (typeof element.initializer === 'function') {
-            this[element.key] = element.initializer.call(this);
-          }
-        },
-        finisher: function finisher(clazz) {
-          clazz.createProperty(element.key, options);
-        }
-      };
-    }
-  };
-
-  var legacyProperty = function legacyProperty(options, proto, name) {
-    proto.constructor.createProperty(name, options);
-  };
-  /**
-   * A property decorator which creates a LitElement property which reflects a
-   * corresponding attribute value. A `PropertyDeclaration` may optionally be
-   * supplied to configure property features.
-   *
-   * @ExportDecoratedItems
-   */
-
-
-  function property(options) {
-    // tslint:disable-next-line:no-any decorator
-    return function (protoOrDescriptor, name) {
-      return name !== undefined ? legacyProperty(options, protoOrDescriptor, name) : standardProperty(options, protoOrDescriptor);
-    };
-  }
-
-  /**
-  @license
-  Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at
-  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
-  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
-  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
-  part of the polymer project is also subject to an additional IP rights grant
-  found at http://polymer.github.io/PATENTS.txt
-  */
-  var supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
-  var constructionToken = Symbol();
-
-  var CSSResult =
-  /*#__PURE__*/
-  function () {
-    function CSSResult(cssText, safeToken) {
-      if (safeToken !== constructionToken) {
-        throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
-      }
-
-      this.cssText = cssText;
-    } // Note, this is a getter so that it's lazy. In practice, this means
-    // stylesheets are not created until the first element instance is made.
-
-
-    var _proto = CSSResult.prototype;
-
-    _proto.toString = function toString() {
-      return this.cssText;
-    };
-
-    _createClass(CSSResult, [{
-      key: "styleSheet",
-      get: function get() {
-        if (this._styleSheet === undefined) {
-          // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
-          // is constructable.
-          if (supportsAdoptingStyleSheets) {
-            this._styleSheet = new CSSStyleSheet();
-
-            this._styleSheet.replaceSync(this.cssText);
-          } else {
-            this._styleSheet = null;
-          }
-        }
-
-        return this._styleSheet;
-      }
-    }]);
-
-    return CSSResult;
-  }();
-
-  var textFromCSSResult = function textFromCSSResult(value) {
-    if (value instanceof CSSResult) {
-      return value.cssText;
-    } else if (typeof value === 'number') {
-      return value;
-    } else {
-      throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
-    }
-  };
-  /**
-   * Template tag which which can be used with LitElement's `style` property to
-   * set element styles. For security reasons, only literal string values may be
-   * used. To incorporate non-literal values `unsafeCSS` may be used inside a
-   * template string part.
-   */
-
-
-  var css = function css(strings) {
-    for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      values[_key - 1] = arguments[_key];
-    }
-
-    var cssText = values.reduce(function (acc, v, idx) {
-      return acc + textFromCSSResult(v) + strings[idx + 1];
-    }, strings[0]);
-    return new CSSResult(cssText, constructionToken);
-  };
-
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-
   var walkerNodeFilter = 133
   /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */
   ;
@@ -1989,21 +1704,6 @@
     }
   }
 
-  /**
-   * @license
-   * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-   * This code may only be used under the BSD style license found at
-   * http://polymer.github.io/LICENSE.txt
-   * The complete set of authors may be found at
-   * http://polymer.github.io/AUTHORS.txt
-   * The complete set of contributors may be found at
-   * http://polymer.github.io/CONTRIBUTORS.txt
-   * Code distributed by Google as part of the polymer project is also
-   * subject to an additional IP rights grant found at
-   * http://polymer.github.io/PATENTS.txt
-   */
-  // Get a key to lookup in `templateCaches`.
-
   var getTemplateCacheKey = function getTemplateCacheKey(type, scopeName) {
     return "".concat(type, "--").concat(scopeName);
   };
@@ -2099,8 +1799,12 @@
    * output.
    */
 
-  var prepareTemplateStyles = function prepareTemplateStyles(renderedDOM, template, scopeName) {
-    shadyRenderSet.add(scopeName); // Move styles out of rendered DOM and store.
+  var prepareTemplateStyles = function prepareTemplateStyles(scopeName, renderedDOM, template) {
+    shadyRenderSet.add(scopeName); // If `renderedDOM` is stamped from a Template, then we need to edit that
+    // Template's underlying template element. Otherwise, we create one here
+    // to give to ShadyCSS, which still requires one while scoping.
+
+    var templateElement = !!template ? template.element : document.createElement('template'); // Move styles out of rendered DOM and store.
 
     var styles = renderedDOM.querySelectorAll('style');
     var length = styles.length; // If there are no styles, skip unnecessary work
@@ -2109,7 +1813,14 @@
       // Ensure prepareTemplateStyles is called to support adding
       // styles via `prepareAdoptedCssText` since that requires that
       // `prepareTemplateStyles` is called.
-      window.ShadyCSS.prepareTemplateStyles(template.element, scopeName);
+      //
+      // ShadyCSS will only update styles containing @apply in the template
+      // given to `prepareTemplateStyles`. If no lit Template was given,
+      // ShadyCSS will not be able to update uses of @apply in any relevant
+      // template. However, this is not a problem because we only create the
+      // template for the purpose of supporting `prepareAdoptedCssText`,
+      // which doesn't support @apply at all.
+      window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
       return;
     }
 
@@ -2131,19 +1842,25 @@
     removeStylesFromLitTemplates(scopeName); // And then put the condensed style into the "root" template passed in as
     // `template`.
 
-    var content = template.element.content;
-    insertNodeIntoTemplate(template, condensedStyle, content.firstChild); // Note, it's important that ShadyCSS gets the template that `lit-html`
+    var content = templateElement.content;
+
+    if (!!template) {
+      insertNodeIntoTemplate(template, condensedStyle, content.firstChild);
+    } else {
+      content.insertBefore(condensedStyle, content.firstChild);
+    } // Note, it's important that ShadyCSS gets the template that `lit-html`
     // will actually render so that it can update the style inside when
     // needed (e.g. @apply native Shadow DOM case).
 
-    window.ShadyCSS.prepareTemplateStyles(template.element, scopeName);
+
+    window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
     var style = content.querySelector('style');
 
     if (window.ShadyCSS.nativeShadow && style !== null) {
       // When in native Shadow DOM, ensure the style created by ShadyCSS is
       // included in initially rendered output (`renderedDOM`).
       renderedDOM.insertBefore(style.cloneNode(true), renderedDOM.firstChild);
-    } else {
+    } else if (!!template) {
       // When no style is left in the template, parts will be broken as a
       // result. To fix this, we put back the style node ShadyCSS removed
       // and then tell lit to remove that node from the template.
@@ -2217,11 +1934,15 @@
 
 
   var render$1 = function render$1(result, container, options) {
+    if (!options || _typeof(options) !== 'object' || !options.scopeName) {
+      throw new Error('The `scopeName` option is required.');
+    }
+
     var scopeName = options.scopeName;
     var hasRendered = parts.has(container);
     var needsScoping = compatibleShadyCSSVersion && container.nodeType === 11
     /* Node.DOCUMENT_FRAGMENT_NODE */
-    && !!container.host && result instanceof TemplateResult; // Handle first render to a scope specially...
+    && !!container.host; // Handle first render to a scope specially...
 
     var firstScopeRender = needsScoping && !shadyRenderSet.has(scopeName); // On first scope render, render into a fragment; this cannot be a single
     // fragment that is reused since nested renders can occur synchronously.
@@ -2241,12 +1962,14 @@
 
     if (firstScopeRender) {
       var part = parts.get(renderContainer);
-      parts.delete(renderContainer);
+      parts.delete(renderContainer); // ShadyCSS might have style sheets (e.g. from `prepareAdoptedCssText`)
+      // that should apply to `renderContainer` even if the rendered value is
+      // not a TemplateInstance. However, it will only insert scoped styles
+      // into the document if `prepareTemplateStyles` has already been called
+      // for the given scope name.
 
-      if (part.value instanceof TemplateInstance) {
-        prepareTemplateStyles(renderContainer, part.value.template, scopeName);
-      }
-
+      var template = part.value instanceof TemplateInstance ? part.value.template : undefined;
+      prepareTemplateStyles(scopeName, renderContainer, template);
       removeNodes(container, container.firstChild);
       container.appendChild(renderContainer);
       parts.set(container, part);
@@ -2254,7 +1977,7 @@
     // initial render to this container.
     // This is needed whenever dynamic changes are made so it would be
     // safest to do every render; however, this would regress performance
-    // so we leave it up to the user to call `ShadyCSSS.styleElement`
+    // so we leave it up to the user to call `ShadyCSS.styleElement`
     // for dynamic changes.
 
 
@@ -2956,7 +2679,7 @@
     // as the regeneratorRuntime namespace. Otherwise create a new empty
     // object. Either way, the resulting object will be used to initialize
     // the regeneratorRuntime variable at the top of this file.
-    module.exports);
+     module.exports );
 
     try {
       regeneratorRuntime = runtime;
@@ -2989,13 +2712,15 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-
+  var _a;
   /**
    * When using Closure Compiler, JSCompiler_renameProperty(property, object) is
    * replaced at compile time by the munged name for object[property]. We cannot
    * alias this function, so we have to use a small shim that has the same
    * behavior when not compiling.
    */
+
+
   window.JSCompiler_renameProperty = function (prop, _obj) {
     return prop;
   };
@@ -3040,7 +2765,6 @@
     // This ensures (old==NaN, value==NaN) always returns false
     return old !== value && (old === old || value === value);
   };
-
   var defaultPropertyDeclaration = {
     attribute: true,
     type: String,
@@ -3054,6 +2778,14 @@
   var STATE_IS_REFLECTING_TO_ATTRIBUTE = 1 << 3;
   var STATE_IS_REFLECTING_TO_PROPERTY = 1 << 4;
   var STATE_HAS_CONNECTED = 1 << 5;
+  /**
+   * The Closure JS Compiler doesn't currently have good support for static
+   * property semantics where "this" is dynamic (e.g.
+   * https://github.com/google/closure-compiler/issues/3177 and others) so we use
+   * this hack to bypass any rewriting by the compiler.
+   */
+
+  var finalized = 'finalized';
   /**
    * Base element class which manages element properties and attributes. When
    * properties change, the `update` method is asynchronously called. This method
@@ -3170,18 +2902,14 @@
     ;
 
     UpdatingElement.finalize = function finalize() {
-      if (this.hasOwnProperty(JSCompiler_renameProperty('finalized', this)) && this.finalized) {
-        return;
-      } // finalize any superclasses
-
-
+      // finalize any superclasses
       var superCtor = Object.getPrototypeOf(this);
 
-      if (typeof superCtor.finalize === 'function') {
+      if (!superCtor.hasOwnProperty(finalized)) {
         superCtor.finalize();
       }
 
-      this.finalized = true;
+      this[finalized] = true;
 
       this._ensureClassProperties(); // initialize Map populated in observedAttributes
 
@@ -3497,89 +3225,77 @@
      */
     ;
 
-    _proto._enqueueUpdate =
-    /*#__PURE__*/
-    function () {
-      var _enqueueUpdate2 = _asyncToGenerator(
-      /*#__PURE__*/
-      regenerator.mark(function _callee() {
-        var _this5 = this;
+    _proto._enqueueUpdate = function _enqueueUpdate() {
+      var _this5 = this;
 
-        var resolve, reject, previousUpdatePromise, result;
-        return regenerator.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // Mark state updating...
-                this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
-                previousUpdatePromise = this._updatePromise;
-                this._updatePromise = new Promise(function (res, rej) {
-                  resolve = res;
-                  reject = rej;
-                });
-                _context.prev = 3;
-                _context.next = 6;
-                return previousUpdatePromise;
+      var resolve, reject, previousUpdatePromise, result;
+      return regenerator.async(function _enqueueUpdate$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // Mark state updating...
+              this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
+              previousUpdatePromise = this._updatePromise;
+              this._updatePromise = new Promise(function (res, rej) {
+                resolve = res;
+                reject = rej;
+              });
+              _context.prev = 3;
+              _context.next = 6;
+              return regenerator.awrap(previousUpdatePromise);
 
-              case 6:
-                _context.next = 10;
-                break;
+            case 6:
+              _context.next = 10;
+              break;
 
-              case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](3);
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](3);
 
-              case 10:
-                if (this._hasConnected) {
-                  _context.next = 13;
-                  break;
-                }
-
+            case 10:
+              if (this._hasConnected) {
                 _context.next = 13;
-                return new Promise(function (res) {
-                  return _this5._hasConnectedResolver = res;
-                });
-
-              case 13:
-                _context.prev = 13;
-                result = this.performUpdate(); // If `performUpdate` returns a Promise, we await it. This is done to
-                // enable coordinating updates with a scheduler. Note, the result is
-                // checked to avoid delaying an additional microtask unless we need to.
-
-                if (!(result != null)) {
-                  _context.next = 18;
-                  break;
-                }
-
-                _context.next = 18;
-                return result;
-
-              case 18:
-                _context.next = 23;
                 break;
+              }
 
-              case 20:
-                _context.prev = 20;
-                _context.t1 = _context["catch"](13);
-                reject(_context.t1);
+              _context.next = 13;
+              return regenerator.awrap(new Promise(function (res) {
+                return _this5._hasConnectedResolver = res;
+              }));
 
-              case 23:
-                resolve(!this._hasRequestedUpdate);
+            case 13:
+              _context.prev = 13;
+              result = this.performUpdate(); // If `performUpdate` returns a Promise, we await it. This is done to
+              // enable coordinating updates with a scheduler. Note, the result is
+              // checked to avoid delaying an additional microtask unless we need to.
 
-              case 24:
-              case "end":
-                return _context.stop();
-            }
+              if (!(result != null)) {
+                _context.next = 18;
+                break;
+              }
+
+              _context.next = 18;
+              return regenerator.awrap(result);
+
+            case 18:
+              _context.next = 23;
+              break;
+
+            case 20:
+              _context.prev = 20;
+              _context.t1 = _context["catch"](13);
+              reject(_context.t1);
+
+            case 23:
+              resolve(!this._hasRequestedUpdate);
+
+            case 24:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this, [[3, 8], [13, 20]]);
-      }));
-
-      function _enqueueUpdate() {
-        return _enqueueUpdate2.apply(this, arguments);
-      }
-
-      return _enqueueUpdate;
-    }();
+        }
+      }, null, this, [[3, 8], [13, 20]]);
+    };
 
     /**
      * Performs an element update. Note, if an exception is thrown during the
@@ -3641,10 +3357,12 @@
      * The Promise value is a boolean that is `true` if the element completed the
      * update without triggering another update. The Promise result is `false` if
      * a property was set inside `updated()`. If the Promise is rejected, an
-     * exception was thrown during the update. This getter can be implemented to
-     * await additional state. For example, it is sometimes useful to await a
-     * rendered element before fulfilling this Promise. To do this, first await
-     * `super.updateComplete` then any subsequent state.
+     * exception was thrown during the update.
+     *
+     * To await additional asynchronous work, override the `_getUpdateComplete`
+     * method. For example, it is sometimes useful to await a rendered element
+     * before fulfilling this Promise. To do this, first await
+     * `super._getUpdateComplete()`, then any subsequent state.
      *
      * @returns {Promise} The Promise returns a boolean that indicates if the
      * update resolved without triggering another update.
@@ -3652,12 +3370,33 @@
     ;
 
     /**
+     * Override point for the `updateComplete` promise.
+     *
+     * It is not safe to override the `updateComplete` getter directly due to a
+     * limitation in TypeScript which means it is not possible to call a
+     * superclass getter (e.g. `super.updateComplete.then(...)`) when the target
+     * language is ES5 (https://github.com/microsoft/TypeScript/issues/338).
+     * This method should be overridden instead. For example:
+     *
+     *   class MyElement extends LitElement {
+     *     async _getUpdateComplete() {
+     *       await super._getUpdateComplete();
+     *       await this._myChild.updateComplete;
+     *     }
+     *   }
+     */
+    _proto._getUpdateComplete = function _getUpdateComplete() {
+      return this._updatePromise;
+    }
+    /**
      * Controls whether or not `update` should be called when the element requests
      * an update. By default, this method always returns `true`, but this can be
      * customized to control when to update.
      *
      * * @param _changedProperties Map of changed properties with old values
      */
+    ;
+
     _proto.shouldUpdate = function shouldUpdate(_changedProperties) {
       return true;
     }
@@ -3727,7 +3466,7 @@
     }, {
       key: "updateComplete",
       get: function get() {
-        return this._updatePromise;
+        return this._getUpdateComplete();
       }
     }], [{
       key: "observedAttributes",
@@ -3755,12 +3494,12 @@
 
     return UpdatingElement;
   }(_wrapNativeSuper(HTMLElement));
+  _a = finalized;
   /**
    * Marks class as having finished creating properties.
    */
 
-
-  UpdatingElement.finalized = true;
+  UpdatingElement[_a] = true;
 
   /**
    * @license
@@ -3775,11 +3514,186 @@
    * subject to an additional IP rights grant found at
    * http://polymer.github.io/PATENTS.txt
    */
-  // IMPORTANT: do not change the property name or the assignment expression.
+  var legacyCustomElement = function legacyCustomElement(tagName, clazz) {
+    window.customElements.define(tagName, clazz); // Cast as any because TS doesn't recognize the return type as being a
+    // subtype of the decorated class when clazz is typed as
+    // `Constructor<HTMLElement>` for some reason.
+    // `Constructor<HTMLElement>` is helpful to make sure the decorator is
+    // applied to elements however.
+    // tslint:disable-next-line:no-any
+
+    return clazz;
+  };
+
+  var standardCustomElement = function standardCustomElement(tagName, descriptor) {
+    var kind = descriptor.kind,
+        elements = descriptor.elements;
+    return {
+      kind: kind,
+      elements: elements,
+      // This callback is called once the class is otherwise fully defined
+      finisher: function finisher(clazz) {
+        window.customElements.define(tagName, clazz);
+      }
+    };
+  };
+  /**
+   * Class decorator factory that defines the decorated class as a custom element.
+   *
+   * @param tagName the name of the custom element to define
+   */
+
+
+  var customElement = function customElement(tagName) {
+    return function (classOrDescriptor) {
+      return typeof classOrDescriptor === 'function' ? legacyCustomElement(tagName, classOrDescriptor) : standardCustomElement(tagName, classOrDescriptor);
+    };
+  };
+
+  var standardProperty = function standardProperty(options, element) {
+    // When decorating an accessor, pass it through and add property metadata.
+    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
+    // stomp over the user's accessor.
+    if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
+      return Object.assign({}, element, {
+        finisher: function finisher(clazz) {
+          clazz.createProperty(element.key, options);
+        }
+      });
+    } else {
+      // createProperty() takes care of defining the property, but we still
+      // must return some kind of descriptor, so return a descriptor for an
+      // unused prototype field. The finisher calls createProperty().
+      return {
+        kind: 'field',
+        key: Symbol(),
+        placement: 'own',
+        descriptor: {},
+        // When @babel/plugin-proposal-decorators implements initializers,
+        // do this instead of the initializer below. See:
+        // https://github.com/babel/babel/issues/9260 extras: [
+        //   {
+        //     kind: 'initializer',
+        //     placement: 'own',
+        //     initializer: descriptor.initializer,
+        //   }
+        // ],
+        initializer: function initializer() {
+          if (typeof element.initializer === 'function') {
+            this[element.key] = element.initializer.call(this);
+          }
+        },
+        finisher: function finisher(clazz) {
+          clazz.createProperty(element.key, options);
+        }
+      };
+    }
+  };
+
+  var legacyProperty = function legacyProperty(options, proto, name) {
+    proto.constructor.createProperty(name, options);
+  };
+  /**
+   * A property decorator which creates a LitElement property which reflects a
+   * corresponding attribute value. A `PropertyDeclaration` may optionally be
+   * supplied to configure property features.
+   *
+   * @ExportDecoratedItems
+   */
+
+
+  function property(options) {
+    // tslint:disable-next-line:no-any decorator
+    return function (protoOrDescriptor, name) {
+      return name !== undefined ? legacyProperty(options, protoOrDescriptor, name) : standardProperty(options, protoOrDescriptor);
+    };
+  }
+
+  /**
+  @license
+  Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+  part of the polymer project is also subject to an additional IP rights grant
+  found at http://polymer.github.io/PATENTS.txt
+  */
+  var supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
+  var constructionToken = Symbol();
+  var CSSResult =
+  /*#__PURE__*/
+  function () {
+    function CSSResult(cssText, safeToken) {
+      if (safeToken !== constructionToken) {
+        throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
+      }
+
+      this.cssText = cssText;
+    } // Note, this is a getter so that it's lazy. In practice, this means
+    // stylesheets are not created until the first element instance is made.
+
+
+    var _proto = CSSResult.prototype;
+
+    _proto.toString = function toString() {
+      return this.cssText;
+    };
+
+    _createClass(CSSResult, [{
+      key: "styleSheet",
+      get: function get() {
+        if (this._styleSheet === undefined) {
+          // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
+          // is constructable.
+          if (supportsAdoptingStyleSheets) {
+            this._styleSheet = new CSSStyleSheet();
+
+            this._styleSheet.replaceSync(this.cssText);
+          } else {
+            this._styleSheet = null;
+          }
+        }
+
+        return this._styleSheet;
+      }
+    }]);
+
+    return CSSResult;
+  }();
+
+  var textFromCSSResult = function textFromCSSResult(value) {
+    if (value instanceof CSSResult) {
+      return value.cssText;
+    } else if (typeof value === 'number') {
+      return value;
+    } else {
+      throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
+    }
+  };
+  /**
+   * Template tag which which can be used with LitElement's `style` property to
+   * set element styles. For security reasons, only literal string values may be
+   * used. To incorporate non-literal values `unsafeCSS` may be used inside a
+   * template string part.
+   */
+
+
+  var css = function css(strings) {
+    for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      values[_key - 1] = arguments[_key];
+    }
+
+    var cssText = values.reduce(function (acc, v, idx) {
+      return acc + textFromCSSResult(v) + strings[idx + 1];
+    }, strings[0]);
+    return new CSSResult(cssText, constructionToken);
+  };
+
   // This line will be used in regexes to search for LitElement usage.
   // TODO(justinfagnani): inject version number at build time
 
-  (window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.0');
+  (window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.1');
   /**
    * Minimal implementation of Array.prototype.flat
    * @param arr the array to flatten
@@ -3819,6 +3733,8 @@
 
     /** @nocollapse */
     LitElement.finalize = function finalize() {
+      // The Closure JS Compiler does not always preserve the correct "this"
+      // when calling static super methods (b/137460243), so explicitly bind.
       _UpdatingElement.finalize.call(this); // Prepare styling that is stamped at first render time. Styling
       // is built from user provided `styles` or is inherited from the superclass.
 
@@ -3991,10 +3907,12 @@
   /**
    * Ensure this class is marked as `finalized` as an optimization ensuring
    * it will not needlessly try to `finalize`.
+   *
+   * Note this property name is a string to prevent breaking Closure JS Compiler
+   * optimizations. See updating-element.ts for more information.
    */
 
-
-  LitElement.finalized = true;
+  LitElement['finalized'] = true;
   /**
    * Render method used to render the lit-html TemplateResult to the element's
    * DOM.
@@ -4281,5 +4199,5 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=lit-element-seed.umd.js.map

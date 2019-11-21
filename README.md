@@ -26,6 +26,7 @@ Seed app to build lit element web components.
 * Hot module reloading with the dev server
 * Component lazy loading
   * Maybe an option: https://github.com/PolymerLabs/split-element
+  * https://github.com/PolymerLabs/start-lit-element
 * Using slots when shadow dom is disabled _(see known issues below for more detail)_
 
 # Getting started
@@ -67,7 +68,7 @@ __``npm run dev``__ - Run this command when developing your components. It will 
 
 ## Unit tests / e2e
 
-> Checkout this __[helpful guide](spec/README.md)__ on writing unit & e2e tests.
+> Checkout these __[helpful tips](spec/README.md)__ on writing unit & e2e tests.
 
 __``npm run test``__ - Run unit tests.
 
@@ -128,6 +129,7 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 # Links:
 
 * [Web component fundamentals](https://developers.google.com/web/fundamentals/web-components/)
+* https://open-wc.org/
 
 # Todo:
 

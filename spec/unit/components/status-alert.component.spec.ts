@@ -18,7 +18,7 @@ describe('Status Alert Component', () => {
       firedCnt++;
     });
     comp.closeClick(new Event('fake'));
-    expect(comp.title).toEqual('Close clicked');
+    expect(comp.titleLbl).toEqual('Close clicked');
     expect(spy).toHaveBeenCalledTimes(1);
     expect(firedCnt).toEqual(1);
   });

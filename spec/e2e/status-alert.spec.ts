@@ -1,7 +1,7 @@
 import {
   getDomElementHandle,
   listenForEventOnElement
-} from '../support/e2e-utilities';
+} from './support/e2e-utilities';
 
 describe('Status Alert', () => {
   beforeAll(async () => {
@@ -19,9 +19,7 @@ describe('Status Alert', () => {
     await btnElement.click();
     const h3Element = await getDomElementHandle('status-alert', 'shadowRoot',
       'h3');
-    
     await expect(h3Element).toMatch('Close clicked');
-    await jestPuppeteer.debug();
   });
 
 

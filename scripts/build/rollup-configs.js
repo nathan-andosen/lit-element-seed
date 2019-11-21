@@ -131,7 +131,7 @@ const buildConfigEsm = {
   output: {
     dir: './dist',
     chunkFileNames: 'chunks/[name]-[hash].js',
-    entryFileNames: '[name]/index.js',
+    entryFileNames: '[name].js',
     format: 'esm',
     // has to be false for now, see README file for more info
     sourcemap: false,

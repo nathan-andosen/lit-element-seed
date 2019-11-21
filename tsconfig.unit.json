@@ -13,13 +13,14 @@
     "sourceMap": false,
     "types": [
       "jasmine",
-      "node",
-      "puppeteer",
-      "jest-environment-puppeteer"
+      "node"
     ]
   },
   "include": [
     "./spec/**/*.ts",
     "./src/**/*.ts"
+  ],
+  "exclude": [
+    "./spec/e2e/**/*.ts"
   ]
 }
