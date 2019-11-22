@@ -1,7 +1,7 @@
 const chokidar = require('chokidar');
 const path = require('path');
 const rootDir = path.join(__dirname, '..');
-const argv = require('yargs').argv
+const argv = require('yargs').argv;
 const debounce = require('./utils/debounce');
 const generateShieldBadge = require('./code-coverage-shield-badge');
 const buildRollupBundle = require('./utils/build-rollup-bundle');

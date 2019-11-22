@@ -19,7 +19,7 @@ Seed app to build lit element web components.
 * __Useful decorators:__ Extra decorators to reduce repeated code & keep code clean
 * __Dev server:__ for easy development
   * Ability to use npm link while developing your components. Useful when you want to see your changes in realtime in another application.
-* __Unit & e2e tests__
+* __Unit & E2e tests__
 
 ### Not supported
 
@@ -59,9 +59,11 @@ _Todo_
 _More documentation required..._
 
 
-__``npm run dev``__ - Run this command when developing your components. It will start a dev server at http://localhost:1350/ and watch for file changes.
+### __``npm run dev``__
 
-### Recommended dev setup
+Run this command when developing your components. It will start a dev server at http://localhost:1350/ and watch for file changes.
+
+#### Recommended dev setup
 
 * [Visual Studio Code](https://code.visualstudio.com/) - great coding editor.
   * [lit-html plugin](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html) - great plugin to work with lit-html
@@ -70,16 +72,30 @@ __``npm run dev``__ - Run this command when developing your components. It will 
 
 > Checkout these __[helpful tips](spec/README.md)__ on writing unit & e2e tests.
 
-__``npm run test``__ - Run unit tests.
+### ``npm run test``
+
+Run unit tests.
 
 * _Parameters:_
   * __-w__ _(optional)_ - Watch for file changes
-  * __-b__ _(optional)_ - Run in a browser, default is headless chrome.
+  * __-b__ _(optional)_ - Run in a browser, _[Default=headless chrome]_
 * _Examples:_
+  * ``npm run test``
   * ``npm run test -- -w``
   * ``npm run test -- -w -b``
 
-__``npm run e2e``__ - Run the end 2 end tests. (__IMPORTANT:__ You must have the dev server running, via the command: __``npm run dev``__)
+### ``npm run e2e``
+
+Run end 2 end tests.
+
+* __IMPORTANT:__ Dev server must be running, via the command: __``npm run dev``__
+* _Parameters:_
+  * __-h__ _(optional)_ - Headless _[Default=false]_
+  * __-s__ _(optional)_ - Slow Mo. Slow down the pupeteer e2e tests by the specified amount of milliseconds.
+* _Examples:_
+  * ``npm run e2e``
+  * ``npm run e2e -- -h``
+  * ``npm run e2e -- -s 300``
 
 > __Unit tests__ are done via [Karma](https://karma-runner.github.io/latest/index.html) & [Jasmine](https://jasmine.github.io/). We cant use Jest for unit tests as Jest runs in Node using jsdom, this setup does not support web components. To unit test web components, we have to do it in a real browser, that is why Karma & Jasmine was choosen.
 
@@ -87,7 +103,9 @@ __``npm run e2e``__ - Run the end 2 end tests. (__IMPORTANT:__ You must have the
 
 ## Distribution builds
 
-__``npm run build -- -v <version>``__ - Creates a distribution build.
+### ``npm run build -- -v <version>``
+
+Creates a distribution build.
 
 * _Parameters:_
   * __-v__ (Optional) - Sets the semver. Either __patch__, __minor__ or __major__. Increases the version number in the package.json file.
@@ -135,10 +153,10 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
 
 # Todo:
 
-* [ ] Add in e2e tests
+* [x] Add in e2e tests
   * [x] Add some e2e tests and helpful tips on writing tests
-  * [ ] Add ability to use headless chrome as parameter (npm run e2e -- -headless)
-  * [ ] Add ability to set slowmo as a parameter (npm run e2e -- -slowmo 300)
+  * [x] Add ability to use headless chrome as parameter (npm run e2e -- -headless)
+  * [x] Add ability to set slowmo as a parameter (npm run e2e -- -slowmo 300)
 * [x] Add in unit tests
   * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
   * [x] Setup watch for unit tests

@@ -1,4 +1,4 @@
-import { getDomElementHandle } from '../support/e2e-utilities';
+import { getDomElementHandle } from './support/e2e-utilities';
 
 describe('Fancy Button', () => {
   beforeAll(async () => {

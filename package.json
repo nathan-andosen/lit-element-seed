@@ -9,7 +9,7 @@
     "build": "bash ./scripts/build/build.sh",
     "dev": "node ./scripts/build/build.js --mode=dev",
     "test": "node ./scripts/unit-tests.js",
-    "e2e": "bash ./scripts/e2e-tests.sh",
+    "e2e": "node ./scripts/e2e-tests.js",
     "karma:single": "karma start karma.conf.js --single-run",
     "karma:watch": "karma start karma.conf.js",
     "tsc": "tsc",
@@ -71,6 +71,7 @@
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-typescript2": "^0.21.2",
     "rollup-plugin-uglify": "^6.0.3",
+    "tslint": "^5.20.1",
     "typescript": "^3.7.2",
     "yargs": "^13.3.0"
   }

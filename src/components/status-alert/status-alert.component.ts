@@ -30,6 +30,10 @@ export class StatusAlertComponent extends LitElement {
   constructor() {
     super();
     injectStyleIntoHead(fontFaceStyle);
+
+    if(true) {
+      
+    }
   }
 
 
