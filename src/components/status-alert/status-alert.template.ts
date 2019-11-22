@@ -2,11 +2,13 @@ import { StatusAlertComponent } from './status-alert.component';
 import { html } from 'lit-element';
 
 
-const headerTemplate = (_this: StatusAlertComponent) =>
+const headerTemplate = (component: StatusAlertComponent) =>
 html`
   <div class="header">
-    <h3 @click="${(e) => { _this.titleClick.emit(); }}">${_this.titleLbl}</h3>
-    <button @click="${_this.closeClick}">
+    <h3 @click="${(e) => { component.titleClick.emit(); }}">
+      ${component.titleLbl}
+    </h3>
+    <button @click="${component.closeClick}">
       <span class="ico-cancel"></span>
     </button>
   </div>
@@ -14,10 +16,10 @@ html`
 
 
 
-export const mainTemplate = (_this: StatusAlertComponent) =>
+export const mainTemplate = (component: StatusAlertComponent) =>
 html`
   <div class="alert-wrapper">
-    ${headerTemplate(_this)}
+    ${headerTemplate(component)}
     <div class="content-body">
       <slot></slot>
     </div>
@@ -25,9 +27,9 @@ html`
 `;
 
 
-export const footerTemplate = (_this: StatusAlertComponent) => 
+export const footerTemplate = (component: StatusAlertComponent) =>
 html`
   <div class="footer">
-    <h6>${_this.footerMessage}</h6>
+    <h6>${component.footerMessage}</h6>
   </div>
 `;

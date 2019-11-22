@@ -12,9 +12,10 @@ import { injectStyleIntoHead } from '../../utils';
 import { mainTemplate, footerTemplate } from './status-alert.template';
 import { event, CustomEventEmitter } from '@thenja/decorators';
 
+
 @customElement('status-alert')
 export class StatusAlertComponent extends LitElement {
-  titleLbl: string = 'Alert!';
+  titleLbl = 'Alert!';
 
   @property() footerMessage = 'I\'m the footer';
   @property() height = 50;
@@ -24,16 +25,12 @@ export class StatusAlertComponent extends LitElement {
 
   /**
    * Creates an instance of StatusAlertComponent.
-   * 
+   *
    * @memberof StatusAlertComponent
    */
   constructor() {
     super();
     injectStyleIntoHead(fontFaceStyle);
-
-    if(true) {
-      
-    }
   }
 
 
@@ -45,7 +42,7 @@ export class StatusAlertComponent extends LitElement {
 
 
   /**
-   * Use styles this way in your component if you want to take advantage 
+   * Use styles this way in your component if you want to take advantage
    * of lit-element using Constructable Stylesheets. This means the browser
    * will parse the style sheet only once and re-use it for other instances
    * of your component, great for performance.
@@ -60,8 +57,8 @@ export class StatusAlertComponent extends LitElement {
 
   /**
    * Render your html templates.
-   * 
-   * Style - You can either inject your styles in here, or use the 
+   *
+   * Style - You can either inject your styles in here, or use the
    * static get styles() getter above. If you inject them here, the browser
    * will parse the css for each instance of all the components on your page.
    */
@@ -77,7 +74,7 @@ export class StatusAlertComponent extends LitElement {
 
   closeClick(e) {
     this.close.emit();
-    this.titleLbl = "Close clicked";
+    this.titleLbl = 'Close clicked';
     this.requestUpdate();
   }
 }

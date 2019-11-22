@@ -30,7 +30,7 @@ describe('Status Alert', () => {
     const result = await listenForEventOnElement({
       selector: 'status-alert',
       eventName: 'click',
-      executeEventFn: executeEventFn,
+      executeEventFn,
       resolveData: 'clicked'
     });
     expect(result).toEqual('clicked');

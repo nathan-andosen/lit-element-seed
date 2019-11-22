@@ -7,7 +7,7 @@ describe('Status Alert Component', () => {
     const comp = new StatusAlertComponent();
     expect(comp).toBeDefined();
     expect(document.head.innerHTML)
-      .toContain("font-family: 'icomoon';");
+      .toContain('font-family: \'icomoon\';');
   });
 
   it('should fire event, set title and request update', () => {
@@ -45,9 +45,9 @@ describe('Status Alert Component', () => {
     // we have to get the h3 element in the next event loop, so we wrap it in
     // a timeout
     setTimeout(() => {
-      const h3El = document.querySelector("#elAlert")
-        .shadowRoot.querySelector("h3");
-      h3El['click']();
+      const h3El = document.querySelector('#elAlert')
+        .shadowRoot.querySelector('h3');
+      h3El.click();
       expect(firedCnt).toEqual(1);
       // clean up the test and remove the element form the dom
       el.remove();

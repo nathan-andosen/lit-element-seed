@@ -9,7 +9,7 @@ describe('Fancy Button', () => {
     try {
       const fancyBtnEl = await getDomElementHandle('fancy-button');
       await expect(fancyBtnEl).toMatch('Fancy button');
-    } catch(ex) {
+    } catch (ex) {
       console.log(ex);
     }
   });
