@@ -27,6 +27,7 @@ speed-measure-plugin.json
 .settings/
 *.sublime-workspace
 /.rpt2_cache
+/.vscode
 
 # IDE - VSCode
 .vscode/*

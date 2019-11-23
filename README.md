@@ -50,13 +50,48 @@ git remote rm origin
 npm install
 ```
 
-# Framework integrations
+4. Change the package name in the _package.json_ file.
 
-_Todo_
+# App & Framework integrations
+
+_Todo: Requires more documentaiton._
+
+### Install the package
+
+```bash
+npm install <package-name> --save
+```
+
+### Importing the components
+
+_Change the lit-element-seed name to your package name._
+
+__Import all components__
+
+```typescript
+import 'lit-element-seed';
+```
+
+__Import single components__
+
+```typescript
+import 'lit-element-seed/components/status-alert';
+```
+
+### Using the UMD build
+
+```html
+<!-- If you need to support older browsers like IE11 -->
+<script src="webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="webcomponentsjs/webcomponents-loader.js"></script>
+
+<!-- Include the umd file in your html file -->
+<script src="lit-element-seed.umd.js"></script>
+```
 
 # Development
 
-_More documentation required..._
+__Important:__ All code should be in _/src/components/_, expect for declaration files and html pages used for development.
 
 
 ### __``npm run dev``__
@@ -166,13 +201,13 @@ In this repo we use typescript version 3.4.5, the reason for this is to avoid th
   * [x] Setup watch for unit tests
   * [x] Add ability to use headless chrome
 * [ ] Improve build and dev process
-  * [ ] Possibly improve the way the components get consumed by other apps
-  * [ ] Increase version number when building
-  * [ ] Add build process to readme docs
+  * [x] Possibly improve the way the components get consumed by other apps
+  * [x] Increase version number when building
+  * [x] Add build process to readme docs
   * [ ] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
   * [ ] Add umd min build that does not include third party deps like lit-element
 * [x] Add tslint
-* [ ] Add example of how to override shadow dom styles, lie this: https://github.com/Polymer/lit-element/issues/845
+* [ ] Add example of how to override shadow dom styles, like this: https://github.com/Polymer/lit-element/issues/845
 
 # License
 

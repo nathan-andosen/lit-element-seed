@@ -1,6 +1,6 @@
 {
   "name": "lit-element-seed",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Seed app to build lit element we components",
   "main": "dist/lit-element-seed.umd.js",
   "module": "components/index.js",
