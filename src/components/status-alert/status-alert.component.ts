@@ -8,7 +8,7 @@ import {
 } from 'lit-element';
 import style from './status-alert.style.scss';
 import fontFaceStyle from './assets/icon-font/font-face.scss';
-import { injectStyleIntoHead } from '../../utils';
+import { injectStyleIntoHead } from '../utilities';
 import { mainTemplate, footerTemplate } from './status-alert.template';
 import { event, CustomEventEmitter } from '@thenja/decorators';
 

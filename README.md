@@ -146,6 +146,10 @@ Should be available once this [issue](https://github.com/rollup/rollup/issues/28
 
 For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-plugin-rename-extensions) to rename ts to js as we are using the _preserveModules_ config option in rollup, and this does not currently allow use to change file extensions.
 
+### error TS1086: An accessor cannot be declared in an ambient context.
+
+In this repo we use typescript version 3.4.5, the reason for this is to avoid the _accessor cannot be declared_ error. Typescript 3.7.x has the ability to add get accessors into ambient files, however, if you are using something like Angular 8 to consume your web component, you will get this error.
+
 # Links:
 
 * [Web component fundamentals](https://developers.google.com/web/fundamentals/web-components/)
@@ -162,9 +166,9 @@ For now, we use [rollup-plugin-rename-extensions](https://github.com/GiG/rollup-
   * [x] Setup watch for unit tests
   * [x] Add ability to use headless chrome
 * [ ] Improve build and dev process
+  * [ ] Possibly improve the way the components get consumed by other apps
   * [ ] Increase version number when building
   * [ ] Add build process to readme docs
-  * [ ] Possibly improve the way the components get consumed by other apps
   * [ ] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
   * [ ] Add umd min build that does not include third party deps like lit-element
 * [x] Add tslint

@@ -86,7 +86,7 @@ const watchOptions = {
 // #region UMD BUILD -------------------------------------------------
 
 const buildConfigUmd = {
-  input: `src/index.ts`,
+  input: `src/components/index.ts`,
   output: {
     file: `dist/${package.name}.umd.js`,
     format: 'umd',
@@ -125,13 +125,18 @@ const buildConfigUmd = {
 
 
 // #region ESM BUILD -------------------------------------------------
-
+// https://github.com/rollup/rollup/issues/3107
+// id => /\.(jsx?|tsx?)$/.test(id) ? '[name].js' : '[name].[ext].js'
 const buildConfigEsm = {
-  input: `src/index.ts`,
+  input: `src/components/index.ts`,
   output: {
-    dir: './dist',
+    dir: './components',
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name].js',
+    // entryFileNames: (id) => {
+    //   console.log(id);
+    //   return id + '.js'
+    // },
     format: 'esm',
     // has to be false for now, see README file for more info
     sourcemap: false,
@@ -139,7 +144,7 @@ const buildConfigEsm = {
   },
   watch: watchOptions,
   cache: true,
-  treeshake: true,
+  treeshake: false,
   preserveModules: true,
   external: [
     'lit-element',

@@ -1,9 +1,10 @@
-// lit-element-seed v0.0.2 | 2019-11-22
+// lit-element-seed v0.0.2 | 2019-11-24
 import { __decorate } from 'tslib';
 import { LitElement, html, property, customElement } from 'lit-element';
 import style from './status-alert.style.js';
 import fontFaceStyle from './assets/icon-font/font-face.js';
-import { injectStyleIntoHead } from '../../utils/inject-style-into-head.js';
+import { injectStyleIntoHead } from '../utilities/inject-style-into-head.js';
+import '../utilities/index.js';
 import { mainTemplate, footerTemplate } from './status-alert.template.js';
 import { event } from '@thenja/decorators';
 
@@ -54,7 +55,7 @@ let StatusAlertComponent = class StatusAlertComponent extends LitElement {
     }
     closeClick(e) {
         this.close.emit();
-        this.titleLbl = "Close clicked";
+        this.titleLbl = 'Close clicked';
         this.requestUpdate();
     }
 };

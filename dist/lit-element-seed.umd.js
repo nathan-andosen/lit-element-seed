@@ -1,5 +1,4 @@
-// lit-element-seed v0.0.2 | 2019-11-22
-(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.head.appendChild(r) })(window.document);
+// lit-element-seed v0.0.2 | 2019-11-24
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -3963,7 +3962,7 @@
   }
 
   function _templateObject() {
-    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">", "</h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
+    var data = _taggedTemplateLiteral(["\n  <div class=\"header\">\n    <h3 @click=\"", "\">\n      ", "\n    </h3>\n    <button @click=\"", "\">\n      <span class=\"ico-cancel\"></span>\n    </button>\n  </div>\n"]);
 
     _templateObject = function _templateObject() {
       return data;
@@ -3972,17 +3971,17 @@
     return data;
   }
 
-  var headerTemplate = function headerTemplate(_this) {
+  var headerTemplate = function headerTemplate(component) {
     return html(_templateObject(), function (e) {
-      _this.titleClick.emit();
-    }, _this.titleLbl, _this.closeClick);
+      component.titleClick.emit();
+    }, component.titleLbl, component.closeClick);
   };
 
-  var mainTemplate = function mainTemplate(_this) {
-    return html(_templateObject2(), headerTemplate(_this));
+  var mainTemplate = function mainTemplate(component) {
+    return html(_templateObject2(), headerTemplate(component));
   };
-  var footerTemplate = function footerTemplate(_this) {
-    return html(_templateObject3(), _this.footerMessage);
+  var footerTemplate = function footerTemplate(component) {
+    return html(_templateObject3(), component.footerMessage);
   };
 
   /**
@@ -4097,7 +4096,6 @@
       _this.footerMessage = 'I\'m the footer';
       _this.height = 50;
       injectStyleIntoHead(css$2);
-
       return _this;
     }
 
@@ -4135,7 +4133,7 @@
 
     _proto.closeClick = function closeClick(e) {
       this.close.emit();
-      this.titleLbl = "Close clicked";
+      this.titleLbl = 'Close clicked';
       this.requestUpdate();
     };
 

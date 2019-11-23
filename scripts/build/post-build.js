@@ -5,7 +5,7 @@ const removeDirectories = require('../utils/remove-directories');
 
 const componentTypingsDir = path.join(rootDir, 'component-typings');
 const copySrc = componentTypingsDir;
-const copyDest = path.join(rootDir, 'dist');
+const copyDest = path.join(rootDir, 'components');
 
 const postBuild = () => {
   try{

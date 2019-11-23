@@ -10,6 +10,7 @@ const fse = require('fs-extra');
 const preBuild = () => {
   fse.removeSync(path.join(rootDir, 'component-typings'));
   fse.removeSync(path.join(rootDir, 'dist'));
+  fse.removeSync(path.join(rootDir, 'components'));
 };
 
 module.exports = preBuild;
