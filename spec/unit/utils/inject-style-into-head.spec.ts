@@ -1,4 +1,4 @@
-import { injectStyleIntoHead } from '../../../src/utils';
+import { injectStyleIntoHead } from '../../../src/components/utilities';
 
 describe('injectStyleIntoHead', () => {
   it('should inject style into document head', () => {

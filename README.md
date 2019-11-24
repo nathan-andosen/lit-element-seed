@@ -91,8 +91,9 @@ import 'lit-element-seed/components/status-alert';
 
 # Development
 
-__Important:__ All code should be in _/src/components/_, expect for declaration files and html pages used for development.
+> __Important:__ All code should be placed in _/src/components/_, expect for declaration files and html pages used for development.
 
+> All the scripts files to run the builds, unit tests and e2e tests can be found in the /scripts directory.
 
 ### __``npm run dev``__
 
@@ -137,6 +138,8 @@ Run end 2 end tests.
 > __E2e tests__ are done via [Jest](https://jestjs.io/) & [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer). Assertion library used for Puppeteer e2e testing is [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/blob/master/packages/expect-puppeteer/README.md)
 
 ## Distribution builds
+
+> The script files to run the builds can be found in the /scripts/build directory. This includes the rollupjs configs.
 
 ### ``npm run build -- -v <version>``
 
@@ -204,7 +207,7 @@ In this repo we use typescript version 3.4.5, the reason for this is to avoid th
   * [x] Possibly improve the way the components get consumed by other apps
   * [x] Increase version number when building
   * [x] Add build process to readme docs
-  * [ ] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
+  * [x] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
   * [ ] Add umd min build that does not include third party deps like lit-element
 * [x] Add tslint
 * [ ] Add example of how to override shadow dom styles, like this: https://github.com/Polymer/lit-element/issues/845

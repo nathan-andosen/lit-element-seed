@@ -10,8 +10,6 @@
     "dev": "node ./scripts/build/build.js --mode=dev",
     "test": "node ./scripts/unit-tests.js",
     "e2e": "node ./scripts/e2e-tests.js",
-    "karma:single": "karma start karma.conf.js --single-run",
-    "karma:watch": "karma start karma.conf.js",
     "tsc": "tsc",
     "jest": "jest"
   },

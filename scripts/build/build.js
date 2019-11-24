@@ -7,7 +7,7 @@ const preBuild = require('./pre-build');
 const argv = require('yargs').argv
 const mode = (argv.mode) ? argv.mode : 'build';
 const buildConfigs = require('./rollup-configs.js');
-const buildRollupBundle = require('../utils/build-rollup-bundle');
+const utilities = require('../utilities');
 const banner = require('./banner');
 const package = require('../../package.json');
 const path = require('path');
@@ -17,15 +17,10 @@ const rootDir = path.join(__dirname, '..', '..');
 const buildConfigUmd = buildConfigs.umd;
 const buildConfigEsm = buildConfigs.esm;
 
-const printOutput = (msg) => { console.log(msg); };
-
-
-// #region DEV SERVER & BUILD --------------------------------------------
 
 // build the bundles, start a dev server, watch for file changes
-if (mode === 'dev') {
+const buildDevAndStartDevServer = () => {
   preBuild();
-
   buildConfigUmd.plugins.push(serve({
     open: false,
     port: 1350,
@@ -41,63 +36,47 @@ if (mode === 'dev') {
       path.join(rootDir, 'dist')
     ]
   }));
-  
   const watcher = rollup.watch([buildConfigEsm, buildConfigUmd]);
   let startTime;
   watcher.on('event', (event) => {
     if (event.code === 'START') {
       startTime = new Date().getTime();
-      printOutput('Building bundles...');
+      console.log('Building bundles...');
     } else if (event.code === 'END') {
       // finished bundling all bundles
       const endTime = new Date().getTime();
-      printOutput('Finished building bundles (' + ((endTime - startTime) / 1000) + 's)');
+      console.log('Finished building bundles (' + ((endTime - startTime) / 1000) + 's)');
       postBuild();
-      printOutput('Waiting for changes...');
+      console.log('Waiting for changes...');
     } else if (event.code === 'FATAL' || event.code === 'ERROR') {
       throw event.error;
     }
   });
-}
+};
 
-// #endregion
-
-
-// #region PROD BUILD -----------------------------------------------------
 
 // Build all the required bundles
-if (mode === 'build') {
+const buildProd = async () => {
   const startTime = new Date().getTime();
   preBuild();
   console.log('Building ES bundle...');
-  return buildRollupBundle(buildConfigEsm)
-  .then(() => {
-    console.log('Building UMD bundle...');
-    return buildRollupBundle(buildConfigUmd);
-  })
-  .then(() => {
-    console.log('Building minified UMD bundle...');
-    buildConfigUmd.output.file = `dist/${package.name}.umd.min.js`;
-    buildConfigUmd.plugins.push(uglify({
-      output: {
-        preamble: banner
-      }
-    }));
-    return buildRollupBundle(buildConfigUmd);
-  })
-  .then(() => {
-    console.log('Coping typescript declaration files...');
-    return postBuild();
-  })
-  .then(() => {
-    const endTime = new Date().getTime();
-    console.log('Bundles built successfully. (' +
-      ((endTime - startTime) / 1000) + 's)');
-    process.exit();
-  })
-  .catch((err) => {
-    throw err;
-  });
-}
+  await utilities.buildRollupBundle(buildConfigEsm);
+  console.log('Building UMD bundle...');
+  await utilities.buildRollupBundle(buildConfigUmd);
+  console.log('Building minified UMD bundle...');
+  buildConfigUmd.output.file = `dist/${package.name}.umd.min.js`;
+  buildConfigUmd.plugins.push(uglify({ output: { preamble: banner } }));
+  await utilities.buildRollupBundle(buildConfigUmd);
+  console.log('Coping typescript declaration files...');
+  postBuild();
+  const endTime = new Date().getTime();
+  console.log('Bundles built successfully. (' + ((endTime - startTime) / 1000) + 's)');
+  process.exit();
+};
 
-// #endregion
+
+if (mode === 'dev') {
+  buildDevAndStartDevServer();
+} else if (mode === 'build') {
+  buildProd();
+}

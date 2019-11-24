@@ -125,18 +125,12 @@ const buildConfigUmd = {
 
 
 // #region ESM BUILD -------------------------------------------------
-// https://github.com/rollup/rollup/issues/3107
-// id => /\.(jsx?|tsx?)$/.test(id) ? '[name].js' : '[name].[ext].js'
 const buildConfigEsm = {
   input: `src/components/index.ts`,
   output: {
     dir: './components',
     chunkFileNames: 'chunks/[name]-[hash].js',
     entryFileNames: '[name].js',
-    // entryFileNames: (id) => {
-    //   console.log(id);
-    //   return id + '.js'
-    // },
     format: 'esm',
     // has to be false for now, see README file for more info
     sourcemap: false,
@@ -144,6 +138,8 @@ const buildConfigEsm = {
   },
   watch: watchOptions,
   cache: true,
+
+  // treeshake if true, index files get removed
   treeshake: false,
   preserveModules: true,
   external: [

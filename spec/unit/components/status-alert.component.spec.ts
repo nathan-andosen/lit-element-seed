@@ -1,4 +1,4 @@
-import { StatusAlertComponent } from '../../../src';
+import { StatusAlertComponent } from '../../../src/components';
 import { TemplateResult } from 'lit-element';
 
 describe('Status Alert Component', () => {
