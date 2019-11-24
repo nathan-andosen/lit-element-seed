@@ -62,7 +62,7 @@ npm install <package-name> --save
 
 #### Importing the components
 
-_Change the lit-element-seed name to your package name._
+Change the _lit-element-seed_ name to your package name.
 
 ```typescript
 // import all components
@@ -215,21 +215,9 @@ In this repo we use typescript version 3.4.5, the reason for this is to avoid th
 
 # Todo:
 
-* [x] Add in e2e tests
-  * [x] Add some e2e tests and helpful tips on writing tests
-  * [x] Add ability to use headless chrome as parameter (npm run e2e -- -headless)
-  * [x] Add ability to set slowmo as a parameter (npm run e2e -- -slowmo 300)
-* [x] Add in unit tests
-  * [x] Need to use rollup to compile the ts into js, as we are importing custom files like scss
-  * [x] Setup watch for unit tests
-  * [x] Add ability to use headless chrome
-* [ ] Improve build and dev process
-  * [x] Possibly improve the way the components get consumed by other apps
-  * [x] Increase version number when building
-  * [x] Add build process to readme docs
-  * [x] Clean up build files. Add readme docs in scripts folder with detailed documentation on the scripts
-  * [ ] Add umd min build that does not include third party deps like lit-element
-* [x] Add tslint
+#### Maybes
+
+* [ ] Add umd min build that does not include third party deps like lit-element
 * [ ] Add example of how to override shadow dom styles, like this: https://github.com/Polymer/lit-element/issues/845
 
 # License
