@@ -24,5 +24,6 @@ const footerTemplate = (component) => html `
     <h6>${component.footerMessage}</h6>
   </div>
 `;
+//# sourceMappingURL=status-alert.template.js.map
 
 export { footerTemplate, mainTemplate };

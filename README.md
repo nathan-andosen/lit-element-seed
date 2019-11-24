@@ -2,8 +2,6 @@
 
 # Lit element seed
 
-:heavy_exclamation_mark: _Work in progress - Not ready for use_
-
 Seed app to build lit element web components.
 
 # Key Features
@@ -20,6 +18,8 @@ Seed app to build lit element web components.
 * __Dev server:__ for easy development
   * Ability to use npm link while developing your components. Useful when you want to see your changes in realtime in another application.
 * __Unit & E2e tests__
+  * Include test coverage for unit tests
+  * Karma & Jasmine for unit tests. Jest & Puppeteer for e2e tests.
 
 ### Not supported
 
@@ -54,31 +54,51 @@ npm install
 
 # App & Framework integrations
 
-_Todo: Requires more documentaiton._
-
-### Install the package
+#### Install the package
 
 ```bash
 npm install <package-name> --save
 ```
 
-### Importing the components
+#### Importing the components
 
 _Change the lit-element-seed name to your package name._
 
-__Import all components__
-
 ```typescript
+// import all components
 import 'lit-element-seed';
-```
 
-__Import single components__
-
-```typescript
+// import individual components
 import 'lit-element-seed/components/status-alert';
 ```
 
-### Using the UMD build
+### Angular Integration
+
+1. Include the __CUSTOM_ELEMENTS_SCHEMA__ into your AppModule
+2. Import your components as mentioned above.
+
+#### Access your components via ViewChild
+
+```typescript
+import { StatusAlertComponent } from 'lit-element-seed';
+
+@ViewChild('statusAlert', { static: false })
+statusAlert: ElementRef<StatusAlertComponent>;
+
+this.statusAlert.nativeElement.footerMessage = 'Changed message!!!';
+```
+
+### Vue
+
+_Todo_
+
+### React
+
+_Todo_
+
+### Javascript: Using the UMD build
+
+> View the [alert.html](src/pages/alert.html) for an example
 
 ```html
 <!-- If you need to support older browsers like IE11 -->
